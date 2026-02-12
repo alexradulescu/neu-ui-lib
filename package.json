@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@alex.radulescu/styled-static": "^0.9.1",
-    "@base-ui-components/react": "^1.0.0-rc.0",
+    "@base-ui/react": "^1.1.0",
     "@tanstack/react-router": "^1.159.5",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
