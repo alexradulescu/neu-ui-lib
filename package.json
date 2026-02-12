@@ -1,0 +1,28 @@
+{
+  "name": "neu-ui-lib",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@alex.radulescu/styled-static": "^0.9.1",
+    "@base-ui-components/react": "^1.0.0-rc.0",
+    "@tanstack/react-router": "^1.159.5",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "@tanstack/router-devtools": "^1.159.5",
+    "@tanstack/router-plugin": "^1.159.5",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.4",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1",
+    "vite-plugin-pwa": "^1.2.0"
+  }
+}
