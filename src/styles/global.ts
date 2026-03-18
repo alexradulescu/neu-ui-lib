@@ -44,6 +44,16 @@ export const GlobalStyles = createGlobalStyle`
     --neu-color-destructive: #ff3b30;
     --neu-color-success: #34c759;
     --neu-color-warning: #ff9500;
+
+    /* iOS 26 Liquid Glass material tokens */
+    --neu-glass-blur: 20px;
+    --neu-glass-saturate: 180%;
+    --neu-glass-bg: rgba(255, 255, 255, 0.15);
+    --neu-glass-bg-strong: rgba(255, 255, 255, 0.25);
+    --neu-glass-border: rgba(255, 255, 255, 0.3);
+    --neu-glass-highlight: rgba(255, 255, 255, 0.22);
+    --neu-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    --neu-glass-shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.08);
   }
 
   [data-theme="dark"] {
@@ -59,6 +69,14 @@ export const GlobalStyles = createGlobalStyle`
     --neu-color-destructive: #ff453a;
     --neu-color-success: #30d158;
     --neu-color-warning: #ff9f0a;
+
+    /* Dark mode glass overrides */
+    --neu-glass-bg: rgba(255, 255, 255, 0.08);
+    --neu-glass-bg-strong: rgba(255, 255, 255, 0.13);
+    --neu-glass-border: rgba(255, 255, 255, 0.15);
+    --neu-glass-highlight: rgba(255, 255, 255, 0.1);
+    --neu-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+    --neu-glass-shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.3);
   }
 
   html {

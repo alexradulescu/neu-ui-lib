@@ -1,14 +1,12 @@
 /**
- * Neu UI Components
- *
- * Component exports will be added here as they are implemented.
- * Planned components (iOS 26+ inspired):
- * - Button
- * - Input
- * - Header / NavigationBar
- * - Menu / ActionSheet
- * - Modal / Sheet
- * - Toggle
- * - SegmentedControl
- * - List / ListItem
+ * Neu UI Components — iOS 26 Liquid Glass inspired
  */
+
+export { Button } from "./Button";
+export type { ButtonProps } from "./Button";
+
+export { Input } from "./Input";
+export type { InputProps } from "./Input";
+
+export { Card } from "./Card";
+export type { CardProps } from "./Card";
