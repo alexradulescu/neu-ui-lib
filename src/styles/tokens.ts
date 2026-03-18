@@ -47,4 +47,14 @@ export const tokens = {
     sans: "--neu-font-sans",
     mono: "--neu-font-mono",
   },
+  glass: {
+    blur: "--neu-glass-blur",
+    saturate: "--neu-glass-saturate",
+    bg: "--neu-glass-bg",
+    bgStrong: "--neu-glass-bg-strong",
+    border: "--neu-glass-border",
+    highlight: "--neu-glass-highlight",
+    shadow: "--neu-glass-shadow",
+    shadowSm: "--neu-glass-shadow-sm",
+  },
 } as const;
