@@ -1,56 +1,54 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { styled } from "@alex.radulescu/styled-static";
+import { Stack } from "@mantine/core";
+import { AppShell } from "@/components/AppShell";
+import { OverviewDemo } from "@/components/demo/OverviewDemo";
+import { ButtonsDemo } from "@/components/demo/ButtonsDemo";
+import { InputsDemo } from "@/components/demo/InputsDemo";
+import { DisplayDemo } from "@/components/demo/DisplayDemo";
+import { NavigationDemo } from "@/components/demo/NavigationDemo";
+import { OverlayDemo } from "@/components/demo/OverlayDemo";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
-const Page = styled.main`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100dvh;
-  padding: var(--neu-space-lg);
-  gap: var(--neu-space-lg);
-`;
-
-const Card = styled.div`
-  background: var(--neu-color-surface);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: var(--neu-radius-lg);
-  border: 1px solid var(--neu-color-separator);
-  padding: var(--neu-space-xl);
-  max-width: 400px;
-  width: 100%;
-  text-align: center;
-`;
-
-const Title = styled.h1`
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--neu-color-text-primary);
-  margin-bottom: var(--neu-space-sm);
-`;
-
-const Subtitle = styled.p`
-  font-size: 1rem;
-  color: var(--neu-color-text-secondary);
-  line-height: 1.5;
-`;
+const TABS = [
+  { id: "overview", label: "Overview", icon: "◈", activeIcon: "◉" },
+  { id: "buttons", label: "Actions", icon: "⊕", activeIcon: "⊕" },
+  { id: "inputs", label: "Inputs", icon: "✎", activeIcon: "✏" },
+  { id: "display", label: "Display", icon: "◻", activeIcon: "◼" },
+  { id: "nav", label: "Nav", icon: "⊞", activeIcon: "⊟" },
+  { id: "overlays", label: "Overlays", icon: "⊡", activeIcon: "⊞" },
+];
 
 function HomePage() {
+  const [activeTab, setActiveTab] = useState("overview");
+
+  const tabTitles: Record<string, string> = {
+    overview: "Neu UI · iOS 26",
+    buttons: "Buttons & Actions",
+    inputs: "Form Inputs",
+    display: "Display",
+    nav: "Navigation",
+    overlays: "Overlays",
+  };
+
   return (
-    <Page>
-      <Card>
-        <Title>Neu UI</Title>
-        <Subtitle>
-          An iOS-inspired UI component library built with React, styled-static,
-          and Base UI.
-        </Subtitle>
-      </Card>
-    </Page>
+    <AppShell
+      title={tabTitles[activeTab] ?? "Neu UI"}
+      tabs={TABS}
+      activeTab={activeTab}
+      onTabChange={setActiveTab}
+    >
+      <Stack gap="lg" p="md">
+        {activeTab === "overview" && <OverviewDemo />}
+        {activeTab === "buttons" && <ButtonsDemo />}
+        {activeTab === "inputs" && <InputsDemo />}
+        {activeTab === "display" && <DisplayDemo />}
+        {activeTab === "nav" && <NavigationDemo />}
+        {activeTab === "overlays" && <OverlayDemo />}
+      </Stack>
+    </AppShell>
   );
 }
