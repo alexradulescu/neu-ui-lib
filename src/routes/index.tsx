@@ -1,5 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { styled } from "@alex.radulescu/styled-static";
+import { Button } from "@mantine/core";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
@@ -39,6 +40,7 @@ const Subtitle = styled.p`
   font-size: 1rem;
   color: var(--neu-color-text-secondary);
   line-height: 1.5;
+  margin-bottom: var(--neu-space-md);
 `;
 
 function HomePage() {
@@ -48,8 +50,13 @@ function HomePage() {
         <Title>Neu UI</Title>
         <Subtitle>
           An iOS-inspired UI component library built with React, styled-static,
-          and Base UI.
+          and Mantine v9.
         </Subtitle>
+        <Link to="/showcase">
+          <Button radius="md" size="lg">
+            View Showcase
+          </Button>
+        </Link>
       </Card>
     </Page>
   );
