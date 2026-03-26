@@ -115,4 +115,34 @@ export const GlobalStyles = createGlobalStyle`
   :focus-visible {
     outline: none;
   }
+
+  /* ── Modal: iOS 26 bottom sheet on mobile ─────────────────────────────── */
+  @media (max-width: 599px) {
+    .med-modal-inner {
+      align-items: flex-end !important;
+      padding: 0 !important;
+    }
+
+    .med-modal-content {
+      border-radius: 24px 24px 0 0 !important;
+      width: 100vw !important;
+      max-width: 100vw !important;
+      max-height: 92dvh !important;
+      margin: 0 !important;
+      /* Safe area padding at bottom (iPhone home indicator) */
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+  }
+
+  /* Desktop: centred with a bit more room */
+  @media (min-width: 600px) {
+    .med-modal-inner {
+      align-items: center;
+    }
+
+    .med-modal-content {
+      max-width: 480px;
+      width: 100%;
+    }
+  }
 `;

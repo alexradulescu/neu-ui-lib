@@ -1,12 +1,6 @@
 import { styled } from "@alex.radulescu/styled-static";
 import type { ReactNode, CSSProperties } from "react";
 
-// ─── Frosted warm-glass card ─────────────────────────────────────────────────
-// Layers:
-//   1. Warm parchment background with frosted glass
-//   2. Inset top-edge shimmer via ::before linear-gradient
-//   3. Warm-tinted shadow beneath
-
 const GlassCard = styled.div`
   position: relative;
   background: rgba(255, 250, 244, 0.72);
@@ -20,49 +14,46 @@ const GlassCard = styled.div`
 `;
 
 const CardInner = styled.div`
-  padding: 28px 32px;
+  padding: 20px 20px;
   position: relative;
   z-index: 1;
 `;
 
-// Compact padding variant
 const CardInnerCompact = styled.div`
-  padding: 20px 24px;
+  padding: 14px 16px;
   position: relative;
   z-index: 1;
 `;
 
 const CardTitle = styled.h3`
   font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 400;
-  line-height: 1.25;
+  line-height: 1.1;
   color: #2A2118;
   letter-spacing: 0.01em;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 `;
 
 const CardBody = styled.p`
   font-family: "DM Sans", sans-serif;
-  font-size: 0.9375rem;
-  line-height: 1.7;
+  font-size: 0.875rem;
+  line-height: 1.6;
   color: #7A6850;
 `;
 
 const CardDivider = styled.hr`
   border: none;
   border-top: 0.5px solid rgba(180, 155, 120, 0.30);
-  margin: 20px 0;
+  margin: 14px 0;
 `;
 
 const CardFooter = styled.div`
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-top: 20px;
+  gap: 8px;
+  margin-top: 14px;
 `;
-
-// ─── Public API ───────────────────────────────────────────────────────────────
 
 export interface CardProps {
   children: ReactNode;
@@ -80,7 +71,6 @@ export function Card({ children, compact = false, style, className }: CardProps)
   );
 }
 
-// Named sub-components for composition
 Card.Title = CardTitle;
 Card.Body = CardBody;
 Card.Divider = CardDivider;

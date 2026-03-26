@@ -16,7 +16,7 @@ export const Route = createFileRoute("/")({
 const Page = styled.main`
   min-height: 100dvh;
   background-color: #F5F0EA;
-  padding: 48px 24px 80px;
+  padding: 32px 16px 56px;
 `;
 
 const PageInner = styled.div`
@@ -25,62 +25,62 @@ const PageInner = styled.div`
 `;
 
 const PageHeader = styled.header`
-  margin-bottom: 56px;
+  margin-bottom: 36px;
   text-align: center;
 `;
 
 const PageTitle = styled.h1`
   font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: 3.25rem;
+  font-size: 2.25rem;
   font-weight: 400;
   line-height: 1.1;
   color: #2A2118;
   letter-spacing: 0.01em;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 `;
 
 const PageSubtitle = styled.p`
   font-family: "DM Sans", sans-serif;
-  font-size: 1.0625rem;
-  line-height: 1.65;
+  font-size: 0.9375rem;
+  line-height: 1.55;
   color: #7A6850;
-  max-width: 520px;
+  max-width: 480px;
   margin: 0 auto;
 `;
 
 const Section = styled.section`
-  margin-bottom: 48px;
+  margin-bottom: 32px;
 `;
 
 const SectionLabel = styled.h2`
   font-family: "DM Sans", sans-serif;
-  font-size: 0.6875rem;
+  font-size: 0.625rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: #7A6850;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
   border-bottom: 0.5px solid rgba(180, 155, 120, 0.30);
 `;
 
 const Row = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 8px;
   align-items: center;
 `;
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
 `;
 
 const Stack = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 12px;
 `;
 
 const Swatch = styled.div`
@@ -90,32 +90,32 @@ const Swatch = styled.div`
 `;
 
 const SwatchColor = styled.div`
-  height: 48px;
-  border-radius: 12px;
+  height: 36px;
+  border-radius: 10px;
   border: 1px solid rgba(180, 155, 120, 0.20);
 `;
 
 const SwatchLabel = styled.span`
   font-family: "JetBrains Mono", monospace;
-  font-size: 0.6875rem;
+  font-size: 0.625rem;
   color: #7A6850;
 `;
 
 const ColorGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 10px;
 `;
 
 const CodeBlock = styled.pre`
   font-family: "JetBrains Mono", monospace;
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   line-height: 1.6;
   color: #2A2118;
   background: rgba(237, 229, 216, 0.60);
   border: 1px solid rgba(180, 155, 120, 0.25);
-  border-radius: 12px;
-  padding: 20px 24px;
+  border-radius: 10px;
+  padding: 14px 16px;
   overflow-x: auto;
 `;
 
@@ -134,9 +134,8 @@ function ShowcasePage() {
         <PageHeader>
           <PageTitle>Mediterranean UI</PageTitle>
           <PageSubtitle>
-            A component library where sun-bleached Italian coastal architecture
-            meets iOS 26 spatial depth — warm travertine, aged copper, and
-            frosted glass surfaces.
+            Sun-bleached Italian coastal architecture meets iOS 26 spatial depth —
+            warm travertine, aged copper, frosted glass.
           </PageSubtitle>
         </PageHeader>
 
@@ -152,7 +151,7 @@ function ShowcasePage() {
             <Swatch>
               <SwatchColor style={{ background: "rgba(255,250,244,0.72)", backdropFilter: "blur(20px)" }} />
               <SwatchLabel>Surface Glass</SwatchLabel>
-              <SwatchLabel>rgba(255,250,244,.72)</SwatchLabel>
+              <SwatchLabel>rgba …0.72</SwatchLabel>
             </Swatch>
             <Swatch>
               <SwatchColor style={{ background: "#EDE5D8" }} />
@@ -197,6 +196,7 @@ function ShowcasePage() {
               <Button variant="subtle">Dismiss</Button>
             </Row>
             <Row>
+              <Button variant="primary" size="xs">XSmall</Button>
               <Button variant="primary" size="sm">Small</Button>
               <Button variant="primary" size="md">Medium</Button>
               <Button variant="primary" size="lg">Large</Button>
@@ -239,8 +239,8 @@ function ShowcasePage() {
             <Card compact>
               <Card.Title>Compact Card</Card.Title>
               <Card.Body>
-                A tighter layout for dense information contexts — same glass
-                surface, reduced inner breathing room.
+                Tighter layout for dense information contexts — same glass
+                surface, reduced padding.
               </Card.Body>
             </Card>
           </Grid>
@@ -310,10 +310,10 @@ function ShowcasePage() {
         {/* ── Modal ──────────────────────────────────────────────────────── */}
         <Section>
           <SectionLabel>Modal</SectionLabel>
-          <Card compact style={{ maxWidth: 400 }}>
+          <Card compact style={{ maxWidth: 380 }}>
             <Card.Body>
-              The modal rises from below with a spring entrance, frosted warm
-              glass surface, and a warm-tinted backdrop overlay.
+              On mobile: iOS 26-style bottom sheet. On desktop: centred panel.
+              Both use frosted glass with a warm backdrop.
             </Card.Body>
             <Card.Footer>
               <Button variant="primary" onClick={() => setModalOpen(true)}>
@@ -332,7 +332,7 @@ function ShowcasePage() {
                   Cancel
                 </Button>
                 <Button variant="primary" onClick={() => setModalOpen(false)}>
-                  Confirm reservation
+                  Confirm
                 </Button>
               </>
             }
@@ -349,15 +349,15 @@ function ShowcasePage() {
           <Card>
             <Stack>
               <div>
-                <p style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: "0.75rem", color: "#7A6850", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "6px" }}>Display — Cormorant Garamond</p>
-                <h1 style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: "2.75rem", fontWeight: 400, color: "#2A2118", lineHeight: 1.15 }}>
+                <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: "0.625rem", color: "#7A6850", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "6px" }}>Display — Cormorant Garamond</p>
+                <h1 style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: "2.25rem", fontWeight: 400, color: "#2A2118", lineHeight: 1.1 }}>
                   The light on the sea<br />never lies.
                 </h1>
               </div>
               <Card.Divider />
               <div>
-                <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: "0.75rem", color: "#7A6850", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "6px" }}>Body — DM Sans</p>
-                <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: "1rem", color: "#2A2118", lineHeight: 1.7 }}>
+                <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: "0.625rem", color: "#7A6850", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "6px" }}>Body — DM Sans</p>
+                <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: "0.9375rem", color: "#2A2118", lineHeight: 1.65 }}>
                   Stone worn smooth by salt wind. Whitewash walls that absorb
                   the morning sun and hold its warmth into the blue evening.
                   A table under a pergola, a carafe of local wine, the sound
@@ -366,7 +366,7 @@ function ShowcasePage() {
               </div>
               <Card.Divider />
               <div>
-                <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: "0.75rem", color: "#7A6850", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "6px" }}>Mono — JetBrains Mono</p>
+                <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: "0.625rem", color: "#7A6850", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "6px" }}>Mono — JetBrains Mono</p>
                 <CodeBlock>{`const theme = createTheme({
   primaryColor: 'copper',
   fontFamily: '"DM Sans", sans-serif',
