@@ -15,7 +15,13 @@ export { TextInput } from "./TextInput";
 export type { TextInputProps } from "./TextInput";
 
 export { Badge } from "./Badge";
-export type { BadgeProps, BadgeVariant, BadgeSize } from "./Badge";
+export type { BadgeProps, MedBadgeVariant, BadgeSize } from "./Badge";
 
 export { Modal } from "./Modal";
 export type { ModalProps } from "./Modal";
+
+export { Select } from "./Select";
+export type { SelectProps } from "./Select";
+
+export { DatePickerInput } from "./DatePickerInput";
+export type { DatePickerInputProps } from "./DatePickerInput";

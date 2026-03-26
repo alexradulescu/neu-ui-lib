@@ -6,6 +6,8 @@ import { Card } from "@/components/Card";
 import { TextInput } from "@/components/TextInput";
 import { Badge } from "@/components/Badge";
 import { Modal } from "@/components/Modal";
+import { Select } from "@/components/Select";
+import { DatePickerInput } from "@/components/DatePickerInput";
 
 export const Route = createFileRoute("/")({
   component: ShowcasePage,
@@ -125,6 +127,10 @@ function ShowcasePage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
+  const [region, setRegion] = useState<string | null>(null);
+  const [checkIn, setCheckIn] = useState<Date | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleCheckInChange = (val: any) => setCheckIn(val as Date | null);
 
   return (
     <Page>
@@ -341,6 +347,77 @@ function ShowcasePage() {
             complete your details to secure the booking. Flexible cancellation
             applies up to 48 hours before arrival.
           </Modal>
+        </Section>
+
+        {/* ── Select ─────────────────────────────────────────────────────── */}
+        <Section>
+          <SectionLabel>Select</SectionLabel>
+          <Card style={{ maxWidth: 480 }}>
+            <Stack>
+              <Select
+                label="Region"
+                placeholder="Choose a region"
+                value={region}
+                onChange={setRegion}
+                hint="Filter properties by location"
+                data={[
+                  { group: "Italy", items: ["Amalfi Coast", "Cinque Terre", "Tuscany", "Sicily"] },
+                  { group: "Greece", items: ["Santorini", "Mykonos", "Crete", "Rhodes"] },
+                  { group: "Spain", items: ["Ibiza", "Mallorca", "Costa Brava"] },
+                ]}
+              />
+              <Select
+                label="Property type"
+                placeholder="Any type"
+                data={["Villa", "Masseria", "Boutique hotel", "Agriturismo", "Trullo"]}
+                clearable
+              />
+              <Select
+                label="Guests"
+                defaultValue="2"
+                data={["1", "2", "3", "4", "5", "6", "7", "8+"]}
+              />
+              <Select
+                label="Disabled"
+                placeholder="Not available"
+                data={["Option A"]}
+                disabled
+              />
+            </Stack>
+          </Card>
+        </Section>
+
+        {/* ── Date Picker ─────────────────────────────────────────────────── */}
+        <Section>
+          <SectionLabel>Date Picker</SectionLabel>
+          <Card style={{ maxWidth: 480 }}>
+            <Stack>
+              <DatePickerInput
+                label="Check-in date"
+                placeholder="Select a date"
+                value={checkIn}
+                onChange={handleCheckInChange}
+                hint="Arrival day — flexible by ±1 night"
+                minDate={new Date()}
+              />
+              <DatePickerInput
+                label="Stay period"
+                placeholder="Select dates"
+                type="range"
+                hint="Select your arrival and departure"
+              />
+              <DatePickerInput
+                label="Flexible dates"
+                placeholder="Pick multiple"
+                type="multiple"
+              />
+              <DatePickerInput
+                label="Disabled"
+                placeholder="Not available"
+                disabled
+              />
+            </Stack>
+          </Card>
         </Section>
 
         {/* ── Typography ─────────────────────────────────────────────────── */}

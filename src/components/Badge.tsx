@@ -1,50 +1,53 @@
-import type { ReactNode, CSSProperties } from "react";
+import { Badge as MantineBadge, type BadgeProps as MantineBadgeProps } from "@mantine/core";
+import type { ReactNode } from "react";
 
-// ─── Mediterranean Badge / Chip ───────────────────────────────────────────────
-// Variants:
-//   "terracotta" – warm blush fill  (default)
-//   "copper"     – oxidised copper tint
-//   "sky"        – coastal haze blue
-//   "sand"       – neutral stone fill
+// ─── Mediterranean Badge ──────────────────────────────────────────────────────
+// Wraps Mantine Badge, overriding CSS variables for Mediterranean colours.
+// Uses Mantine's own rendering, accessibility, and size system.
 
-export type BadgeVariant = "terracotta" | "copper" | "sky" | "sand";
+export type MedBadgeVariant = "terracotta" | "copper" | "sky" | "sand";
 export type BadgeSize = "sm" | "md" | "lg";
 
-const variantMap: Record<BadgeVariant, CSSProperties> = {
+interface BadgeVars {
+  bg: string;
+  color: string;
+  bd: string;
+}
+
+const variantVars: Record<MedBadgeVariant, BadgeVars> = {
   terracotta: {
-    background: "rgba(212, 168, 130, 0.22)",
+    bg: "rgba(212, 168, 130, 0.22)",
     color: "#9A5E25",
-    border: "1px solid rgba(212, 168, 130, 0.45)",
+    bd: "rgba(212, 168, 130, 0.50)",
   },
   copper: {
-    background: "rgba(184, 115, 51, 0.14)",
+    bg: "rgba(184, 115, 51, 0.14)",
     color: "#B87333",
-    border: "1px solid rgba(184, 115, 51, 0.30)",
+    bd: "rgba(184, 115, 51, 0.32)",
   },
   sky: {
-    background: "rgba(168, 196, 212, 0.22)",
+    bg: "rgba(168, 196, 212, 0.22)",
     color: "#537A96",
-    border: "1px solid rgba(168, 196, 212, 0.45)",
+    bd: "rgba(168, 196, 212, 0.48)",
   },
   sand: {
-    background: "rgba(180, 155, 120, 0.16)",
+    bg: "rgba(180, 155, 120, 0.16)",
     color: "#7A6850",
-    border: "1px solid rgba(180, 155, 120, 0.30)",
+    bd: "rgba(180, 155, 120, 0.32)",
   },
 };
 
-const sizeMap: Record<BadgeSize, CSSProperties> = {
-  sm: { fontSize: "0.6875rem", padding: "2px 10px", height: "22px" },
-  md: { fontSize: "0.75rem",   padding: "4px 12px", height: "26px" },
-  lg: { fontSize: "0.8125rem", padding: "6px 16px", height: "30px" },
+// Map our named sizes to Mantine sizes
+const sizeMap: Record<BadgeSize, MantineBadgeProps["size"]> = {
+  sm: "sm",
+  md: "md",
+  lg: "lg",
 };
 
-export interface BadgeProps {
+export interface BadgeProps extends Omit<MantineBadgeProps, "color" | "variant" | "size"> {
   children: ReactNode;
-  variant?: BadgeVariant;
+  variant?: MedBadgeVariant;
   size?: BadgeSize;
-  style?: CSSProperties;
-  className?: string;
 }
 
 export function Badge({
@@ -52,31 +55,28 @@ export function Badge({
   variant = "terracotta",
   size = "md",
   style,
-  className,
+  ...props
 }: BadgeProps) {
+  const { bg, color, bd } = variantVars[variant];
+
   return (
-    <span
-      className={className}
+    <MantineBadge
+      {...props}
+      variant="outline"
+      size={sizeMap[size]}
+      radius="xl"
       style={{
-        display: "inline-flex",
-        alignItems: "center",
-        borderRadius: "9999px",
+        // Override Mantine's CSS variables for this instance
+        "--badge-bg": bg,
+        "--badge-color": color,
+        "--badge-bd": bd,
         fontFamily: '"DM Sans", sans-serif',
         fontWeight: 500,
         letterSpacing: "0.025em",
-        lineHeight: 1,
-        whiteSpace: "nowrap",
-        userSelect: "none",
-        verticalAlign: "middle",
-        // variant colours
-        ...variantMap[variant],
-        // size
-        ...sizeMap[size],
-        // caller overrides
         ...style,
-      }}
+      } as unknown as React.CSSProperties}
     >
       {children}
-    </span>
+    </MantineBadge>
   );
 }

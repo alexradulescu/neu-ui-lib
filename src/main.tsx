@@ -5,6 +5,7 @@ import { MantineProvider } from "@mantine/core";
 
 // Mantine base styles (component CSS)
 import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
 
 // Mediterranean typefaces
 import "@fontsource/cormorant-garamond/400.css";
