@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { styled } from "@alex.radulescu/styled-static";
+import {
+  IconPlus, IconX, IconHeart, IconCheck,
+  IconTrash, IconSearch, IconStar, IconArrowRight,
+  IconCalendar, IconMapPin,
+} from "@tabler/icons-react";
 import { Button } from "@/components/Button";
+import { IconButton } from "@/components/IconButton";
 import { Card } from "@/components/Card";
 import { TextInput } from "@/components/TextInput";
 import { Badge } from "@/components/Badge";
@@ -109,6 +115,32 @@ const ColorGrid = styled.div`
   gap: 10px;
 `;
 
+// Button matrix helpers
+const ColourRow = styled.div`
+  display: grid;
+  grid-template-columns: 56px 1fr 1fr 1fr;
+  gap: 8px;
+  align-items: center;
+`;
+
+const ColLabel = styled.span`
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: #A89880;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+`;
+
+const SubLabel = styled.p`
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: #A89880;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+`;
+
 const CodeBlock = styled.pre`
   font-family: "JetBrains Mono", monospace;
   font-size: 0.75rem;
@@ -196,21 +228,102 @@ function ShowcasePage() {
         <Section>
           <SectionLabel>Buttons</SectionLabel>
           <Stack>
-            <Row>
-              <Button variant="primary">Book a villa</Button>
-              <Button variant="ghost">View details</Button>
-              <Button variant="subtle">Dismiss</Button>
-            </Row>
-            <Row>
-              <Button variant="primary" size="xs">XSmall</Button>
-              <Button variant="primary" size="sm">Small</Button>
-              <Button variant="primary" size="md">Medium</Button>
-              <Button variant="primary" size="lg">Large</Button>
-            </Row>
-            <Row>
-              <Button variant="primary" disabled>Unavailable</Button>
-              <Button variant="ghost" disabled>Disabled ghost</Button>
-            </Row>
+
+            {/* Variant × colour matrix */}
+            <Card compact>
+              <Stack>
+                <ColourRow>
+                  <ColLabel />
+                  <ColLabel>Copper</ColLabel>
+                  <ColLabel>Sage</ColLabel>
+                  <ColLabel>Sienna</ColLabel>
+                </ColourRow>
+                <ColourRow>
+                  <ColLabel>Primary</ColLabel>
+                  <Button variant="primary" color="copper" size="sm">Book villa</Button>
+                  <Button variant="primary" color="sage"   size="sm">Confirm</Button>
+                  <Button variant="primary" color="sienna" size="sm">Delete</Button>
+                </ColourRow>
+                <ColourRow>
+                  <ColLabel>Outline</ColLabel>
+                  <Button variant="outline" color="copper" size="sm">View details</Button>
+                  <Button variant="outline" color="sage"   size="sm">Save</Button>
+                  <Button variant="outline" color="sienna" size="sm">Cancel</Button>
+                </ColourRow>
+                <ColourRow>
+                  <ColLabel>Ghost</ColLabel>
+                  <Button variant="ghost" color="copper" size="sm">Dismiss</Button>
+                  <Button variant="ghost" color="sage"   size="sm">Skip</Button>
+                  <Button variant="ghost" color="sienna" size="sm">Undo</Button>
+                </ColourRow>
+              </Stack>
+            </Card>
+
+            {/* Sizes */}
+            <Card compact>
+              <Stack>
+                <Row>
+                  <Button variant="primary" size="xs">XSmall</Button>
+                  <Button variant="primary" size="sm">Small</Button>
+                  <Button variant="primary" size="md">Medium</Button>
+                  <Button variant="primary" size="lg">Large</Button>
+                </Row>
+                <Row>
+                  <Button variant="outline" size="xs">XSmall</Button>
+                  <Button variant="outline" size="sm">Small</Button>
+                  <Button variant="outline" size="md">Medium</Button>
+                  <Button variant="outline" size="lg">Large</Button>
+                </Row>
+              </Stack>
+            </Card>
+
+            {/* Icon-only buttons */}
+            <Card compact>
+              <Stack>
+                <SubLabel>Icon only</SubLabel>
+                <Row>
+                  <IconButton variant="outline" color="copper" size="md"><IconSearch size={16} /></IconButton>
+                  <IconButton variant="outline" color="copper" size="md"><IconHeart size={16} /></IconButton>
+                  <IconButton variant="outline" color="copper" size="md"><IconMapPin size={16} /></IconButton>
+                  <IconButton variant="primary" color="copper" size="md"><IconPlus size={16} /></IconButton>
+                  <IconButton variant="primary" color="sage"   size="md"><IconCheck size={16} /></IconButton>
+                  <IconButton variant="primary" color="sienna" size="md"><IconTrash size={16} /></IconButton>
+                  <IconButton variant="outline" color="sienna" size="md"><IconX size={16} /></IconButton>
+                </Row>
+                <Row>
+                  <IconButton variant="outline" color="copper" size="sm"><IconSearch size={14} /></IconButton>
+                  <IconButton variant="outline" color="copper" size="sm"><IconHeart size={14} /></IconButton>
+                  <IconButton variant="primary" color="copper" size="sm"><IconPlus size={14} /></IconButton>
+                  <IconButton variant="primary" color="sage"   size="sm"><IconCheck size={14} /></IconButton>
+                  <IconButton variant="primary" color="sienna" size="sm"><IconTrash size={14} /></IconButton>
+                  <IconButton variant="ghost"   color="copper" size="sm"><IconStar size={14} /></IconButton>
+                </Row>
+                <SubLabel>Icon + label</SubLabel>
+                <Row>
+                  <Button variant="primary" color="copper" size="sm" leftSection={<IconPlus size={14} />}>Add property</Button>
+                  <Button variant="outline" color="sage"   size="sm" leftSection={<IconCheck size={14} />}>Confirm stay</Button>
+                  <Button variant="outline" color="sienna" size="sm" leftSection={<IconTrash size={14} />}>Remove</Button>
+                </Row>
+                <Row>
+                  <Button variant="primary" color="copper" size="sm" rightSection={<IconArrowRight size={14} />}>Continue</Button>
+                  <Button variant="outline" color="copper" size="sm" leftSection={<IconCalendar size={14} />}>Pick dates</Button>
+                  <Button variant="ghost"   color="copper" size="sm" leftSection={<IconHeart size={14} />}>Save for later</Button>
+                </Row>
+              </Stack>
+            </Card>
+
+            {/* Disabled states */}
+            <Card compact>
+              <SubLabel>Disabled</SubLabel>
+              <Row style={{ marginTop: 8 }}>
+                <Button variant="primary" size="sm" disabled>Primary</Button>
+                <Button variant="outline" size="sm" disabled>Outline</Button>
+                <Button variant="ghost"   size="sm" disabled>Ghost</Button>
+                <IconButton variant="primary" color="copper" size="sm" disabled><IconPlus size={14} /></IconButton>
+                <IconButton variant="outline" color="copper" size="sm" disabled><IconHeart size={14} /></IconButton>
+              </Row>
+            </Card>
+
           </Stack>
         </Section>
 

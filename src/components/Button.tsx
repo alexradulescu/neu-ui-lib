@@ -1,97 +1,85 @@
 import { Button as MantineButton, type ButtonProps } from "@mantine/core";
 import type { ReactNode, MouseEventHandler } from "react";
 
-export type MedButtonVariant = "primary" | "ghost" | "subtle";
+// ─── Mediterranean Button ──────────────────────────────────────────────────────
+// Thin wrapper around Mantine Button that:
+//   - Exposes Mediterranean variant names ("primary" | "outline" | "ghost")
+//   - Exposes semantic color names ("copper" | "sage" | "sienna")
+//   - Applies pill radius + press spring + warm focus ring via styles.root
+//   - Adds copper gradient only for primary+copper (otherwise Mantine colour system handles it)
+//   - Does NOT override height — Mantine's size prop works correctly
 
-interface MedButtonProps extends Omit<ButtonProps, "variant"> {
+export type MedButtonVariant = "primary" | "outline" | "ghost";
+export type MedButtonColor = "copper" | "sage" | "sienna";
+
+export interface MedButtonProps extends Omit<ButtonProps, "variant" | "color"> {
   variant?: MedButtonVariant;
+  color?: MedButtonColor;
   children?: ReactNode;
   onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
-const variantStyles: Record<MedButtonVariant, React.CSSProperties> = {
-  primary: {
-    background: "linear-gradient(135deg, #C68D4A 0%, #B87333 55%, #9A5E25 100%)",
-    color: "#FAF8F5",
-    border: "none",
-    boxShadow: "0 2px 10px rgba(120, 80, 40, 0.28), inset 0 1px 0 rgba(255, 235, 200, 0.25)",
-  },
-  ghost: {
-    background: "transparent",
-    color: "#B87333",
-    border: "1.5px solid rgba(184, 115, 51, 0.4)",
-    boxShadow: "none",
-  },
-  subtle: {
-    background: "transparent",
-    color: "#7A6850",
-    border: "none",
-    boxShadow: "none",
-  },
+const variantMap: Record<MedButtonVariant, ButtonProps["variant"]> = {
+  primary: "filled",
+  outline: "outline",
+  ghost: "subtle",
 };
 
-const mantineVariantMap: Record<MedButtonVariant, ButtonProps["variant"]> = {
-  primary: "filled",
-  ghost: "outline",
-  subtle: "subtle",
+const COPPER_FILL =
+  "linear-gradient(135deg, #C68D4A 0%, #B87333 55%, #9A5E25 100%)";
+const COPPER_FILL_HOVER =
+  "linear-gradient(135deg, #D4A265 0%, #C68D4A 55%, #B87333 100%)";
+
+// Per-color focus ring colour
+const focusRing: Record<MedButtonColor, string> = {
+  copper: "rgba(184, 115, 51, 0.35)",
+  sage:   "rgba(74, 120, 40, 0.35)",
+  sienna: "rgba(184, 45, 38, 0.35)",
 };
 
 export function Button({
   variant = "primary",
+  color = "copper",
   children,
-  style,
   ...props
 }: MedButtonProps) {
-  const vs = variantStyles[variant];
+  const isCopperFill = variant === "primary" && color === "copper";
 
   return (
     <MantineButton
       {...props}
-      variant={mantineVariantMap[variant]}
-      style={{
-        minHeight: "36px",
-        height: "36px",
-        borderRadius: "999px",
-        paddingInline: "16px",
-        fontFamily: '"DM Sans", sans-serif',
-        fontWeight: 500,
-        fontSize: "0.875rem",
-        letterSpacing: "0.01em",
-        ...vs,
-        transition:
-          "transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1), " +
-          "box-shadow 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94), " +
-          "background 200ms ease, opacity 200ms ease",
-        ...style,
-      }}
+      color={color}
+      variant={variantMap[variant]}
       styles={{
         root: {
-          "&:active": {
-            transform: "scale(0.97)",
-          },
+          borderRadius: "999px",
+          fontFamily: '"DM Sans", sans-serif',
+          fontWeight: "500",
+          letterSpacing: "0.01em",
+          transition:
+            "transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1), " +
+            "box-shadow 200ms ease, background 150ms ease",
+
+          // Warm focus ring — overrides Mantine's default blue outline
           "&:focus-visible": {
             outline: "none",
-            boxShadow: "0 0 0 3px rgba(184, 115, 51, 0.35)",
+            boxShadow: `0 0 0 3px ${focusRing[color]}`,
           },
-          ...(variant === "primary" && {
-            "&:hover:not(:disabled)": {
-              background:
-                "linear-gradient(135deg, #D4A265 0%, #C68D4A 55%, #B87333 100%)",
+
+          // Press scale
+          "&:active:not([data-disabled])": {
+            transform: "scale(0.97)",
+          },
+
+          // Copper gradient overrides Mantine's flat filled colour
+          ...(isCopperFill && {
+            background: COPPER_FILL,
+            border: "none",
+            boxShadow: "0 2px 8px rgba(120, 80, 40, 0.25)",
+            "&:hover:not([data-disabled])": {
+              background: COPPER_FILL_HOVER,
               transform: "translateY(-1px)",
-              boxShadow:
-                "0 4px 16px rgba(120, 80, 40, 0.35), inset 0 1px 0 rgba(255, 235, 200, 0.25)",
-            },
-          }),
-          ...(variant === "ghost" && {
-            "&:hover:not(:disabled)": {
-              background: "rgba(184, 115, 51, 0.06)",
-              borderColor: "#B87333",
-            },
-          }),
-          ...(variant === "subtle" && {
-            "&:hover:not(:disabled)": {
-              background: "rgba(180, 155, 120, 0.12)",
-              color: "#2A2118",
+              boxShadow: "0 4px 14px rgba(120, 80, 40, 0.32)",
             },
           }),
         },

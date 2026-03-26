@@ -6,7 +6,10 @@
  */
 
 export { Button } from "./Button";
-export type { MedButtonVariant } from "./Button";
+export type { MedButtonVariant, MedButtonColor, MedButtonProps } from "./Button";
+
+export { IconButton } from "./IconButton";
+export type { IconButtonProps } from "./IconButton";
 
 export { Card } from "./Card";
 export type { CardProps } from "./Card";

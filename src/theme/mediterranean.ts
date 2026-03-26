@@ -28,6 +28,34 @@ const sand: MantineColorsTuple = [
   "#4A3C28",
 ];
 
+// Mediterranean Sage — olive grove green, positive actions (#4A7828 at index 6)
+const sage: MantineColorsTuple = [
+  "#EEF5E8",
+  "#D2E8BF",
+  "#B3D594",
+  "#8FBD6A",
+  "#6CA44A",
+  "#538D35",
+  "#4A7828",
+  "#3A601C",
+  "#2B4912",
+  "#1C3209",
+];
+
+// Mediterranean Sienna — Pompeii warm red, destructive actions (#B82D26 at index 6)
+const sienna: MantineColorsTuple = [
+  "#FDEEED",
+  "#F9D0CC",
+  "#F2ACA3",
+  "#E8837A",
+  "#DB5B52",
+  "#CC3D35",
+  "#B82D26",
+  "#952320",
+  "#721A17",
+  "#50110F",
+];
+
 // Coastal Sky — used sparingly
 const sky: MantineColorsTuple = [
   "#F0F6FA",
@@ -51,7 +79,7 @@ export const mediterraneanTheme = createTheme({
   white: "#FAF8F5",
   black: "#2A2118",
 
-  colors: { copper, sand, sky },
+  colors: { copper, sand, sky, sage, sienna },
 
   // ── Typography ───────────────────────────────────────────────────────────
   fontFamily:
