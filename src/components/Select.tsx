@@ -2,32 +2,34 @@ import {
   Select as MantineSelect,
   type SelectProps as MantineSelectProps,
 } from "@mantine/core";
-import { medInputStyles, medDropdownStyles } from "@/theme/inputStyles";
-
-// ─── Mediterranean Select ─────────────────────────────────────────────────────
-// Mantine Select with warm glass dropdown and copper accent.
+import {
+  medInputStyles,
+  medDropdownStyles,
+  medInputWrapperOrder,
+} from "@/theme/inputStyles";
 
 export interface SelectProps extends Omit<MantineSelectProps, "size"> {
   hint?: string;
 }
 
-export function Select({ hint, description, styles, ...props }: SelectProps) {
+export function Select({ hint, description, ...props }: SelectProps) {
   return (
     <MantineSelect
       {...props}
       description={hint ?? description}
+      inputWrapperOrder={medInputWrapperOrder}
       styles={{
         ...medInputStyles,
         ...medDropdownStyles,
         input: {
           ...medInputStyles.input,
+          // Right-side padding to avoid overlap with the chevron icon
+          paddingRight: "36px",
+          cursor: "default",
         },
-        // Chevron icon colour
         section: {
-          color: "#7A6850",
+          color: "#A89880",
         },
-        // Override any caller styles last
-        ...(styles as object),
       }}
     />
   );

@@ -259,29 +259,30 @@ function ShowcasePage() {
             <Stack>
               <TextInput
                 label="Full name"
+                placeholder="Sofia Esposito"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 hint="As it appears on your passport"
               />
               <TextInput
                 label="Email address"
+                placeholder="you@example.com"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
               <TextInput
-                label="Arrival date"
-                type="date"
-                defaultValue=""
+                label="Message"
+                placeholder="Tell us about your stay…"
               />
               <TextInput
-                label="Invalid field"
+                label="Invalid email"
                 defaultValue="wrong@"
                 error="Please enter a valid email address"
               />
               <TextInput
                 label="Disabled"
-                defaultValue="Cannot edit"
+                value="Cannot edit"
                 disabled
               />
             </Stack>
