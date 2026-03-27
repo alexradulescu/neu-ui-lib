@@ -42,6 +42,10 @@ export const GlobalStyles = createGlobalStyle`
     --med-color-input-border:   rgba(180, 155, 120, 0.40);
     --med-color-dropdown-bg:    rgba(255, 250, 244, 0.97);
 
+    /* ── Navbar ───────────────────────────────────────────────────────── */
+    --med-navbar-bg:            rgba(245, 240, 234, 0.84);
+    --med-navbar-inactive:      rgba(100, 82, 62, 0.52);
+
     /* ── Spacing (8px base grid) ──────────────────────────────────────── */
     --med-space-xs:  4px;
     --med-space-sm:  8px;
@@ -107,6 +111,9 @@ export const GlobalStyles = createGlobalStyle`
     --med-color-accent:         #C68D4A;
     --med-color-accent-soft:    #9A7048;
     --med-color-card-shimmer:   rgba(255, 200, 120, 0.06);
+
+    --med-navbar-bg:            rgba(18, 14, 8, 0.88);
+    --med-navbar-inactive:      rgba(162, 138, 102, 0.55);
 
     --med-color-row-hover:      rgba(184, 115, 51, 0.11);
     --med-color-row-stripe:     rgba(80, 55, 25, 0.22);

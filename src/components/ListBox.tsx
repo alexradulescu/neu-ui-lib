@@ -137,7 +137,11 @@ export function ListBox({ items, caption, selectedId, onSelect }: ListBoxProps) 
             onClick={() => onSelect?.(item.id)}
             style={
               isSelected
-                ? { background: "var(--med-color-row-hover)", borderLeft: "2px solid var(--med-color-accent)" }
+                ? {
+                    background: "var(--med-color-row-hover)",
+                    // iOS-26: inset left-bar without shifting content
+                    boxShadow: "inset 3px 0 0 var(--med-color-accent)",
+                  }
                 : undefined
             }
           >

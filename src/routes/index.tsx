@@ -7,6 +7,7 @@ import {
   IconPlus, IconHeart, IconCheck,
   IconTrash, IconSearch, IconStar, IconArrowRight,
   IconCalendar, IconMapPin, IconSun, IconMoon,
+  IconHome, IconReceipt, IconBuildingEstate, IconSettings,
 } from "@tabler/icons-react";
 import { Button } from "@/components/Button";
 import { IconButton } from "@/components/IconButton";
@@ -19,6 +20,7 @@ import { DatePickerInput } from "@/components/DatePickerInput";
 import { ListBox } from "@/components/ListBox";
 import { MedTable } from "@/components/Table";
 import { KeyValueList } from "@/components/KeyValueList";
+import { Navbar } from "@/components/Navbar";
 import type { ListBoxItem } from "@/components/ListBox";
 import type { TableColumn } from "@/components/Table";
 import type { KVItem } from "@/components/KeyValueList";
@@ -32,7 +34,7 @@ export const Route = createFileRoute("/")({
 const Page = styled.main`
   min-height: 100dvh;
   background-color: var(--med-color-bg);
-  padding: 32px 16px 56px;
+  padding: 32px 16px 88px;  /* extra bottom space for fixed Navbar */
 `;
 
 const PageInner = styled.div`
@@ -167,9 +169,7 @@ const CodeBlock = styled.pre`
   overflow-x: auto;
 `;
 
-const TableScroll = styled.div`
-  overflow-x: auto;
-`;
+// TableScroll is now built into MedTable — wrapper no longer needed
 
 // ─── Data ──────────────────────────────────────────────────────────────────────
 
@@ -298,6 +298,7 @@ function ShowcasePage() {
   const [region, setRegion] = useState<string | null>(null);
   const [checkIn, setCheckIn] = useState<Date | null>(null);
   const [selectedBooking, setSelectedBooking] = useState<string | undefined>(undefined);
+  const [activeNav, setActiveNav] = useState("home");
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleCheckInChange = (val: any) => setCheckIn(val as Date | null);
@@ -511,14 +512,12 @@ function ShowcasePage() {
         {/* ── Table ──────────────────────────────────────────────────────── */}
         <Section>
           <SectionLabel>Table</SectionLabel>
-          <TableScroll>
-            <MedTable
-              caption="Property portfolio"
-              columns={propertyColumns}
-              data={properties}
-              getRowKey={(row) => String(row.property)}
-            />
-          </TableScroll>
+          <MedTable
+            caption="Property portfolio"
+            columns={propertyColumns}
+            data={properties}
+            getRowKey={(row) => String(row.property)}
+          />
         </Section>
 
         {/* ── Cards ──────────────────────────────────────────────────────── */}
@@ -592,6 +591,14 @@ function ShowcasePage() {
                 value="Cannot edit"
                 disabled
               />
+            </Stack>
+          </Card>
+          {/* Compact size — smaller height, still 16px font (no iOS zoom) */}
+          <Card compact style={{ maxWidth: 480 }}>
+            <SubLabel style={{ marginBottom: 10 }}>Compact inputs (36px height, font-size 16px)</SubLabel>
+            <Stack>
+              <TextInput compact label="Property name" placeholder="Villa Amalfi" />
+              <TextInput compact label="Nightly rate" placeholder="€ 1,100" hint="Per adult, per night" />
             </Stack>
           </Card>
         </Section>
@@ -766,7 +773,36 @@ function ShowcasePage() {
           </Card>
         </Section>
 
+        {/* ── Navbar ─────────────────────────────────────────────────────── */}
+        <Section>
+          <SectionLabel>Navbar</SectionLabel>
+          <Card compact>
+            <Card.Body>
+              iOS 26-style frosted-glass tab bar. Copper active pill springs in
+              behind the icon. Adapts to dark mode. Supports 2–6 items. In production,
+              render it once at the root — it is{" "}
+              <code style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: "0.8125rem" }}>
+                position: fixed
+              </code>
+              .
+            </Card.Body>
+          </Card>
+        </Section>
+
       </PageInner>
+
+      {/* Fixed bottom navbar — shown across the whole showcase */}
+      <Navbar
+        activeId={activeNav}
+        onSelect={setActiveNav}
+        items={[
+          { id: "home",       icon: <IconHome size={20} />,           label: "Home" },
+          { id: "bookings",   icon: <IconCalendar size={20} />,       label: "Bookings" },
+          { id: "properties", icon: <IconBuildingEstate size={20} />, label: "Properties" },
+          { id: "expenses",   icon: <IconReceipt size={20} />,        label: "Expenses" },
+          { id: "settings",   icon: <IconSettings size={20} />,       label: "Settings" },
+        ]}
+      />
     </Page>
   );
 }

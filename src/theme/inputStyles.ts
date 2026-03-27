@@ -2,8 +2,39 @@
  * Shared Mediterranean input styles.
  * Used by TextInput, Select, and DatePickerInput.
  *
- * Uses CSS custom properties so styles auto-adapt to dark/light mode.
+ * - borderRadius: fully pill-shaped (999px)
+ * - fontSize: always 1rem (16px) — prevents iOS Safari zoom-on-focus
+ * - All colors use CSS custom properties for automatic dark/light mode
  */
+
+const BASE_INPUT = {
+  paddingInline: "16px",
+  borderRadius: "999px",
+  borderColor: "var(--med-color-input-border)",
+  background: "var(--med-color-input-bg)",
+  color: "var(--med-color-text-primary)",
+  fontFamily: '"DM Sans", sans-serif',
+  fontSize: "1rem",          // 16px — iOS won't zoom if >= 16px
+  "&:hover:not(:focus):not([data-invalid])": {
+    borderColor: "rgba(184, 115, 51, 0.45)",
+    background: "var(--med-color-input-bg-hover)",
+  },
+  "&:focus": {
+    borderColor: "#B87333",
+    boxShadow: "0 0 0 3px rgba(184, 115, 51, 0.14)",
+    background: "var(--med-color-input-bg-focus)",
+    outline: "none",
+  },
+  "&[data-invalid]": {
+    borderColor: "rgba(184, 115, 51, 0.65)",
+    boxShadow: "0 0 0 3px rgba(184, 115, 51, 0.10)",
+    background: "var(--med-color-input-bg-hover)",
+  },
+  "&:disabled, &[data-disabled]": {
+    opacity: 0.5,
+    cursor: "not-allowed",
+  },
+};
 
 export const medInputStyles = {
   label: {
@@ -14,33 +45,8 @@ export const medInputStyles = {
     marginBottom: "5px",
   },
   input: {
+    ...BASE_INPUT,
     height: "44px",
-    paddingInline: "14px",
-    borderRadius: "12px",
-    borderColor: "var(--med-color-input-border)",
-    background: "var(--med-color-input-bg)",
-    color: "var(--med-color-text-primary)",
-    fontFamily: '"DM Sans", sans-serif',
-    fontSize: "0.9375rem",
-    "&:hover:not(:focus):not([data-invalid])": {
-      borderColor: "rgba(184, 115, 51, 0.45)",
-      background: "var(--med-color-input-bg-hover)",
-    },
-    "&:focus": {
-      borderColor: "#B87333",
-      boxShadow: "0 0 0 3px rgba(184, 115, 51, 0.14)",
-      background: "var(--med-color-input-bg-focus)",
-      outline: "none",
-    },
-    "&[data-invalid]": {
-      borderColor: "rgba(184, 115, 51, 0.65)",
-      boxShadow: "0 0 0 3px rgba(184, 115, 51, 0.10)",
-      background: "var(--med-color-input-bg-hover)",
-    },
-    "&:disabled, &[data-disabled]": {
-      opacity: 0.5,
-      cursor: "not-allowed",
-    },
   },
   description: {
     color: "var(--med-color-text-muted)",
@@ -58,6 +64,16 @@ export const medInputStyles = {
   },
 };
 
+/** Compact variant — smaller height, same 16px font (no iOS zoom). */
+export const medCompactInputStyles = {
+  ...medInputStyles,
+  input: {
+    ...BASE_INPUT,
+    height: "36px",
+    paddingInline: "14px",
+  },
+};
+
 /** Warm glass dropdown — shared by Select and DatePickerInput. */
 export const medDropdownStyles = {
   dropdown: {
@@ -66,15 +82,15 @@ export const medDropdownStyles = {
     WebkitBackdropFilter: "blur(20px) saturate(1.4)",
     border: "1px solid var(--med-color-border)",
     boxShadow: "var(--med-shadow-lg)",
-    borderRadius: "12px",
+    borderRadius: "20px",
     padding: "4px",
   },
   option: {
-    borderRadius: "8px",
+    borderRadius: "12px",
     fontFamily: '"DM Sans", sans-serif',
-    fontSize: "0.9375rem",
+    fontSize: "1rem",
     color: "var(--med-color-text-primary)",
-    padding: "8px 12px",
+    padding: "8px 14px",
     "&[data-combobox-selected]": {
       background: "rgba(184, 115, 51, 0.14)",
       color: "#B87333",
@@ -103,13 +119,10 @@ export const medDropdownStyles = {
     fontWeight: "600",
     letterSpacing: "0.08em",
     textTransform: "uppercase" as const,
-    padding: "6px 12px 2px",
+    padding: "6px 14px 2px",
   },
 };
 
-/**
- * Put description BELOW the input field.
- */
 export const medInputWrapperOrder: ("label" | "input" | "description" | "error")[] = [
   "label",
   "input",

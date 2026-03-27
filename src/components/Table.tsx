@@ -2,9 +2,6 @@ import { styled } from "@alex.radulescu/styled-static";
 import type { ReactNode } from "react";
 
 // ─── Mediterranean Table ──────────────────────────────────────────────────────
-// Data-dense sortable-ready table.
-// Glassmorphic surface, zebra-stripe rows, warm hover highlight.
-// Auto-adapts to dark/light mode via CSS vars.
 
 export interface TableColumn {
   key: string;
@@ -31,6 +28,13 @@ const TableWrap = styled.div`
   border: 1px solid var(--med-color-border);
   box-shadow: var(--med-shadow-sm), inset 0 1px 0 var(--med-color-card-shimmer);
   overflow: hidden;
+  width: 100%;
+`;
+
+/* Scroll container sits INSIDE the clip boundary so touch-scroll works on mobile */
+const TableScroll = styled.div`
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   width: 100%;
 `;
 
@@ -92,8 +96,17 @@ const Tr = styled.tr`
     background: var(--med-color-row-stripe);
   }
 
-  &:hover {
+  /* iOS-26 style: rounded corners on first/last cell, inset highlight */
+  &:hover td {
     background: var(--med-color-row-hover);
+  }
+
+  &:hover td:first-child {
+    border-radius: 8px 0 0 8px;
+  }
+
+  &:hover td:last-child {
+    border-radius: 0 8px 8px 0;
   }
 `;
 
@@ -102,34 +115,36 @@ const Tr = styled.tr`
 export function MedTable({ columns, data, caption, getRowKey }: MedTableProps) {
   return (
     <TableWrap>
-      <TableEl>
-        {caption && <TableCaptionEl>{caption}</TableCaptionEl>}
-        <Thead>
-          <tr>
-            {columns.map((col) => (
-              <Th
-                key={col.key}
-                style={{ width: col.width, textAlign: col.align ?? "left" }}
-              >
-                {col.label}
-              </Th>
-            ))}
-          </tr>
-        </Thead>
-        <tbody>
-          {data.map((row, i) => (
-            <Tr key={getRowKey ? getRowKey(row, i) : String(i)}>
+      <TableScroll>
+        <TableEl>
+          {caption && <TableCaptionEl>{caption}</TableCaptionEl>}
+          <Thead>
+            <tr>
               {columns.map((col) => (
-                <Td key={col.key} style={{ textAlign: col.align ?? "left" }}>
-                  {col.render
-                    ? col.render(row[col.key], row)
-                    : String(row[col.key] ?? "")}
-                </Td>
+                <Th
+                  key={col.key}
+                  style={{ width: col.width, textAlign: col.align ?? "left" }}
+                >
+                  {col.label}
+                </Th>
               ))}
-            </Tr>
-          ))}
-        </tbody>
-      </TableEl>
+            </tr>
+          </Thead>
+          <tbody>
+            {data.map((row, i) => (
+              <Tr key={getRowKey ? getRowKey(row, i) : String(i)}>
+                {columns.map((col) => (
+                  <Td key={col.key} style={{ textAlign: col.align ?? "left" }}>
+                    {col.render
+                      ? col.render(row[col.key], row)
+                      : String(row[col.key] ?? "")}
+                  </Td>
+                ))}
+              </Tr>
+            ))}
+          </tbody>
+        </TableEl>
+      </TableScroll>
     </TableWrap>
   );
 }

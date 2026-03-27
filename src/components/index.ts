@@ -37,3 +37,6 @@ export type { MedTableProps, TableColumn } from "./Table";
 
 export { KeyValueList } from "./KeyValueList";
 export type { KeyValueListProps, KVItem } from "./KeyValueList";
+
+export { Navbar } from "./Navbar";
+export type { NavbarProps, NavbarItem } from "./Navbar";
