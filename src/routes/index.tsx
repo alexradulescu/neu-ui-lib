@@ -4,7 +4,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { styled } from "@alex.radulescu/styled-static";
 import { ActionIcon, useMantineColorScheme } from "@mantine/core";
 import {
-  IconPlus, IconX, IconHeart, IconCheck,
+  IconPlus, IconHeart, IconCheck,
   IconTrash, IconSearch, IconStar, IconArrowRight,
   IconCalendar, IconMapPin, IconSun, IconMoon,
 } from "@tabler/icons-react";
@@ -18,8 +18,10 @@ import { Select } from "@/components/Select";
 import { DatePickerInput } from "@/components/DatePickerInput";
 import { ListBox } from "@/components/ListBox";
 import { MedTable } from "@/components/Table";
+import { KeyValueList } from "@/components/KeyValueList";
 import type { ListBoxItem } from "@/components/ListBox";
 import type { TableColumn } from "@/components/Table";
+import type { KVItem } from "@/components/KeyValueList";
 
 export const Route = createFileRoute("/")({
   component: ShowcasePage,
@@ -47,7 +49,7 @@ const PageHeader = styled.header`
 const PageTitle = styled.h1`
   font-family: "Cormorant Garamond", Georgia, serif;
   font-size: 2.25rem;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 1.1;
   color: var(--med-color-text-primary);
   letter-spacing: 0.01em;
@@ -411,21 +413,28 @@ function ShowcasePage() {
             {/* Icon buttons — round pills, sm + md */}
             <Card compact>
               <Stack>
-                <SubLabel>Icon only · md</SubLabel>
-                <Row>
-                  <IconButton variant="outline" color="copper" size="md"><IconSearch size={16} /></IconButton>
-                  <IconButton variant="outline" color="copper" size="md"><IconHeart size={16} /></IconButton>
-                  <IconButton variant="outline" color="copper" size="md"><IconMapPin size={16} /></IconButton>
+                <SubLabel>Icon only — all sizes</SubLabel>
+                <Row style={{ alignItems: "flex-end" }}>
+                  <IconButton variant="primary" color="copper" size="xl"><IconPlus size={22} /></IconButton>
+                  <IconButton variant="primary" color="copper" size="lg"><IconPlus size={18} /></IconButton>
                   <IconButton variant="primary" color="copper" size="md"><IconPlus size={16} /></IconButton>
+                  <IconButton variant="primary" color="copper" size="sm"><IconPlus size={14} /></IconButton>
+                  <IconButton variant="primary" color="copper" size="xs"><IconPlus size={11} /></IconButton>
+                </Row>
+                <Row style={{ alignItems: "flex-end" }}>
+                  <IconButton variant="outline" color="copper" size="xl"><IconSearch size={22} /></IconButton>
+                  <IconButton variant="outline" color="copper" size="lg"><IconHeart size={18} /></IconButton>
+                  <IconButton variant="outline" color="copper" size="md"><IconMapPin size={16} /></IconButton>
+                  <IconButton variant="outline" color="copper" size="sm"><IconHeart size={14} /></IconButton>
+                  <IconButton variant="outline" color="copper" size="xs"><IconSearch size={11} /></IconButton>
+                </Row>
+                <Row style={{ alignItems: "flex-end" }}>
+                  <IconButton variant="primary" color="sage"   size="lg"><IconCheck size={18} /></IconButton>
+                  <IconButton variant="primary" color="sienna" size="lg"><IconTrash size={18} /></IconButton>
+                  <IconButton variant="ghost"   color="copper" size="lg"><IconStar size={18} /></IconButton>
                   <IconButton variant="primary" color="sage"   size="md"><IconCheck size={16} /></IconButton>
                   <IconButton variant="primary" color="sienna" size="md"><IconTrash size={16} /></IconButton>
-                  <IconButton variant="outline" color="sienna" size="md"><IconX size={16} /></IconButton>
-                </Row>
-                <SubLabel>Icon only · sm</SubLabel>
-                <Row>
-                  <IconButton variant="outline" color="copper" size="sm"><IconSearch size={14} /></IconButton>
-                  <IconButton variant="outline" color="copper" size="sm"><IconHeart size={14} /></IconButton>
-                  <IconButton variant="primary" color="copper" size="sm"><IconPlus size={14} /></IconButton>
+                  <IconButton variant="ghost"   color="copper" size="md"><IconStar size={16} /></IconButton>
                   <IconButton variant="primary" color="sage"   size="sm"><IconCheck size={14} /></IconButton>
                   <IconButton variant="primary" color="sienna" size="sm"><IconTrash size={14} /></IconButton>
                   <IconButton variant="ghost"   color="copper" size="sm"><IconStar size={14} /></IconButton>
@@ -468,6 +477,35 @@ function ShowcasePage() {
             selectedId={selectedBooking}
             onSelect={setSelectedBooking}
           />
+        </Section>
+
+        {/* ── Key-Value List ─────────────────────────────────────────────── */}
+        <Section>
+          <SectionLabel>Key-Value List</SectionLabel>
+          <Grid>
+            <KeyValueList
+              caption="Booking details"
+              items={[
+                { label: "Guest",       value: "Sofia Esposito" },
+                { label: "Check-in",    value: "28 Mar 2025" },
+                { label: "Check-out",   value: "1 Apr 2025" },
+                { label: "Nights",      value: "4" },
+                { label: "Room",        value: "Superior Suite" },
+                { label: "Status",      value: <Badge variant="copper" size="sm">Active</Badge> },
+              ] as KVItem[]}
+            />
+            <KeyValueList
+              caption="Property info"
+              items={[
+                { label: "Property",    value: "Villa Amalfi" },
+                { label: "Location",    value: "Positano, IT" },
+                { label: "Type",        value: "Villa" },
+                { label: "Capacity",    value: "8 guests" },
+                { label: "Price",       value: "€ 1,100 / night" },
+                { label: "Availability",value: <Badge variant="sage" size="sm">Available</Badge> },
+              ] as KVItem[]}
+            />
+          </Grid>
         </Section>
 
         {/* ── Table ──────────────────────────────────────────────────────── */}
@@ -699,7 +737,7 @@ function ShowcasePage() {
             <Stack>
               <div>
                 <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: "0.625rem", color: "var(--med-color-text-muted)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "6px" }}>Display — Cormorant Garamond</p>
-                <h1 style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: "2.25rem", fontWeight: 400, color: "var(--med-color-text-primary)", lineHeight: 1.1 }}>
+                <h1 style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: "2.25rem", fontWeight: 600, color: "var(--med-color-text-primary)", lineHeight: 1.1 }}>
                   The light on the sea<br />never lies.
                 </h1>
               </div>

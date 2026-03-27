@@ -51,7 +51,7 @@ const Caption = styled.div`
 
 const ItemRow = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   padding: 10px 16px;
   cursor: pointer;

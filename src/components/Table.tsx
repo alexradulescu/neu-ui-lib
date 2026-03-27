@@ -36,7 +36,9 @@ const TableWrap = styled.div`
 
 const TableEl = styled.table`
   width: 100%;
+  min-width: 560px;
   border-collapse: collapse;
+  table-layout: auto;
 `;
 
 const TableCaptionEl = styled.caption`
@@ -76,6 +78,7 @@ const Td = styled.td`
   color: var(--med-color-text-primary);
   border-bottom: 1px solid var(--med-color-divider);
   vertical-align: middle;
+  white-space: nowrap;
 `;
 
 const Tr = styled.tr`

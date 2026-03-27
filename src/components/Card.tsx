@@ -28,7 +28,7 @@ const CardInnerCompact = styled.div`
 const CardTitle = styled.h3`
   font-family: "Cormorant Garamond", Georgia, serif;
   font-size: 1.25rem;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 1.1;
   color: var(--med-color-text-primary);
   letter-spacing: 0.01em;

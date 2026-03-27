@@ -89,14 +89,14 @@ export const mediterraneanTheme = createTheme({
 
   headings: {
     fontFamily: '"Cormorant Garamond", Georgia, "Times New Roman", serif',
-    fontWeight: "400",
+    fontWeight: "600",
     sizes: {
-      h1: { fontSize: "3rem", lineHeight: "1.15" },
-      h2: { fontSize: "2.25rem", lineHeight: "1.2" },
-      h3: { fontSize: "1.75rem", lineHeight: "1.25" },
-      h4: { fontSize: "1.375rem", lineHeight: "1.35" },
-      h5: { fontSize: "1.125rem", lineHeight: "1.4" },
-      h6: { fontSize: "1rem", lineHeight: "1.5" },
+      h1: { fontSize: "3rem",    lineHeight: "1.15", fontWeight: "600" },
+      h2: { fontSize: "2.25rem", lineHeight: "1.2",  fontWeight: "600" },
+      h3: { fontSize: "1.75rem", lineHeight: "1.25", fontWeight: "600" },
+      h4: { fontSize: "1.375rem",lineHeight: "1.35", fontWeight: "600" },
+      h5: { fontSize: "1.125rem",lineHeight: "1.4",  fontWeight: "600" },
+      h6: { fontSize: "1rem",    lineHeight: "1.5",  fontWeight: "600" },
     },
   },
 

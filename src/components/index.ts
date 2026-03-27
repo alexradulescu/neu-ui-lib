@@ -34,3 +34,6 @@ export type { ListBoxProps, ListBoxItem } from "./ListBox";
 
 export { MedTable } from "./Table";
 export type { MedTableProps, TableColumn } from "./Table";
+
+export { KeyValueList } from "./KeyValueList";
+export type { KeyValueListProps, KVItem } from "./KeyValueList";
