@@ -1,11 +1,13 @@
 import { styled } from "@alex.radulescu/styled-static";
 import type { ReactNode } from "react";
 
-// ─── Mediterranean Navbar ─────────────────────────────────────────────────────
-// iOS 26-style frosted-glass bottom tab bar.
-// Supports up to 6 items. Active item shows a spring-animated copper pill
-// behind the icon + copper-tinted label. Inactive items are muted.
-// Place <Navbar /> once at the root of your app — it is position: fixed.
+// ─── Mediterranean Navbar — iOS 26 Floating Liquid Glass ─────────────────────
+// iOS 26 tab bar: a detached pill floating above the bottom edge.
+// "Liquid glass" = strong blur, warm translucent tint, subtle inner shimmer.
+// Active item: glass chip behind icon springs in via cubic-bezier spring.
+// Inactive items: muted, icon-only weight.
+// Safe-area aware for iPhone home indicator.
+// Max 6 items.
 
 export interface NavbarItem {
   id: string;
@@ -14,73 +16,88 @@ export interface NavbarItem {
 }
 
 export interface NavbarProps {
-  items: NavbarItem[];     // 2–6 items
+  items: NavbarItem[];
   activeId?: string;
   onSelect?: (id: string) => void;
 }
 
 // ─── Styles ───────────────────────────────────────────────────────────────────
 
+/* Floating pill detached from screen edges — the iOS 26 signature shape */
 const NavWrap = styled.nav`
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  /* Push above iPhone home indicator */
+  bottom: max(12px, calc(env(safe-area-inset-bottom) + 8px));
   z-index: 200;
+  border-radius: 28px;
+
+  /* Liquid glass material */
   background: var(--med-navbar-bg);
-  backdrop-filter: blur(28px) saturate(1.6);
-  -webkit-backdrop-filter: blur(28px) saturate(1.6);
-  border-top: 0.5px solid var(--med-color-border);
-  /* iPhone home-indicator safe area */
-  padding-bottom: env(safe-area-inset-bottom);
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
+  backdrop-filter: blur(32px) saturate(1.8) brightness(1.04);
+  -webkit-backdrop-filter: blur(32px) saturate(1.8) brightness(1.04);
+
+  /* Warm border + inner shimmer — characteristic of liquid glass */
+  border: 0.5px solid var(--med-color-border);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.14),
+    0 2px 8px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 var(--med-color-card-shimmer);
 `;
 
 const NavInner = styled.div`
   display: flex;
   justify-content: space-around;
-  align-items: stretch;
-  height: 56px;
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 0 4px;
+  align-items: center;
+  height: 58px;
+  padding: 0 8px;
 `;
 
+/* Each tab item */
 const NavBtn = styled.button`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
+  gap: 3px;
   flex: 1;
   min-width: 0;
-  padding: 0 4px;
+  padding: 0;
   background: none;
   border: none;
   cursor: pointer;
   position: relative;
-  transition: opacity 150ms ease;
   -webkit-tap-highlight-color: transparent;
+  transition: opacity 120ms ease;
 
   &:active {
-    opacity: 0.65;
+    opacity: 0.6;
   }
 `;
 
-/* Animated glass pill behind the active icon */
-const ActivePill = styled.div`
+/* Glass chip behind the active icon — springs in from scale(0) */
+const GlassChip = styled.div`
   position: absolute;
-  top: 7px;
-  width: 40px;
-  height: 28px;
-  border-radius: 999px;
-  background: rgba(184, 115, 51, 0.13);
-  border: 0.5px solid rgba(184, 115, 51, 0.22);
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 32px;
+  border-radius: 12px;
+  transform-origin: center center;
+  transform: translate(-50%, -62%) scale(0);
+  opacity: 0;
+  /* Liquid glass chip */
+  background: rgba(184, 115, 51, 0.14);
+  border: 0.5px solid rgba(184, 115, 51, 0.24);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  transition: transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1),
-              opacity  180ms ease;
+  box-shadow: inset 0 1px 0 rgba(255, 230, 180, 0.20);
+  transition:
+    transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity   200ms ease;
+  pointer-events: none;
 `;
 
 const IconWrap = styled.span`
@@ -96,14 +113,15 @@ const IconWrap = styled.span`
 const NavLabel = styled.span`
   font-family: "DM Sans", sans-serif;
   font-size: 0.5625rem;
-  font-weight: 500;
+  line-height: 1;
   letter-spacing: 0.01em;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 100%;
+  max-width: 56px;
   position: relative;
   z-index: 1;
+  transition: font-weight 160ms ease;
 `;
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -121,20 +139,28 @@ export function Navbar({ items, activeId, onSelect }: NavbarProps) {
               aria-label={item.label}
               aria-current={isActive ? "page" : undefined}
               onClick={() => onSelect?.(item.id)}
-              style={{
-                color: isActive
-                  ? "var(--med-color-accent)"
-                  : "var(--med-navbar-inactive)",
-              }}
             >
-              <ActivePill
-                style={{
-                  transform: isActive ? "scale(1)" : "scale(0.5)",
-                  opacity: isActive ? 1 : 0,
-                }}
+              {/* Glass chip springs in when active */}
+              <GlassChip
+                style={
+                  isActive
+                    ? { transform: "translate(-50%, -62%) scale(1)", opacity: 1 }
+                    : undefined
+                }
               />
-              <IconWrap>{item.icon}</IconWrap>
-              <NavLabel>{item.label}</NavLabel>
+              <IconWrap
+                style={{ color: isActive ? "var(--med-color-accent)" : "var(--med-navbar-inactive)" }}
+              >
+                {item.icon}
+              </IconWrap>
+              <NavLabel
+                style={{
+                  color: isActive ? "var(--med-color-accent)" : "var(--med-navbar-inactive)",
+                  fontWeight: isActive ? "600" : "400",
+                }}
+              >
+                {item.label}
+              </NavLabel>
             </NavBtn>
           );
         })}

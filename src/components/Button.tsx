@@ -42,7 +42,6 @@ export function Button({ variant = "primary", color = "copper", children, ...pro
           fontFamily: '"DM Sans", sans-serif',
           fontWeight: "500",
           letterSpacing: "0.01em",
-          overflow: "hidden",          // required for ellipsis to work
           transition:
             "transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1), " +
             "box-shadow 200ms ease, background 150ms ease",
@@ -63,14 +62,6 @@ export function Button({ variant = "primary", color = "copper", children, ...pro
               boxShadow: "0 4px 14px rgba(120, 80, 40, 0.32)",
             },
           }),
-        },
-        // Truncate long labels with ellipsis instead of clipping or wrapping
-        label: {
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          whiteSpace: "nowrap",
-          display: "block",
-          minWidth: "0",
         },
       }}
     >

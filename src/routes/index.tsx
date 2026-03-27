@@ -34,7 +34,7 @@ export const Route = createFileRoute("/")({
 const Page = styled.main`
   min-height: 100dvh;
   background-color: var(--med-color-bg);
-  padding: 32px 16px 88px;  /* extra bottom space for fixed Navbar */
+  padding: 32px 16px 96px;  /* extra bottom space for floating Navbar */
 `;
 
 const PageInner = styled.div`
