@@ -36,7 +36,7 @@ const focusRing: Record<MedButtonColor, string> = {
 export function IconButton({
   variant = "outline",
   color = "copper",
-  radius = "10px",
+  radius = "999px",
   children,
   ...props
 }: IconButtonProps) {

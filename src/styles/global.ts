@@ -17,16 +17,30 @@ export const GlobalStyles = createGlobalStyle`
     --med-font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
     --med-font-mono: "JetBrains Mono", "SF Mono", ui-monospace, monospace;
 
-    /* ── Mediterranean Palette ─────────────────────────────────────────── */
+    /* ── Mediterranean Palette (light) ─────────────────────────────────── */
     --med-color-bg:             #F5F0EA;
     --med-color-surface:        rgba(255, 250, 244, 0.72);
     --med-color-surface-deep:   #EDE5D8;
     --med-color-border:         rgba(180, 155, 120, 0.25);
+    --med-color-divider:        rgba(180, 155, 120, 0.18);
     --med-color-text-primary:   #2A2118;
     --med-color-text-secondary: #7A6850;
+    --med-color-text-muted:     #A89880;
     --med-color-accent:         #B87333;
     --med-color-accent-soft:    #D4A882;
     --med-color-sky:            #A8C4D4;
+    --med-color-card-shimmer:   rgba(255, 245, 230, 0.60);
+
+    /* ── Table & List ─────────────────────────────────────────────────── */
+    --med-color-row-hover:      rgba(180, 155, 120, 0.09);
+    --med-color-row-stripe:     rgba(180, 155, 120, 0.04);
+
+    /* ── Input ────────────────────────────────────────────────────────── */
+    --med-color-input-bg:       rgba(255, 250, 244, 0.65);
+    --med-color-input-bg-hover: rgba(255, 250, 244, 0.85);
+    --med-color-input-bg-focus: rgba(255, 250, 244, 0.95);
+    --med-color-input-border:   rgba(180, 155, 120, 0.40);
+    --med-color-dropdown-bg:    rgba(255, 250, 244, 0.97);
 
     /* ── Spacing (8px base grid) ──────────────────────────────────────── */
     --med-space-xs:  4px;
@@ -78,6 +92,34 @@ export const GlobalStyles = createGlobalStyle`
     --neu-color-separator:        var(--med-color-border);
     --neu-color-accent:           var(--med-color-accent);
     --neu-color-accent-hover:     #9A5E25;
+  }
+
+  /* ── Dark Mediterranean theme ──────────────────────────────────────────── */
+  [data-mantine-color-scheme="dark"] {
+    --med-color-bg:             #14100C;
+    --med-color-surface:        rgba(30, 23, 14, 0.88);
+    --med-color-surface-deep:   #1C1610;
+    --med-color-border:         rgba(120, 90, 50, 0.32);
+    --med-color-divider:        rgba(120, 90, 50, 0.22);
+    --med-color-text-primary:   #EDE4D0;
+    --med-color-text-secondary: #A08864;
+    --med-color-text-muted:     #6A5840;
+    --med-color-accent:         #C68D4A;
+    --med-color-accent-soft:    #9A7048;
+    --med-color-card-shimmer:   rgba(255, 200, 120, 0.06);
+
+    --med-color-row-hover:      rgba(184, 115, 51, 0.11);
+    --med-color-row-stripe:     rgba(80, 55, 25, 0.22);
+
+    --med-color-input-bg:       rgba(22, 16, 9, 0.72);
+    --med-color-input-bg-hover: rgba(32, 24, 13, 0.85);
+    --med-color-input-bg-focus: rgba(36, 27, 14, 0.95);
+    --med-color-input-border:   rgba(120, 90, 50, 0.42);
+    --med-color-dropdown-bg:    rgba(22, 17, 10, 0.97);
+
+    --med-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
+    --med-shadow-md: 0 4px 32px rgba(0, 0, 0, 0.45);
+    --med-shadow-lg: 0 8px 48px rgba(0, 0, 0, 0.55);
   }
 
   html {

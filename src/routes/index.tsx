@@ -1,10 +1,12 @@
 import { useState } from "react";
+import type { ReactElement } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { styled } from "@alex.radulescu/styled-static";
+import { ActionIcon, useMantineColorScheme } from "@mantine/core";
 import {
   IconPlus, IconX, IconHeart, IconCheck,
   IconTrash, IconSearch, IconStar, IconArrowRight,
-  IconCalendar, IconMapPin,
+  IconCalendar, IconMapPin, IconSun, IconMoon,
 } from "@tabler/icons-react";
 import { Button } from "@/components/Button";
 import { IconButton } from "@/components/IconButton";
@@ -14,6 +16,10 @@ import { Badge } from "@/components/Badge";
 import { Modal } from "@/components/Modal";
 import { Select } from "@/components/Select";
 import { DatePickerInput } from "@/components/DatePickerInput";
+import { ListBox } from "@/components/ListBox";
+import { MedTable } from "@/components/Table";
+import type { ListBoxItem } from "@/components/ListBox";
+import type { TableColumn } from "@/components/Table";
 
 export const Route = createFileRoute("/")({
   component: ShowcasePage,
@@ -23,7 +29,7 @@ export const Route = createFileRoute("/")({
 
 const Page = styled.main`
   min-height: 100dvh;
-  background-color: #F5F0EA;
+  background-color: var(--med-color-bg);
   padding: 32px 16px 56px;
 `;
 
@@ -35,6 +41,7 @@ const PageInner = styled.div`
 const PageHeader = styled.header`
   margin-bottom: 36px;
   text-align: center;
+  position: relative;
 `;
 
 const PageTitle = styled.h1`
@@ -42,7 +49,7 @@ const PageTitle = styled.h1`
   font-size: 2.25rem;
   font-weight: 400;
   line-height: 1.1;
-  color: #2A2118;
+  color: var(--med-color-text-primary);
   letter-spacing: 0.01em;
   margin-bottom: 8px;
 `;
@@ -51,9 +58,15 @@ const PageSubtitle = styled.p`
   font-family: "DM Sans", sans-serif;
   font-size: 0.9375rem;
   line-height: 1.55;
-  color: #7A6850;
+  color: var(--med-color-text-secondary);
   max-width: 480px;
   margin: 0 auto;
+`;
+
+const ThemeToggleWrap = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
 `;
 
 const Section = styled.section`
@@ -66,10 +79,10 @@ const SectionLabel = styled.h2`
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #7A6850;
+  color: var(--med-color-text-secondary);
   margin-bottom: 12px;
   padding-bottom: 8px;
-  border-bottom: 0.5px solid rgba(180, 155, 120, 0.30);
+  border-bottom: 0.5px solid var(--med-color-divider);
 `;
 
 const Row = styled.div`
@@ -100,13 +113,13 @@ const Swatch = styled.div`
 const SwatchColor = styled.div`
   height: 36px;
   border-radius: 10px;
-  border: 1px solid rgba(180, 155, 120, 0.20);
+  border: 1px solid var(--med-color-border);
 `;
 
 const SwatchLabel = styled.span`
   font-family: "JetBrains Mono", monospace;
   font-size: 0.625rem;
-  color: #7A6850;
+  color: var(--med-color-text-secondary);
 `;
 
 const ColorGrid = styled.div`
@@ -115,7 +128,6 @@ const ColorGrid = styled.div`
   gap: 10px;
 `;
 
-// Button matrix helpers
 const ColourRow = styled.div`
   display: grid;
   grid-template-columns: 56px 1fr 1fr 1fr;
@@ -127,7 +139,7 @@ const ColLabel = styled.span`
   font-family: "DM Sans", sans-serif;
   font-size: 0.6875rem;
   font-weight: 600;
-  color: #A89880;
+  color: var(--med-color-text-muted);
   letter-spacing: 0.04em;
   white-space: nowrap;
 `;
@@ -136,7 +148,7 @@ const SubLabel = styled.p`
   font-family: "DM Sans", sans-serif;
   font-size: 0.6875rem;
   font-weight: 600;
-  color: #A89880;
+  color: var(--med-color-text-muted);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 `;
@@ -145,13 +157,135 @@ const CodeBlock = styled.pre`
   font-family: "JetBrains Mono", monospace;
   font-size: 0.75rem;
   line-height: 1.6;
-  color: #2A2118;
-  background: rgba(237, 229, 216, 0.60);
-  border: 1px solid rgba(180, 155, 120, 0.25);
+  color: var(--med-color-text-primary);
+  background: var(--med-color-surface-deep);
+  border: 1px solid var(--med-color-border);
   border-radius: 10px;
   padding: 14px 16px;
   overflow-x: auto;
 `;
+
+const TableScroll = styled.div`
+  overflow-x: auto;
+`;
+
+// ─── Data ──────────────────────────────────────────────────────────────────────
+
+const bookings: ListBoxItem[] = [
+  {
+    id: "1",
+    name: "Sofia Esposito",
+    subtitle: "Superior Suite · 4 nights",
+    meta: "Villa Amalfi · Positano",
+    status: "Active",
+    statusVariant: "copper",
+    value: "€ 3,200",
+    date: "28 Mar",
+  },
+  {
+    id: "2",
+    name: "Marco & Giulia Bianchi",
+    subtitle: "Penthouse · 6 nights",
+    meta: "Palazzo Ravello · Ravello",
+    status: "Confirmed",
+    statusVariant: "sage",
+    value: "€ 5,800",
+    date: "1 Apr",
+  },
+  {
+    id: "3",
+    name: "James Thornton",
+    subtitle: "Presidential Villa · 5 nights",
+    meta: "Torre del Mar · Taormina",
+    status: "Pending",
+    statusVariant: "sky",
+    value: "€ 12,500",
+    date: "8 Apr",
+  },
+  {
+    id: "4",
+    name: "Isabelle Moreau",
+    subtitle: "Garden Suite · 7 nights",
+    meta: "Villa Capri · Capri",
+    status: "Pending",
+    statusVariant: "sky",
+    value: "€ 7,400",
+    date: "12 Apr",
+  },
+  {
+    id: "5",
+    name: "Ana Santos",
+    subtitle: "Family Villa · 8 nights",
+    meta: "Masseria Apulia · Alberobello",
+    status: "On Hold",
+    statusVariant: "sand",
+    value: "€ 4,100",
+    date: "15 Apr",
+  },
+  {
+    id: "6",
+    name: "Chen Wei",
+    subtitle: "Deluxe Room · 3 nights",
+    meta: "Grotta Azzurra · Positano",
+    status: "Cancelled",
+    statusVariant: "sienna",
+    value: "€ 2,900",
+    date: "20 Apr",
+  },
+];
+
+type PropertyRow = Record<string, unknown>;
+
+const properties: PropertyRow[] = [
+  { property: "Villa Amalfi",    location: "Positano, IT",    type: "Villa",         capacity: 8,  status: "Available",   price: "€ 1,100" },
+  { property: "Palazzo Ravello", location: "Ravello, IT",     type: "Boutique Hotel",capacity: 12, status: "Occupied",    price: "€ 850"   },
+  { property: "Torre del Mar",   location: "Taormina, IT",    type: "Villa",         capacity: 6,  status: "Available",   price: "€ 2,200" },
+  { property: "Masseria Apulia", location: "Alberobello, IT", type: "Masseria",      capacity: 16, status: "Maintenance", price: "€ 430"   },
+  { property: "Grotta Azzurra",  location: "Positano, IT",    type: "Trullo",        capacity: 4,  status: "Available",   price: "€ 680"   },
+  { property: "Villa Capri",     location: "Capri, IT",       type: "Villa",         capacity: 10, status: "Occupied",    price: "€ 1,850" },
+];
+
+const statusBadge: Record<string, ReactElement> = {
+  Available:   <Badge variant="sage"    size="sm">Available</Badge>,
+  Occupied:    <Badge variant="sky"     size="sm">Occupied</Badge>,
+  Maintenance: <Badge variant="sand"    size="sm">Maintenance</Badge>,
+};
+
+const propertyColumns: TableColumn[] = [
+  { key: "property", label: "Property",  width: "22%" },
+  { key: "location", label: "Location",  width: "20%" },
+  { key: "type",     label: "Type",      width: "18%" },
+  { key: "capacity", label: "Guests", align: "center", width: "10%",
+    render: (v) => <span style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: "0.8125rem" }}>{String(v)}</span> },
+  { key: "status",   label: "Status",    width: "16%",
+    render: (v) => statusBadge[String(v)] ?? <Badge variant="sand" size="sm">{String(v)}</Badge> },
+  { key: "price",    label: "/ Night", align: "right", width: "14%",
+    render: (v) => <span style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: "0.8125rem", color: "var(--med-color-accent)" }}>{String(v)}</span> },
+];
+
+// ─── Theme Toggle ──────────────────────────────────────────────────────────────
+
+function ThemeToggle() {
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const isDark = colorScheme === "dark";
+  return (
+    <ActionIcon
+      onClick={toggleColorScheme}
+      variant="subtle"
+      size="md"
+      aria-label="Toggle colour scheme"
+      styles={{
+        root: {
+          borderRadius: "999px",
+          color: "var(--med-color-text-secondary)",
+          "&:hover": { background: "var(--med-color-row-hover)", color: "var(--med-color-accent)" },
+        },
+      }}
+    >
+      {isDark ? <IconSun size={18} /> : <IconMoon size={18} />}
+    </ActionIcon>
+  );
+}
 
 // ─── Showcase ─────────────────────────────────────────────────────────────────
 
@@ -161,6 +295,8 @@ function ShowcasePage() {
   const [name, setName] = useState("");
   const [region, setRegion] = useState<string | null>(null);
   const [checkIn, setCheckIn] = useState<Date | null>(null);
+  const [selectedBooking, setSelectedBooking] = useState<string | undefined>(undefined);
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleCheckInChange = (val: any) => setCheckIn(val as Date | null);
 
@@ -175,6 +311,9 @@ function ShowcasePage() {
             Sun-bleached Italian coastal architecture meets iOS 26 spatial depth —
             warm travertine, aged copper, frosted glass.
           </PageSubtitle>
+          <ThemeToggleWrap>
+            <ThemeToggle />
+          </ThemeToggleWrap>
         </PageHeader>
 
         {/* ── Palette ────────────────────────────────────────────────────── */}
@@ -182,44 +321,36 @@ function ShowcasePage() {
           <SectionLabel>Colour Palette</SectionLabel>
           <ColorGrid>
             <Swatch>
-              <SwatchColor style={{ background: "#F5F0EA" }} />
+              <SwatchColor style={{ background: "var(--med-color-bg)" }} />
               <SwatchLabel>Background</SwatchLabel>
-              <SwatchLabel>#F5F0EA</SwatchLabel>
             </Swatch>
             <Swatch>
-              <SwatchColor style={{ background: "rgba(255,250,244,0.72)", backdropFilter: "blur(20px)" }} />
+              <SwatchColor style={{ background: "var(--med-color-surface)", backdropFilter: "blur(20px)" }} />
               <SwatchLabel>Surface Glass</SwatchLabel>
-              <SwatchLabel>rgba …0.72</SwatchLabel>
             </Swatch>
             <Swatch>
-              <SwatchColor style={{ background: "#EDE5D8" }} />
+              <SwatchColor style={{ background: "var(--med-color-surface-deep)" }} />
               <SwatchLabel>Surface Deep</SwatchLabel>
-              <SwatchLabel>#EDE5D8</SwatchLabel>
             </Swatch>
             <Swatch>
               <SwatchColor style={{ background: "#B87333" }} />
               <SwatchLabel>Accent Copper</SwatchLabel>
-              <SwatchLabel>#B87333</SwatchLabel>
             </Swatch>
             <Swatch>
               <SwatchColor style={{ background: "#D4A882" }} />
               <SwatchLabel>Accent Soft</SwatchLabel>
-              <SwatchLabel>#D4A882</SwatchLabel>
+            </Swatch>
+            <Swatch>
+              <SwatchColor style={{ background: "#4A7828" }} />
+              <SwatchLabel>Sage</SwatchLabel>
+            </Swatch>
+            <Swatch>
+              <SwatchColor style={{ background: "#B82D26" }} />
+              <SwatchLabel>Sienna</SwatchLabel>
             </Swatch>
             <Swatch>
               <SwatchColor style={{ background: "#A8C4D4" }} />
               <SwatchLabel>Coastal Sky</SwatchLabel>
-              <SwatchLabel>#A8C4D4</SwatchLabel>
-            </Swatch>
-            <Swatch>
-              <SwatchColor style={{ background: "#2A2118" }} />
-              <SwatchLabel>Espresso</SwatchLabel>
-              <SwatchLabel>#2A2118</SwatchLabel>
-            </Swatch>
-            <Swatch>
-              <SwatchColor style={{ background: "#7A6850" }} />
-              <SwatchLabel>Warm Stone</SwatchLabel>
-              <SwatchLabel>#7A6850</SwatchLabel>
             </Swatch>
           </ColorGrid>
         </Section>
@@ -277,10 +408,10 @@ function ShowcasePage() {
               </Stack>
             </Card>
 
-            {/* Icon-only buttons */}
+            {/* Icon buttons — round pills, sm + md */}
             <Card compact>
               <Stack>
-                <SubLabel>Icon only</SubLabel>
+                <SubLabel>Icon only · md</SubLabel>
                 <Row>
                   <IconButton variant="outline" color="copper" size="md"><IconSearch size={16} /></IconButton>
                   <IconButton variant="outline" color="copper" size="md"><IconHeart size={16} /></IconButton>
@@ -290,6 +421,7 @@ function ShowcasePage() {
                   <IconButton variant="primary" color="sienna" size="md"><IconTrash size={16} /></IconButton>
                   <IconButton variant="outline" color="sienna" size="md"><IconX size={16} /></IconButton>
                 </Row>
+                <SubLabel>Icon only · sm</SubLabel>
                 <Row>
                   <IconButton variant="outline" color="copper" size="sm"><IconSearch size={14} /></IconButton>
                   <IconButton variant="outline" color="copper" size="sm"><IconHeart size={14} /></IconButton>
@@ -325,6 +457,30 @@ function ShowcasePage() {
             </Card>
 
           </Stack>
+        </Section>
+
+        {/* ── List Box ───────────────────────────────────────────────────── */}
+        <Section>
+          <SectionLabel>List Box</SectionLabel>
+          <ListBox
+            caption="Upcoming bookings"
+            items={bookings}
+            selectedId={selectedBooking}
+            onSelect={setSelectedBooking}
+          />
+        </Section>
+
+        {/* ── Table ──────────────────────────────────────────────────────── */}
+        <Section>
+          <SectionLabel>Table</SectionLabel>
+          <TableScroll>
+            <MedTable
+              caption="Property portfolio"
+              columns={propertyColumns}
+              data={properties}
+              getRowKey={(row) => String(row.property)}
+            />
+          </TableScroll>
         </Section>
 
         {/* ── Cards ──────────────────────────────────────────────────────── */}
@@ -411,6 +567,8 @@ function ShowcasePage() {
               <Badge variant="copper">Copper</Badge>
               <Badge variant="sky">Sky</Badge>
               <Badge variant="sand">Sand</Badge>
+              <Badge variant="sage">Sage</Badge>
+              <Badge variant="sienna">Sienna</Badge>
             </Row>
             <Row>
               <Badge variant="terracotta" size="sm">Small</Badge>
@@ -421,8 +579,8 @@ function ShowcasePage() {
               <Badge variant="copper">Available</Badge>
               <Badge variant="sand">Pending</Badge>
               <Badge variant="sky">Sea view</Badge>
-              <Badge variant="terracotta">Breakfast incl.</Badge>
-              <Badge variant="sand">Last room</Badge>
+              <Badge variant="sage">Confirmed</Badge>
+              <Badge variant="sienna">Cancelled</Badge>
             </Row>
           </Stack>
         </Section>
@@ -540,15 +698,15 @@ function ShowcasePage() {
           <Card>
             <Stack>
               <div>
-                <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: "0.625rem", color: "#7A6850", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "6px" }}>Display — Cormorant Garamond</p>
-                <h1 style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: "2.25rem", fontWeight: 400, color: "#2A2118", lineHeight: 1.1 }}>
+                <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: "0.625rem", color: "var(--med-color-text-muted)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "6px" }}>Display — Cormorant Garamond</p>
+                <h1 style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: "2.25rem", fontWeight: 400, color: "var(--med-color-text-primary)", lineHeight: 1.1 }}>
                   The light on the sea<br />never lies.
                 </h1>
               </div>
               <Card.Divider />
               <div>
-                <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: "0.625rem", color: "#7A6850", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "6px" }}>Body — DM Sans</p>
-                <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: "0.9375rem", color: "#2A2118", lineHeight: 1.65 }}>
+                <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: "0.625rem", color: "var(--med-color-text-muted)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "6px" }}>Body — DM Sans</p>
+                <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: "0.9375rem", color: "var(--med-color-text-primary)", lineHeight: 1.65 }}>
                   Stone worn smooth by salt wind. Whitewash walls that absorb
                   the morning sun and hold its warmth into the blue evening.
                   A table under a pergola, a carafe of local wine, the sound
@@ -557,7 +715,7 @@ function ShowcasePage() {
               </div>
               <Card.Divider />
               <div>
-                <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: "0.625rem", color: "#7A6850", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "6px" }}>Mono — JetBrains Mono</p>
+                <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: "0.625rem", color: "var(--med-color-text-muted)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "6px" }}>Mono — JetBrains Mono</p>
                 <CodeBlock>{`const theme = createTheme({
   primaryColor: 'copper',
   fontFamily: '"DM Sans", sans-serif',

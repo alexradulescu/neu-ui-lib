@@ -3,13 +3,13 @@ import type { ReactNode, CSSProperties } from "react";
 
 const GlassCard = styled.div`
   position: relative;
-  background: rgba(255, 250, 244, 0.72);
+  background: var(--med-color-surface);
   backdrop-filter: blur(20px) saturate(1.4);
   -webkit-backdrop-filter: blur(20px) saturate(1.4);
   border-radius: 16px;
-  border: 1px solid rgba(180, 155, 120, 0.25);
-  box-shadow: 0 4px 32px rgba(120, 80, 40, 0.10),
-              inset 0 1px 0 rgba(255, 245, 230, 0.60);
+  border: 1px solid var(--med-color-border);
+  box-shadow: var(--med-shadow-md),
+              inset 0 1px 0 var(--med-color-card-shimmer);
   overflow: hidden;
 `;
 
@@ -30,7 +30,7 @@ const CardTitle = styled.h3`
   font-size: 1.25rem;
   font-weight: 400;
   line-height: 1.1;
-  color: #2A2118;
+  color: var(--med-color-text-primary);
   letter-spacing: 0.01em;
   margin-bottom: 6px;
 `;
@@ -39,12 +39,12 @@ const CardBody = styled.p`
   font-family: "DM Sans", sans-serif;
   font-size: 0.875rem;
   line-height: 1.6;
-  color: #7A6850;
+  color: var(--med-color-text-secondary);
 `;
 
 const CardDivider = styled.hr`
   border: none;
-  border-top: 0.5px solid rgba(180, 155, 120, 0.30);
+  border-top: 0.5px solid var(--med-color-divider);
   margin: 14px 0;
 `;
 
