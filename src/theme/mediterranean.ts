@@ -31,6 +31,7 @@ const sky: MantineColorsTuple = [
 
 const COPPER_GRADIENT = "linear-gradient(135deg, #C68D4A 0%, #B87333 55%, #9A5E25 100%)";
 const COPPER_GRADIENT_HOVER = "linear-gradient(135deg, #D4A265 0%, #C68D4A 55%, #B87333 100%)";
+const COPPER_GRADIENT_SIMPLE = "linear-gradient(135deg, #C68D4A 0%, #B87333 100%)";
 const SPRING = "cubic-bezier(0.34, 1.56, 0.64, 1)";
 const GLASS = {
   backdropFilter: "blur(20px) saturate(1.4)",
@@ -45,7 +46,6 @@ const INPUT_BASE = {
   borderColor: "var(--med-color-input-border)",
   background: "var(--med-color-input-bg)",
   color: "var(--med-color-text-primary)",
-  fontFamily: '"DM Sans", sans-serif',
   fontSize: "1rem",
   "&:hover:not(:focus):not([data-invalid])": {
     borderColor: "rgba(184, 115, 51, 0.45)",
@@ -70,7 +70,6 @@ const INPUT_BASE = {
 
 const INPUT_LABEL = {
   color: "var(--med-color-text-secondary)",
-  fontFamily: '"DM Sans", sans-serif',
   fontSize: "0.8125rem",
   fontWeight: "500",
   marginBottom: "5px",
@@ -78,7 +77,6 @@ const INPUT_LABEL = {
 
 const INPUT_DESCRIPTION = {
   color: "var(--med-color-text-muted)",
-  fontFamily: '"DM Sans", sans-serif',
   fontSize: "0.75rem",
   lineHeight: "1.4",
   marginTop: "5px",
@@ -86,7 +84,6 @@ const INPUT_DESCRIPTION = {
 
 const INPUT_ERROR = {
   color: "#B87333",
-  fontFamily: '"DM Sans", sans-serif',
   fontSize: "0.75rem",
   lineHeight: "1.4",
   marginTop: "5px",
@@ -110,7 +107,6 @@ const DROPDOWN_STYLES = {
   },
   option: {
     borderRadius: "12px",
-    fontFamily: '"DM Sans", sans-serif',
     fontSize: "1rem",
     color: "var(--med-color-text-primary)",
     padding: "8px 14px",
@@ -133,14 +129,12 @@ const DROPDOWN_STYLES = {
   },
   empty: {
     color: "var(--med-color-text-muted)",
-    fontFamily: '"DM Sans", sans-serif',
     fontSize: "0.875rem",
     padding: "12px",
   },
-  group: { fontFamily: '"DM Sans", sans-serif' },
+  group: {},
   groupLabel: {
     color: "var(--med-color-text-muted)",
-    fontFamily: '"DM Sans", sans-serif',
     fontSize: "0.6875rem",
     fontWeight: "600",
     letterSpacing: "0.08em",
@@ -149,17 +143,35 @@ const DROPDOWN_STYLES = {
   },
 };
 
+// Shared input override for Select and DatePickerInput (combobox-style inputs)
+const COMBOBOX_INPUT = {
+  ...INPUT_BASE,
+  height: "44px",
+  paddingRight: "36px",
+  cursor: "default",
+};
+const COMBOBOX_SECTION = { color: "#A89880" };
+
+// Shared calendar picker control style (months and years)
+const PICKER_CONTROL = {
+  borderRadius: "8px",
+  color: "#2A2118",
+  "&[data-selected]": {
+    background: COPPER_GRADIENT_SIMPLE,
+    color: "#FAF8F5",
+  },
+  "&:hover:not([data-selected])": { background: "rgba(180, 155, 120, 0.15)" },
+};
+
 // ── Theme ───────────────────────────────────────────────────────────────────────
 
 export const mediterraneanTheme = createTheme({
-  // ── Palette ──────────────────────────────────────────────────────────────
   primaryColor: "copper",
   primaryShade: 6,
   white: "#FAF8F5",
   black: "#2A2118",
   colors: { copper, sand, sky, sage, sienna },
 
-  // ── Typography ───────────────────────────────────────────────────────────
   fontFamily:
     '"DM Sans", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif',
   fontFamilyMonospace:
@@ -194,7 +206,6 @@ export const mediterraneanTheme = createTheme({
     xl: "1.8",
   },
 
-  // ── Shape ────────────────────────────────────────────────────────────────
   defaultRadius: "md",
   radius: {
     xs: "6px",
@@ -204,7 +215,6 @@ export const mediterraneanTheme = createTheme({
     xl: "24px",
   },
 
-  // ── Spacing (8px base grid) ───────────────────────────────────────────────
   spacing: {
     xs: "4px",
     sm: "8px",
@@ -213,7 +223,6 @@ export const mediterraneanTheme = createTheme({
     xl: "32px",
   },
 
-  // ── Shadows (warm-tinted, not cool grey) ─────────────────────────────────
   shadows: {
     xs: "0 2px 8px rgba(120, 80, 40, 0.06)",
     sm: "0 4px 16px rgba(120, 80, 40, 0.08)",
@@ -222,22 +231,11 @@ export const mediterraneanTheme = createTheme({
     xl: "0 16px 64px rgba(120, 80, 40, 0.18)",
   },
 
-  // ── Design tokens via theme.other ─────────────────────────────────────────
-  other: {
-    easing: {
-      spring: SPRING,
-      ease: "cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-      easeOut: "cubic-bezier(0.16, 1, 0.3, 1)",
-    },
-  },
-
-  // ── Component Defaults & Styles ───────────────────────────────────────────
   components: {
     Button: {
       defaultProps: { radius: "xl", size: "md" },
       styles: {
         root: {
-          fontFamily: '"DM Sans", sans-serif',
           fontWeight: "500",
           letterSpacing: "0.01em",
           transition:
@@ -249,7 +247,6 @@ export const mediterraneanTheme = createTheme({
           "&:active:not([data-disabled])": {
             transform: "scale(0.97)",
           },
-          /* Copper filled variant — the default primary look */
           "&[data-variant='filled'][data-color='copper']": {
             background: COPPER_GRADIENT,
             border: "none",
@@ -295,7 +292,6 @@ export const mediterraneanTheme = createTheme({
       defaultProps: { radius: "xl", variant: "light" },
       styles: {
         root: {
-          fontFamily: '"DM Sans", sans-serif',
           fontWeight: 500,
           letterSpacing: "0.025em",
         },
@@ -334,13 +330,8 @@ export const mediterraneanTheme = createTheme({
       styles: {
         ...INPUT_STYLES,
         ...DROPDOWN_STYLES,
-        input: {
-          ...INPUT_BASE,
-          height: "44px",
-          paddingRight: "36px",
-          cursor: "default",
-        },
-        section: { color: "#A89880" },
+        input: COMBOBOX_INPUT,
+        section: COMBOBOX_SECTION,
       },
     },
 
@@ -354,13 +345,8 @@ export const mediterraneanTheme = createTheme({
       styles: {
         ...INPUT_STYLES,
         ...DROPDOWN_STYLES,
-        input: {
-          ...INPUT_BASE,
-          height: "44px",
-          paddingRight: "36px",
-          cursor: "default",
-        },
-        section: { color: "#A89880" },
+        input: COMBOBOX_INPUT,
+        section: COMBOBOX_SECTION,
         calendarHeader: { marginBottom: "8px" },
         calendarHeaderControl: {
           borderRadius: "8px",
@@ -376,7 +362,6 @@ export const mediterraneanTheme = createTheme({
           "&:hover": { background: "rgba(180, 155, 120, 0.12)" },
         },
         weekday: {
-          fontFamily: '"DM Sans", sans-serif',
           fontSize: "0.6875rem",
           fontWeight: "600",
           letterSpacing: "0.06em",
@@ -385,11 +370,10 @@ export const mediterraneanTheme = createTheme({
         },
         day: {
           borderRadius: "8px",
-          fontFamily: '"DM Sans", sans-serif',
           fontSize: "0.875rem",
           color: "#2A2118",
           "&[data-selected]": {
-            background: "linear-gradient(135deg, #C68D4A 0%, #B87333 100%)",
+            background: COPPER_GRADIENT_SIMPLE,
             color: "#FAF8F5",
             fontWeight: "600",
           },
@@ -406,26 +390,8 @@ export const mediterraneanTheme = createTheme({
           },
           "&[data-disabled]": { opacity: "0.35" },
         },
-        monthsListControl: {
-          borderRadius: "8px",
-          fontFamily: '"DM Sans", sans-serif',
-          color: "#2A2118",
-          "&[data-selected]": {
-            background: "linear-gradient(135deg, #C68D4A 0%, #B87333 100%)",
-            color: "#FAF8F5",
-          },
-          "&:hover:not([data-selected])": { background: "rgba(180, 155, 120, 0.15)" },
-        },
-        yearsListControl: {
-          borderRadius: "8px",
-          fontFamily: '"DM Sans", sans-serif',
-          color: "#2A2118",
-          "&[data-selected]": {
-            background: "linear-gradient(135deg, #C68D4A 0%, #B87333 100%)",
-            color: "#FAF8F5",
-          },
-          "&:hover:not([data-selected])": { background: "rgba(180, 155, 120, 0.15)" },
-        },
+        monthsListControl: PICKER_CONTROL,
+        yearsListControl: PICKER_CONTROL,
       },
     },
 
@@ -492,7 +458,6 @@ export const mediterraneanTheme = createTheme({
           border: "none",
         },
         label: {
-          fontFamily: '"DM Sans", sans-serif',
           fontSize: "0.875rem",
           fontWeight: "500",
           color: "var(--med-color-text-secondary)",

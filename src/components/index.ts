@@ -1,15 +1,3 @@
-/**
- * Mediterranean UI — Component Library
- *
- * Built on Mantine v9 alpha, themed with Mediterranean Modernism × iOS 26 Spatial UI.
- *
- * Standard Mantine components (Button, Badge, TextInput, Select, DatePickerInput,
- * Modal, SegmentedControl, Card, ActionIcon) are styled globally via the theme —
- * import them directly from @mantine/core or @mantine/dates.
- *
- * The exports below are custom components with no Mantine equivalent.
- */
-
 export type { MedBadgeVariant } from "./Badge";
 
 export { ListBox } from "./ListBox";
