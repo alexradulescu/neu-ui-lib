@@ -499,7 +499,10 @@ export const mediterraneanTheme = createTheme({
           padding: "5px 16px",
           borderRadius: "999px",
           transition: "color 200ms ease",
-          "&[data-active]": { color: "#FFFFFF" },
+          "&[data-active]": {
+            color: "#FFFFFF",
+            "--sc-label-color": "#FFFFFF",
+          },
         },
         input: { display: "none" },
       },
