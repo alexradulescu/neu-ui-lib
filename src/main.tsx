@@ -8,6 +8,9 @@ import type { CSSVariablesResolver } from "@mantine/core";
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 
+// Mediterranean design tokens & global styles
+import "@/styles/mediterranean.css";
+
 // Mediterranean typefaces
 import "@fontsource/cormorant-garamond/400.css";
 import "@fontsource/cormorant-garamond/400-italic.css";

@@ -2,26 +2,22 @@ import { useState } from "react";
 import type { ReactElement } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { styled } from "@alex.radulescu/styled-static";
-import { ActionIcon, useMantineColorScheme } from "@mantine/core";
+import {
+  ActionIcon, Badge, Button, Card, Modal, SegmentedControl,
+  Select, TextInput, Title, Text, Divider,
+  useMantineColorScheme,
+} from "@mantine/core";
+import { DatePickerInput } from "@mantine/dates";
 import {
   IconPlus, IconHeart, IconCheck,
   IconTrash, IconSearch, IconStar, IconArrowRight,
   IconCalendar, IconMapPin, IconSun, IconMoon,
   IconHome, IconReceipt, IconBuildingEstate, IconSettings,
 } from "@tabler/icons-react";
-import { Button } from "@/components/Button";
-import { IconButton } from "@/components/IconButton";
-import { Card } from "@/components/Card";
-import { TextInput } from "@/components/TextInput";
-import { Badge } from "@/components/Badge";
-import { Modal } from "@/components/Modal";
-import { Select } from "@/components/Select";
-import { DatePickerInput } from "@/components/DatePickerInput";
 import { ListBox } from "@/components/ListBox";
 import { MedTable } from "@/components/Table";
 import { KeyValueList } from "@/components/KeyValueList";
 import { Navbar } from "@/components/Navbar";
-import { SegmentedControl } from "@/components/SegmentedControl";
 import { StatCard } from "@/components/StatCard";
 import type { ListBoxItem } from "@/components/ListBox";
 import type { TableColumn } from "@/components/Table";
@@ -36,7 +32,7 @@ export const Route = createFileRoute("/")({
 const Page = styled.main`
   min-height: 100dvh;
   background-color: var(--med-color-bg);
-  padding: 32px 16px 96px;  /* extra bottom space for floating Navbar */
+  padding: 32px 16px 96px;
 `;
 
 const PageInner = styled.div`
@@ -171,7 +167,14 @@ const CodeBlock = styled.pre`
   overflow-x: auto;
 `;
 
-// TableScroll is now built into MedTable — wrapper no longer needed
+const ModalFooter = styled.div`
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 0.5px solid rgba(180, 155, 120, 0.30);
+`;
 
 // ─── Data ──────────────────────────────────────────────────────────────────────
 
@@ -250,9 +253,9 @@ const properties: PropertyRow[] = [
 ];
 
 const statusBadge: Record<string, ReactElement> = {
-  Available:   <Badge variant="sage"    size="sm">Available</Badge>,
-  Occupied:    <Badge variant="sky"     size="sm">Occupied</Badge>,
-  Maintenance: <Badge variant="sand"    size="sm">Maintenance</Badge>,
+  Available:   <Badge color="sage"  size="sm">Available</Badge>,
+  Occupied:    <Badge color="sky"   size="sm">Occupied</Badge>,
+  Maintenance: <Badge color="sand"  size="sm">Maintenance</Badge>,
 };
 
 const propertyColumns: TableColumn[] = [
@@ -262,7 +265,7 @@ const propertyColumns: TableColumn[] = [
   { key: "capacity", label: "Guests", align: "center", width: "10%",
     render: (v) => <span style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: "0.8125rem" }}>{String(v)}</span> },
   { key: "status",   label: "Status",    width: "16%",
-    render: (v) => statusBadge[String(v)] ?? <Badge variant="sand" size="sm">{String(v)}</Badge> },
+    render: (v) => statusBadge[String(v)] ?? <Badge color="sand" size="sm">{String(v)}</Badge> },
   { key: "price",    label: "/ Night", align: "right", width: "14%",
     render: (v) => <span style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: "0.8125rem", color: "var(--med-color-accent)" }}>{String(v)}</span> },
 ];
@@ -278,13 +281,6 @@ function ThemeToggle() {
       variant="subtle"
       size="md"
       aria-label="Toggle colour scheme"
-      styles={{
-        root: {
-          borderRadius: "999px",
-          color: "var(--med-color-text-secondary)",
-          "&:hover": { background: "var(--med-color-row-hover)", color: "var(--med-color-accent)" },
-        },
-      }}
     >
       {isDark ? <IconSun size={18} /> : <IconMoon size={18} />}
     </ActionIcon>
@@ -395,7 +391,7 @@ function ShowcasePage() {
         {/* ── Segmented Control ──────────────────────────────────────────── */}
         <Section>
           <SectionLabel>Segmented Control</SectionLabel>
-          <Card compact>
+          <Card padding="sm">
             <Stack>
               <SegmentedControl
                 value={listView}
@@ -420,8 +416,8 @@ function ShowcasePage() {
           <SectionLabel>Buttons</SectionLabel>
           <Stack>
 
-            {/* Variant × colour matrix — scroll if viewport too narrow */}
-            <Card compact>
+            {/* Variant × colour matrix */}
+            <Card padding="sm">
               <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
                 <div style={{ minWidth: 340 }}>
                   <Stack>
@@ -432,10 +428,10 @@ function ShowcasePage() {
                       <ColLabel>Sienna</ColLabel>
                     </ColourRow>
                     <ColourRow>
-                      <ColLabel>Primary</ColLabel>
-                      <Button variant="primary" color="copper" size="sm">Book</Button>
-                      <Button variant="primary" color="sage"   size="sm">Confirm</Button>
-                      <Button variant="primary" color="sienna" size="sm">Delete</Button>
+                      <ColLabel>Filled</ColLabel>
+                      <Button variant="filled" color="copper" size="sm">Book</Button>
+                      <Button variant="filled" color="sage"   size="sm">Confirm</Button>
+                      <Button variant="filled" color="sienna" size="sm">Delete</Button>
                     </ColourRow>
                     <ColourRow>
                       <ColLabel>Outline</ColLabel>
@@ -444,10 +440,10 @@ function ShowcasePage() {
                       <Button variant="outline" color="sienna" size="sm">Cancel</Button>
                     </ColourRow>
                     <ColourRow>
-                      <ColLabel>Ghost</ColLabel>
-                      <Button variant="ghost" color="copper" size="sm">Dismiss</Button>
-                      <Button variant="ghost" color="sage"   size="sm">Skip</Button>
-                      <Button variant="ghost" color="sienna" size="sm">Undo</Button>
+                      <ColLabel>Subtle</ColLabel>
+                      <Button variant="subtle" color="copper" size="sm">Dismiss</Button>
+                      <Button variant="subtle" color="sage"   size="sm">Skip</Button>
+                      <Button variant="subtle" color="sienna" size="sm">Undo</Button>
                     </ColourRow>
                   </Stack>
                 </div>
@@ -455,75 +451,75 @@ function ShowcasePage() {
             </Card>
 
             {/* Sizes */}
-            <Card compact>
+            <Card padding="sm">
               <Stack>
                 <Row>
-                  <Button variant="primary" size="xs">XSmall</Button>
-                  <Button variant="primary" size="sm">Small</Button>
-                  <Button variant="primary" size="md">Medium</Button>
-                  <Button variant="primary" size="lg">Large</Button>
+                  <Button variant="filled" color="copper" size="xs">XSmall</Button>
+                  <Button variant="filled" color="copper" size="sm">Small</Button>
+                  <Button variant="filled" color="copper" size="md">Medium</Button>
+                  <Button variant="filled" color="copper" size="lg">Large</Button>
                 </Row>
                 <Row>
-                  <Button variant="outline" size="xs">XSmall</Button>
-                  <Button variant="outline" size="sm">Small</Button>
-                  <Button variant="outline" size="md">Medium</Button>
-                  <Button variant="outline" size="lg">Large</Button>
+                  <Button variant="outline" color="copper" size="xs">XSmall</Button>
+                  <Button variant="outline" color="copper" size="sm">Small</Button>
+                  <Button variant="outline" color="copper" size="md">Medium</Button>
+                  <Button variant="outline" color="copper" size="lg">Large</Button>
                 </Row>
               </Stack>
             </Card>
 
-            {/* Icon buttons — round pills, sm + md */}
-            <Card compact>
+            {/* Icon buttons */}
+            <Card padding="sm">
               <Stack>
                 <SubLabel>Icon only — all sizes</SubLabel>
                 <Row style={{ alignItems: "flex-end" }}>
-                  <IconButton variant="primary" color="copper" size="xl"><IconPlus size={22} /></IconButton>
-                  <IconButton variant="primary" color="copper" size="lg"><IconPlus size={18} /></IconButton>
-                  <IconButton variant="primary" color="copper" size="md"><IconPlus size={16} /></IconButton>
-                  <IconButton variant="primary" color="copper" size="sm"><IconPlus size={14} /></IconButton>
-                  <IconButton variant="primary" color="copper" size="xs"><IconPlus size={11} /></IconButton>
+                  <ActionIcon variant="filled" color="copper" size="xl"><IconPlus size={22} /></ActionIcon>
+                  <ActionIcon variant="filled" color="copper" size="lg"><IconPlus size={18} /></ActionIcon>
+                  <ActionIcon variant="filled" color="copper" size="md"><IconPlus size={16} /></ActionIcon>
+                  <ActionIcon variant="filled" color="copper" size="sm"><IconPlus size={14} /></ActionIcon>
+                  <ActionIcon variant="filled" color="copper" size="xs"><IconPlus size={11} /></ActionIcon>
                 </Row>
                 <Row style={{ alignItems: "flex-end" }}>
-                  <IconButton variant="outline" color="copper" size="xl"><IconSearch size={22} /></IconButton>
-                  <IconButton variant="outline" color="copper" size="lg"><IconHeart size={18} /></IconButton>
-                  <IconButton variant="outline" color="copper" size="md"><IconMapPin size={16} /></IconButton>
-                  <IconButton variant="outline" color="copper" size="sm"><IconHeart size={14} /></IconButton>
-                  <IconButton variant="outline" color="copper" size="xs"><IconSearch size={11} /></IconButton>
+                  <ActionIcon variant="outline" color="copper" size="xl"><IconSearch size={22} /></ActionIcon>
+                  <ActionIcon variant="outline" color="copper" size="lg"><IconHeart size={18} /></ActionIcon>
+                  <ActionIcon variant="outline" color="copper" size="md"><IconMapPin size={16} /></ActionIcon>
+                  <ActionIcon variant="outline" color="copper" size="sm"><IconHeart size={14} /></ActionIcon>
+                  <ActionIcon variant="outline" color="copper" size="xs"><IconSearch size={11} /></ActionIcon>
                 </Row>
                 <Row style={{ alignItems: "flex-end" }}>
-                  <IconButton variant="primary" color="sage"   size="lg"><IconCheck size={18} /></IconButton>
-                  <IconButton variant="primary" color="sienna" size="lg"><IconTrash size={18} /></IconButton>
-                  <IconButton variant="ghost"   color="copper" size="lg"><IconStar size={18} /></IconButton>
-                  <IconButton variant="primary" color="sage"   size="md"><IconCheck size={16} /></IconButton>
-                  <IconButton variant="primary" color="sienna" size="md"><IconTrash size={16} /></IconButton>
-                  <IconButton variant="ghost"   color="copper" size="md"><IconStar size={16} /></IconButton>
-                  <IconButton variant="primary" color="sage"   size="sm"><IconCheck size={14} /></IconButton>
-                  <IconButton variant="primary" color="sienna" size="sm"><IconTrash size={14} /></IconButton>
-                  <IconButton variant="ghost"   color="copper" size="sm"><IconStar size={14} /></IconButton>
+                  <ActionIcon variant="filled" color="sage"   size="lg"><IconCheck size={18} /></ActionIcon>
+                  <ActionIcon variant="filled" color="sienna" size="lg"><IconTrash size={18} /></ActionIcon>
+                  <ActionIcon variant="subtle" color="copper" size="lg"><IconStar size={18} /></ActionIcon>
+                  <ActionIcon variant="filled" color="sage"   size="md"><IconCheck size={16} /></ActionIcon>
+                  <ActionIcon variant="filled" color="sienna" size="md"><IconTrash size={16} /></ActionIcon>
+                  <ActionIcon variant="subtle" color="copper" size="md"><IconStar size={16} /></ActionIcon>
+                  <ActionIcon variant="filled" color="sage"   size="sm"><IconCheck size={14} /></ActionIcon>
+                  <ActionIcon variant="filled" color="sienna" size="sm"><IconTrash size={14} /></ActionIcon>
+                  <ActionIcon variant="subtle" color="copper" size="sm"><IconStar size={14} /></ActionIcon>
                 </Row>
                 <SubLabel>Icon + label</SubLabel>
                 <Row>
-                  <Button variant="primary" color="copper" size="sm" leftSection={<IconPlus size={14} />}>Add property</Button>
+                  <Button variant="filled" color="copper" size="sm" leftSection={<IconPlus size={14} />}>Add property</Button>
                   <Button variant="outline" color="sage"   size="sm" leftSection={<IconCheck size={14} />}>Confirm stay</Button>
                   <Button variant="outline" color="sienna" size="sm" leftSection={<IconTrash size={14} />}>Remove</Button>
                 </Row>
                 <Row>
-                  <Button variant="primary" color="copper" size="sm" rightSection={<IconArrowRight size={14} />}>Continue</Button>
+                  <Button variant="filled" color="copper" size="sm" rightSection={<IconArrowRight size={14} />}>Continue</Button>
                   <Button variant="outline" color="copper" size="sm" leftSection={<IconCalendar size={14} />}>Pick dates</Button>
-                  <Button variant="ghost"   color="copper" size="sm" leftSection={<IconHeart size={14} />}>Save for later</Button>
+                  <Button variant="subtle"  color="copper" size="sm" leftSection={<IconHeart size={14} />}>Save for later</Button>
                 </Row>
               </Stack>
             </Card>
 
             {/* Disabled states */}
-            <Card compact>
+            <Card padding="sm">
               <SubLabel>Disabled</SubLabel>
               <Row style={{ marginTop: 8 }}>
-                <Button variant="primary" size="sm" disabled>Primary</Button>
-                <Button variant="outline" size="sm" disabled>Outline</Button>
-                <Button variant="ghost"   size="sm" disabled>Ghost</Button>
-                <IconButton variant="primary" color="copper" size="sm" disabled><IconPlus size={14} /></IconButton>
-                <IconButton variant="outline" color="copper" size="sm" disabled><IconHeart size={14} /></IconButton>
+                <Button variant="filled" color="copper" size="sm" disabled>Filled</Button>
+                <Button variant="outline" color="copper" size="sm" disabled>Outline</Button>
+                <Button variant="subtle"  color="copper" size="sm" disabled>Subtle</Button>
+                <ActionIcon variant="filled" color="copper" size="sm" disabled><IconPlus size={14} /></ActionIcon>
+                <ActionIcon variant="outline" color="copper" size="sm" disabled><IconHeart size={14} /></ActionIcon>
               </Row>
             </Card>
 
@@ -553,7 +549,7 @@ function ShowcasePage() {
                 { label: "Check-out",   value: "1 Apr 2025" },
                 { label: "Nights",      value: "4" },
                 { label: "Room",        value: "Superior Suite" },
-                { label: "Status",      value: <Badge variant="copper" size="sm">Active</Badge> },
+                { label: "Status",      value: <Badge color="copper" size="sm">Active</Badge> },
               ] as KVItem[]}
             />
             <KeyValueList
@@ -564,7 +560,7 @@ function ShowcasePage() {
                 { label: "Type",        value: "Villa" },
                 { label: "Capacity",    value: "8 guests" },
                 { label: "Price",       value: "€ 1,100 / night" },
-                { label: "Availability",value: <Badge variant="sage" size="sm">Available</Badge> },
+                { label: "Availability",value: <Badge color="sage" size="sm">Available</Badge> },
               ] as KVItem[]}
             />
           </Grid>
@@ -586,35 +582,35 @@ function ShowcasePage() {
           <SectionLabel>Cards</SectionLabel>
           <Grid>
             <Card>
-              <Card.Title>Amalfi Coast</Card.Title>
-              <Card.Body>
+              <Title order={3} size="h4" mb={6}>Amalfi Coast</Title>
+              <Text size="sm" c="dimmed">
                 Perched above the Tyrrhenian Sea, where terracotta rooftops
                 cascade down limestone cliffs to meet the azure water below.
-              </Card.Body>
-              <Card.Footer>
-                <Badge variant="terracotta">Campania</Badge>
-                <Badge variant="sky">Coastal</Badge>
-              </Card.Footer>
+              </Text>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 14 }}>
+                <Badge color="copper">Campania</Badge>
+                <Badge color="sky">Coastal</Badge>
+              </div>
             </Card>
 
             <Card>
-              <Card.Title>Villa Romana</Card.Title>
-              <Card.Body>
+              <Title order={3} size="h4" mb={6}>Villa Romana</Title>
+              <Text size="sm" c="dimmed">
                 Sun-weathered stone columns frame a courtyard of bougainvillea,
                 fountain spray catching the afternoon light like scattered salt.
-              </Card.Body>
-              <Card.Footer>
-                <Badge variant="copper">Historic</Badge>
-                <Badge variant="sand">Estate</Badge>
-              </Card.Footer>
+              </Text>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 14 }}>
+                <Badge color="copper">Historic</Badge>
+                <Badge color="sand">Estate</Badge>
+              </div>
             </Card>
 
-            <Card compact>
-              <Card.Title>Compact Card</Card.Title>
-              <Card.Body>
+            <Card padding="sm">
+              <Title order={3} size="h4" mb={6}>Compact Card</Title>
+              <Text size="sm" c="dimmed">
                 Tighter layout for dense information contexts — same glass
                 surface, reduced padding.
-              </Card.Body>
+              </Text>
             </Card>
           </Grid>
         </Section>
@@ -629,7 +625,7 @@ function ShowcasePage() {
                 placeholder="Sofia Esposito"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                hint="As it appears on your passport"
+                description="As it appears on your passport"
               />
               <TextInput
                 label="Email address"
@@ -654,12 +650,11 @@ function ShowcasePage() {
               />
             </Stack>
           </Card>
-          {/* Compact size — smaller height, still 16px font (no iOS zoom) */}
-          <Card compact style={{ maxWidth: 480 }}>
-            <SubLabel style={{ marginBottom: 10 }}>Compact inputs (36px height, font-size 16px)</SubLabel>
+          <Card padding="sm" style={{ maxWidth: 480 }}>
+            <SubLabel style={{ marginBottom: 10 }}>Compact inputs (size xs)</SubLabel>
             <Stack>
-              <TextInput compact label="Property name" placeholder="Villa Amalfi" />
-              <TextInput compact label="Nightly rate" placeholder="€ 1,100" hint="Per adult, per night" />
+              <TextInput size="xs" label="Property name" placeholder="Villa Amalfi" />
+              <TextInput size="xs" label="Nightly rate" placeholder="€ 1,100" description="Per adult, per night" />
             </Stack>
           </Card>
         </Section>
@@ -669,24 +664,24 @@ function ShowcasePage() {
           <SectionLabel>Badges</SectionLabel>
           <Stack>
             <Row>
-              <Badge variant="terracotta">Terracotta</Badge>
-              <Badge variant="copper">Copper</Badge>
-              <Badge variant="sky">Sky</Badge>
-              <Badge variant="sand">Sand</Badge>
-              <Badge variant="sage">Sage</Badge>
-              <Badge variant="sienna">Sienna</Badge>
+              <Badge color="copper">Terracotta</Badge>
+              <Badge color="copper">Copper</Badge>
+              <Badge color="sky">Sky</Badge>
+              <Badge color="sand">Sand</Badge>
+              <Badge color="sage">Sage</Badge>
+              <Badge color="sienna">Sienna</Badge>
             </Row>
             <Row>
-              <Badge variant="terracotta" size="sm">Small</Badge>
-              <Badge variant="terracotta" size="md">Medium</Badge>
-              <Badge variant="terracotta" size="lg">Large</Badge>
+              <Badge color="copper" size="sm">Small</Badge>
+              <Badge color="copper" size="md">Medium</Badge>
+              <Badge color="copper" size="lg">Large</Badge>
             </Row>
             <Row>
-              <Badge variant="copper">Available</Badge>
-              <Badge variant="sand">Pending</Badge>
-              <Badge variant="sky">Sea view</Badge>
-              <Badge variant="sage">Confirmed</Badge>
-              <Badge variant="sienna">Cancelled</Badge>
+              <Badge color="copper">Available</Badge>
+              <Badge color="sand">Pending</Badge>
+              <Badge color="sky">Sea view</Badge>
+              <Badge color="sage">Confirmed</Badge>
+              <Badge color="sienna">Cancelled</Badge>
             </Row>
           </Stack>
         </Section>
@@ -694,36 +689,36 @@ function ShowcasePage() {
         {/* ── Modal ──────────────────────────────────────────────────────── */}
         <Section>
           <SectionLabel>Modal</SectionLabel>
-          <Card compact style={{ maxWidth: 380 }}>
-            <Card.Body>
+          <Card padding="sm" style={{ maxWidth: 380 }}>
+            <Text size="sm" c="dimmed">
               On mobile: iOS 26-style bottom sheet. On desktop: centred panel.
               Both use frosted glass with a warm backdrop.
-            </Card.Body>
-            <Card.Footer>
-              <Button variant="primary" onClick={() => setModalOpen(true)}>
+            </Text>
+            <div style={{ display: "flex", gap: 8, marginTop: 14, justifyContent: "flex-end" }}>
+              <Button variant="filled" color="copper" onClick={() => setModalOpen(true)}>
                 Open modal
               </Button>
-            </Card.Footer>
+            </div>
           </Card>
 
           <Modal
             opened={modalOpen}
             onClose={() => setModalOpen(false)}
             title="Reserve your stay"
-            footer={
-              <>
-                <Button variant="ghost" onClick={() => setModalOpen(false)}>
-                  Cancel
-                </Button>
-                <Button variant="primary" onClick={() => setModalOpen(false)}>
-                  Confirm
-                </Button>
-              </>
-            }
           >
-            Your selection at Villa Amalfi has been held for 15 minutes. Please
-            complete your details to secure the booking. Flexible cancellation
-            applies up to 48 hours before arrival.
+            <Text size="sm" c="dimmed">
+              Your selection at Villa Amalfi has been held for 15 minutes. Please
+              complete your details to secure the booking. Flexible cancellation
+              applies up to 48 hours before arrival.
+            </Text>
+            <ModalFooter>
+              <Button variant="subtle" color="copper" onClick={() => setModalOpen(false)}>
+                Cancel
+              </Button>
+              <Button variant="filled" color="copper" onClick={() => setModalOpen(false)}>
+                Confirm
+              </Button>
+            </ModalFooter>
           </Modal>
         </Section>
 
@@ -737,7 +732,7 @@ function ShowcasePage() {
                 placeholder="Choose a region"
                 value={region}
                 onChange={setRegion}
-                hint="Filter properties by location"
+                description="Filter properties by location"
                 data={[
                   { group: "Italy", items: ["Amalfi Coast", "Cinque Terre", "Tuscany", "Sicily"] },
                   { group: "Greece", items: ["Santorini", "Mykonos", "Crete", "Rhodes"] },
@@ -775,14 +770,14 @@ function ShowcasePage() {
                 placeholder="Select a date"
                 value={checkIn}
                 onChange={handleCheckInChange}
-                hint="Arrival day — flexible by ±1 night"
+                description="Arrival day — flexible by ±1 night"
                 minDate={new Date()}
               />
               <DatePickerInput
                 label="Stay period"
                 placeholder="Select dates"
                 type="range"
-                hint="Select your arrival and departure"
+                description="Select your arrival and departure"
               />
               <DatePickerInput
                 label="Flexible dates"
@@ -809,7 +804,7 @@ function ShowcasePage() {
                   The light on the sea<br />never lies.
                 </h1>
               </div>
-              <Card.Divider />
+              <Divider color="var(--med-color-divider)" />
               <div>
                 <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: "0.625rem", color: "var(--med-color-text-muted)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "6px" }}>Body — DM Sans</p>
                 <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: "0.9375rem", color: "var(--med-color-text-primary)", lineHeight: 1.65 }}>
@@ -819,7 +814,7 @@ function ShowcasePage() {
                   of water below — this is the material of the good life.
                 </p>
               </div>
-              <Card.Divider />
+              <Divider color="var(--med-color-divider)" />
               <div>
                 <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: "0.625rem", color: "var(--med-color-text-muted)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "6px" }}>Mono — JetBrains Mono</p>
                 <CodeBlock>{`const theme = createTheme({
@@ -837,8 +832,8 @@ function ShowcasePage() {
         {/* ── Navbar ─────────────────────────────────────────────────────── */}
         <Section>
           <SectionLabel>Navbar</SectionLabel>
-          <Card compact>
-            <Card.Body>
+          <Card padding="sm">
+            <Text size="sm" c="dimmed">
               iOS 26-style frosted-glass tab bar. Copper active pill springs in
               behind the icon. Adapts to dark mode. Supports 2–6 items. In production,
               render it once at the root — it is{" "}
@@ -846,13 +841,13 @@ function ShowcasePage() {
                 position: fixed
               </code>
               .
-            </Card.Body>
+            </Text>
           </Card>
         </Section>
 
       </PageInner>
 
-      {/* Fixed bottom navbar — shown across the whole showcase */}
+      {/* Fixed bottom navbar */}
       <Navbar
         activeId={activeNav}
         onSelect={setActiveNav}
