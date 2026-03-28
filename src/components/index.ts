@@ -40,3 +40,9 @@ export type { KeyValueListProps, KVItem } from "./KeyValueList";
 
 export { Navbar } from "./Navbar";
 export type { NavbarProps, NavbarItem } from "./Navbar";
+
+export { SegmentedControl } from "./SegmentedControl";
+export type { SegmentedControlProps } from "./SegmentedControl";
+
+export { StatCard } from "./StatCard";
+export type { StatCardProps, StatCardTrend, TrendDirection } from "./StatCard";

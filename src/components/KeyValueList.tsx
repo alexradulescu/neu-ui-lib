@@ -30,7 +30,7 @@ const Container = styled.div`
 `;
 
 const Caption = styled.div`
-  padding: 10px 16px 8px;
+  padding: 10px 14px 8px;
   border-bottom: 1px solid var(--med-color-divider);
   font-family: "DM Sans", sans-serif;
   font-size: 0.625rem;
@@ -43,7 +43,7 @@ const Caption = styled.div`
 const KVRow = styled.div`
   display: grid;
   gap: 8px;
-  padding: 7px 16px;
+  padding: 9px 14px;
   border-bottom: 1px solid var(--med-color-divider);
   align-items: baseline;
 

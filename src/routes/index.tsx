@@ -21,6 +21,8 @@ import { ListBox } from "@/components/ListBox";
 import { MedTable } from "@/components/Table";
 import { KeyValueList } from "@/components/KeyValueList";
 import { Navbar } from "@/components/Navbar";
+import { SegmentedControl } from "@/components/SegmentedControl";
+import { StatCard } from "@/components/StatCard";
 import type { ListBoxItem } from "@/components/ListBox";
 import type { TableColumn } from "@/components/Table";
 import type { KVItem } from "@/components/KeyValueList";
@@ -299,6 +301,7 @@ function ShowcasePage() {
   const [checkIn, setCheckIn] = useState<Date | null>(null);
   const [selectedBooking, setSelectedBooking] = useState<string | undefined>(undefined);
   const [activeNav, setActiveNav] = useState("home");
+  const [listView, setListView] = useState("all");
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleCheckInChange = (val: any) => setCheckIn(val as Date | null);
@@ -356,6 +359,60 @@ function ShowcasePage() {
               <SwatchLabel>Coastal Sky</SwatchLabel>
             </Swatch>
           </ColorGrid>
+        </Section>
+
+        {/* ── Stat Cards ─────────────────────────────────────────────────── */}
+        <Section>
+          <SectionLabel>Stat Cards</SectionLabel>
+          <Grid>
+            <StatCard
+              label="Active bookings"
+              value="12"
+              trend={{ label: "+3 vs last month", direction: "up" }}
+              icon={<IconCalendar size={15} />}
+            />
+            <StatCard
+              label="Monthly revenue"
+              value="€ 47.2k"
+              accent
+              trend={{ label: "+18.4% vs last month", direction: "up" }}
+              icon={<IconReceipt size={15} />}
+            />
+            <StatCard
+              label="Avg stay"
+              value="5.4 nights"
+              trend={{ label: "same as last month", direction: "neutral" }}
+            />
+            <StatCard
+              label="Occupancy rate"
+              value="84%"
+              trend={{ label: "−6% vs last month", direction: "down" }}
+              icon={<IconBuildingEstate size={15} />}
+            />
+          </Grid>
+        </Section>
+
+        {/* ── Segmented Control ──────────────────────────────────────────── */}
+        <Section>
+          <SectionLabel>Segmented Control</SectionLabel>
+          <Card compact>
+            <Stack>
+              <SegmentedControl
+                value={listView}
+                onChange={setListView}
+                data={[
+                  { label: "All",       value: "all" },
+                  { label: "Active",    value: "active" },
+                  { label: "Pending",   value: "pending" },
+                  { label: "Cancelled", value: "cancelled" },
+                ]}
+              />
+              <SegmentedControl
+                defaultValue="month"
+                data={["Week", "Month", "Quarter", "Year"]}
+              />
+            </Stack>
+          </Card>
         </Section>
 
         {/* ── Buttons ────────────────────────────────────────────────────── */}
