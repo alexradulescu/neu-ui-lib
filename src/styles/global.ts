@@ -12,72 +12,138 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   :root {
-    --neu-font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display",
-      "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
-    --neu-font-mono: "SF Mono", SFMono-Regular, ui-monospace, monospace;
+    /* ── Typefaces ─────────────────────────────────────────────────────── */
+    --med-font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+    --med-font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+    --med-font-mono: "JetBrains Mono", "SF Mono", ui-monospace, monospace;
 
-    /* iOS-inspired spacing scale */
-    --neu-space-xs: 4px;
-    --neu-space-sm: 8px;
-    --neu-space-md: 16px;
-    --neu-space-lg: 24px;
-    --neu-space-xl: 32px;
-    --neu-space-2xl: 48px;
+    /* ── Mediterranean Palette (light) ─────────────────────────────────── */
+    --med-color-bg:             #F5F0EA;
+    --med-color-surface:        rgba(255, 250, 244, 0.72);
+    --med-color-surface-deep:   #EDE5D8;
+    --med-color-border:         rgba(180, 155, 120, 0.25);
+    --med-color-divider:        rgba(180, 155, 120, 0.18);
+    --med-color-text-primary:   #2A2118;
+    --med-color-text-secondary: #7A6850;
+    --med-color-text-muted:     #A89880;
+    --med-color-accent:         #B87333;
+    --med-color-accent-soft:    #D4A882;
+    --med-color-sky:            #A8C4D4;
+    --med-color-card-shimmer:   rgba(255, 245, 230, 0.60);
 
-    /* iOS-inspired radius scale */
-    --neu-radius-sm: 8px;
-    --neu-radius-md: 12px;
-    --neu-radius-lg: 16px;
-    --neu-radius-xl: 24px;
-    --neu-radius-full: 9999px;
+    /* ── Table & List ─────────────────────────────────────────────────── */
+    --med-color-row-hover:      rgba(180, 155, 120, 0.09);
+    --med-color-row-stripe:     rgba(180, 155, 120, 0.04);
 
-    /* Light theme colors — inspired by iOS 26 liquid glass */
-    --neu-color-bg: #f2f2f7;
-    --neu-color-surface: rgba(255, 255, 255, 0.72);
-    --neu-color-surface-elevated: rgba(255, 255, 255, 0.85);
-    --neu-color-text-primary: #000000;
-    --neu-color-text-secondary: #3c3c43;
-    --neu-color-text-tertiary: #8e8e93;
-    --neu-color-separator: rgba(60, 60, 67, 0.12);
-    --neu-color-accent: #007aff;
-    --neu-color-accent-hover: #0066d6;
-    --neu-color-destructive: #ff3b30;
-    --neu-color-success: #34c759;
-    --neu-color-warning: #ff9500;
+    /* ── Input ────────────────────────────────────────────────────────── */
+    --med-color-input-bg:       rgba(255, 250, 244, 0.65);
+    --med-color-input-bg-hover: rgba(255, 250, 244, 0.85);
+    --med-color-input-bg-focus: rgba(255, 250, 244, 0.95);
+    --med-color-input-border:   rgba(180, 155, 120, 0.40);
+    --med-color-dropdown-bg:    rgba(255, 250, 244, 0.97);
+
+    /* ── Navbar ───────────────────────────────────────────────────────── */
+    --med-navbar-bg:            rgba(245, 240, 234, 0.84);
+    --med-navbar-inactive:      rgba(100, 82, 62, 0.52);
+
+    /* ── Spacing (8px base grid) ──────────────────────────────────────── */
+    --med-space-xs:  4px;
+    --med-space-sm:  8px;
+    --med-space-md:  16px;
+    --med-space-lg:  24px;
+    --med-space-xl:  32px;
+    --med-space-2xl: 48px;
+
+    /* ── Radius ───────────────────────────────────────────────────────── */
+    --med-radius-sm:   8px;
+    --med-radius-md:   12px;
+    --med-radius-lg:   16px;
+    --med-radius-xl:   24px;
+    --med-radius-full: 9999px;
+
+    /* ── Shadows (warm-tinted, no cool grey) ──────────────────────────── */
+    --med-shadow-sm: 0 2px 8px rgba(120, 80, 40, 0.06);
+    --med-shadow-md: 0 4px 32px rgba(120, 80, 40, 0.10);
+    --med-shadow-lg: 0 8px 48px rgba(120, 80, 40, 0.14);
+
+    /* ── Motion ───────────────────────────────────────────────────────── */
+    --med-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --med-ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --med-ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+    --med-duration-sm: 200ms;
+    --med-duration-md: 320ms;
+
+    /* ── Legacy neu tokens (aliased for backward compatibility) ───────── */
+    --neu-font-sans:  var(--med-font-sans);
+    --neu-font-mono:  var(--med-font-mono);
+    --neu-space-xs:   var(--med-space-xs);
+    --neu-space-sm:   var(--med-space-sm);
+    --neu-space-md:   var(--med-space-md);
+    --neu-space-lg:   var(--med-space-lg);
+    --neu-space-xl:   var(--med-space-xl);
+    --neu-space-2xl:  var(--med-space-2xl);
+    --neu-radius-sm:  var(--med-radius-sm);
+    --neu-radius-md:  var(--med-radius-md);
+    --neu-radius-lg:  var(--med-radius-lg);
+    --neu-radius-xl:  var(--med-radius-xl);
+    --neu-radius-full: var(--med-radius-full);
+    --neu-color-bg:               var(--med-color-bg);
+    --neu-color-surface:          var(--med-color-surface);
+    --neu-color-surface-elevated: rgba(255, 250, 244, 0.90);
+    --neu-color-text-primary:     var(--med-color-text-primary);
+    --neu-color-text-secondary:   var(--med-color-text-secondary);
+    --neu-color-text-tertiary:    #A89880;
+    --neu-color-separator:        var(--med-color-border);
+    --neu-color-accent:           var(--med-color-accent);
+    --neu-color-accent-hover:     #9A5E25;
   }
 
-  [data-theme="dark"] {
-    --neu-color-bg: #000000;
-    --neu-color-surface: rgba(28, 28, 30, 0.72);
-    --neu-color-surface-elevated: rgba(44, 44, 46, 0.85);
-    --neu-color-text-primary: #ffffff;
-    --neu-color-text-secondary: #ebebf5;
-    --neu-color-text-tertiary: #8e8e93;
-    --neu-color-separator: rgba(84, 84, 88, 0.36);
-    --neu-color-accent: #0a84ff;
-    --neu-color-accent-hover: #409cff;
-    --neu-color-destructive: #ff453a;
-    --neu-color-success: #30d158;
-    --neu-color-warning: #ff9f0a;
+  /* ── Dark Mediterranean theme ──────────────────────────────────────────── */
+  [data-mantine-color-scheme="dark"] {
+    --med-color-bg:             #14100C;
+    --med-color-surface:        rgba(30, 23, 14, 0.88);
+    --med-color-surface-deep:   #1C1610;
+    --med-color-border:         rgba(120, 90, 50, 0.32);
+    --med-color-divider:        rgba(120, 90, 50, 0.22);
+    --med-color-text-primary:   #EDE4D0;
+    --med-color-text-secondary: #A08864;
+    --med-color-text-muted:     #6A5840;
+    --med-color-accent:         #C68D4A;
+    --med-color-accent-soft:    #9A7048;
+    --med-color-card-shimmer:   rgba(255, 200, 120, 0.06);
+
+    --med-navbar-bg:            rgba(18, 14, 8, 0.88);
+    --med-navbar-inactive:      rgba(162, 138, 102, 0.55);
+
+    --med-color-row-hover:      rgba(184, 115, 51, 0.11);
+    --med-color-row-stripe:     rgba(80, 55, 25, 0.22);
+
+    --med-color-input-bg:       rgba(22, 16, 9, 0.72);
+    --med-color-input-bg-hover: rgba(32, 24, 13, 0.85);
+    --med-color-input-bg-focus: rgba(36, 27, 14, 0.95);
+    --med-color-input-border:   rgba(120, 90, 50, 0.42);
+    --med-color-dropdown-bg:    rgba(22, 17, 10, 0.97);
+
+    --med-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
+    --med-shadow-md: 0 4px 32px rgba(0, 0, 0, 0.45);
+    --med-shadow-lg: 0 8px 48px rgba(0, 0, 0, 0.55);
   }
 
   html {
-    font-family: var(--neu-font-sans);
+    font-family: var(--med-font-sans);
     font-size: 16px;
-    line-height: 1.5;
-    color: var(--neu-color-text-primary);
-    background-color: var(--neu-color-bg);
-
-    /* iOS-specific: prevent text size adjustment on orientation change */
+    line-height: 1.7;
+    color: var(--med-color-text-primary);
+    background-color: var(--med-color-bg);
     -webkit-text-size-adjust: 100%;
   }
 
   body {
     min-height: 100dvh;
     overscroll-behavior: none;
+    background-color: var(--med-color-bg);
   }
 
-  /* iOS safe area support */
   #root {
     min-height: 100dvh;
     padding-top: env(safe-area-inset-top);
@@ -86,19 +152,46 @@ export const GlobalStyles = createGlobalStyle`
     padding-right: env(safe-area-inset-right);
   }
 
-  /* Prevent iOS tap highlight */
-  button,
-  a,
-  input,
-  select,
-  textarea {
+  button, a, input, select, textarea {
     -webkit-tap-highlight-color: transparent;
   }
 
-  /* Prevent iOS zoom on input focus */
-  input,
-  select,
-  textarea {
+  input, select, textarea {
     font-size: 16px;
+  }
+
+  /* Remove default browser focus ring — each component uses warm copper glow */
+  :focus-visible {
+    outline: none;
+  }
+
+  /* ── Modal: iOS 26 bottom sheet on mobile ─────────────────────────────── */
+  @media (max-width: 599px) {
+    .med-modal-inner {
+      align-items: flex-end !important;
+      padding: 0 !important;
+    }
+
+    .med-modal-content {
+      border-radius: 24px 24px 0 0 !important;
+      width: 100vw !important;
+      max-width: 100vw !important;
+      max-height: 92dvh !important;
+      margin: 0 !important;
+      /* Safe area padding at bottom (iPhone home indicator) */
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+  }
+
+  /* Desktop: centred with a bit more room */
+  @media (min-width: 600px) {
+    .med-modal-inner {
+      align-items: center;
+    }
+
+    .med-modal-content {
+      max-width: 480px;
+      width: 100%;
+    }
   }
 `;
