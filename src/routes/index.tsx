@@ -421,33 +421,37 @@ function ShowcasePage() {
           <Stack>
 
             {/* Variant × colour matrix */}
-            <Card compact>
-              <Stack>
-                <ColourRow>
-                  <ColLabel />
-                  <ColLabel>Copper</ColLabel>
-                  <ColLabel>Sage</ColLabel>
-                  <ColLabel>Sienna</ColLabel>
-                </ColourRow>
-                <ColourRow>
-                  <ColLabel>Primary</ColLabel>
-                  <Button variant="primary" color="copper" size="sm">Book villa</Button>
-                  <Button variant="primary" color="sage"   size="sm">Confirm</Button>
-                  <Button variant="primary" color="sienna" size="sm">Delete</Button>
-                </ColourRow>
-                <ColourRow>
-                  <ColLabel>Outline</ColLabel>
-                  <Button variant="outline" color="copper" size="sm">View details</Button>
-                  <Button variant="outline" color="sage"   size="sm">Save</Button>
-                  <Button variant="outline" color="sienna" size="sm">Cancel</Button>
-                </ColourRow>
-                <ColourRow>
-                  <ColLabel>Ghost</ColLabel>
-                  <Button variant="ghost" color="copper" size="sm">Dismiss</Button>
-                  <Button variant="ghost" color="sage"   size="sm">Skip</Button>
-                  <Button variant="ghost" color="sienna" size="sm">Undo</Button>
-                </ColourRow>
-              </Stack>
+            <Card compact style={{ overflow: "hidden" }}>
+              <div style={{ overflowX: "auto", margin: "0 -16px", padding: "0 16px 2px" }}>
+                <div style={{ minWidth: 320 }}>
+                  <Stack>
+                    <ColourRow>
+                      <ColLabel />
+                      <ColLabel>Copper</ColLabel>
+                      <ColLabel>Sage</ColLabel>
+                      <ColLabel>Sienna</ColLabel>
+                    </ColourRow>
+                    <ColourRow>
+                      <ColLabel>Primary</ColLabel>
+                      <Button variant="primary" color="copper" size="sm">Book</Button>
+                      <Button variant="primary" color="sage"   size="sm">Confirm</Button>
+                      <Button variant="primary" color="sienna" size="sm">Delete</Button>
+                    </ColourRow>
+                    <ColourRow>
+                      <ColLabel>Outline</ColLabel>
+                      <Button variant="outline" color="copper" size="sm">Details</Button>
+                      <Button variant="outline" color="sage"   size="sm">Save</Button>
+                      <Button variant="outline" color="sienna" size="sm">Cancel</Button>
+                    </ColourRow>
+                    <ColourRow>
+                      <ColLabel>Ghost</ColLabel>
+                      <Button variant="ghost" color="copper" size="sm">Dismiss</Button>
+                      <Button variant="ghost" color="sage"   size="sm">Skip</Button>
+                      <Button variant="ghost" color="sienna" size="sm">Undo</Button>
+                    </ColourRow>
+                  </Stack>
+                </div>
+              </div>
             </Card>
 
             {/* Sizes */}

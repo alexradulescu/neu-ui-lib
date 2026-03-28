@@ -45,7 +45,8 @@ const NavInner = styled.div`
   justify-content: space-around;
   align-items: stretch;   /* buttons fill full height */
   height: 58px;
-  padding: 0 2px;         /* 2px matches the chip inset on outer edges */
+  /* No horizontal padding — chip's inset: 2px on edge buttons
+     already produces the correct 2px gap from the NavWrap edge */
 `;
 
 /* Each tab item — stretches to full NavInner height */
