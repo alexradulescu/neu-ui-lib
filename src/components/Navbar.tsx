@@ -2,12 +2,9 @@ import { styled } from "@alex.radulescu/styled-static";
 import type { ReactNode } from "react";
 
 // ─── Mediterranean Navbar — iOS 26 Floating Liquid Glass ─────────────────────
-// iOS 26 tab bar: a detached pill floating above the bottom edge.
-// "Liquid glass" = strong blur, warm translucent tint, subtle inner shimmer.
-// Active item: glass chip behind icon springs in via cubic-bezier spring.
-// Inactive items: muted, icon-only weight.
-// Safe-area aware for iPhone home indicator.
-// Max 6 items.
+// Floating pill detached from screen edges.
+// Active tab: full-height glass chip, 2px inset from the wrapper — border-radius
+// follows the continuous corner formula (r_inner = r_outer − inset = 28 − 2 = 26px).
 
 export interface NavbarItem {
   id: string;
@@ -23,39 +20,35 @@ export interface NavbarProps {
 
 // ─── Styles ───────────────────────────────────────────────────────────────────
 
-/* Floating pill detached from screen edges — the iOS 26 signature shape */
 const NavWrap = styled.nav`
   position: fixed;
-  bottom: 12px;
   left: 12px;
   right: 12px;
-  /* Push above iPhone home indicator */
+  /* Sit above iPhone home indicator */
   bottom: max(12px, calc(env(safe-area-inset-bottom) + 8px));
   z-index: 200;
   border-radius: 28px;
 
-  /* Liquid glass material */
   background: var(--med-navbar-bg);
   backdrop-filter: blur(32px) saturate(1.8) brightness(1.04);
   -webkit-backdrop-filter: blur(32px) saturate(1.8) brightness(1.04);
 
-  /* Warm border + inner shimmer — characteristic of liquid glass */
   border: 0.5px solid var(--med-color-border);
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.14),
-    0 2px 8px rgba(0, 0, 0, 0.08),
+    0 2px 8px  rgba(0, 0, 0, 0.08),
     inset 0 1px 0 var(--med-color-card-shimmer);
 `;
 
 const NavInner = styled.div`
   display: flex;
   justify-content: space-around;
-  align-items: center;
+  align-items: stretch;   /* buttons fill full height */
   height: 58px;
-  padding: 0 8px;
+  padding: 0 2px;         /* 2px matches the chip inset on outer edges */
 `;
 
-/* Each tab item */
+/* Each tab item — stretches to full NavInner height */
 const NavBtn = styled.button`
   display: flex;
   flex-direction: column;
@@ -68,7 +61,7 @@ const NavBtn = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  position: relative;
+  position: relative;     /* anchor for the absolute GlassChip */
   -webkit-tap-highlight-color: transparent;
   transition: opacity 120ms ease;
 
@@ -77,23 +70,25 @@ const NavBtn = styled.button`
   }
 `;
 
-/* Glass chip behind the active icon — springs in from scale(0) */
+/*
+ * Glass chip: covers the entire button minus 2px on every edge.
+ * border-radius: 26px = 28px (NavWrap) − 2px (inset) — continuous corner alignment.
+ * Scales in from 0 with spring easing so it feels physical.
+ */
 const GlassChip = styled.div`
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 44px;
-  height: 32px;
-  border-radius: 12px;
-  transform-origin: center center;
-  transform: translate(-50%, -62%) scale(0);
+  inset: 2px;
+  border-radius: 26px;
+  transform: scale(0);
   opacity: 0;
-  /* Liquid glass chip */
-  background: rgba(184, 115, 51, 0.14);
-  border: 0.5px solid rgba(184, 115, 51, 0.24);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  box-shadow: inset 0 1px 0 rgba(255, 230, 180, 0.20);
+  transform-origin: center center;
+
+  background: rgba(184, 115, 51, 0.13);
+  border: 0.5px solid rgba(184, 115, 51, 0.26);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: inset 0 1px 0 rgba(255, 230, 180, 0.22);
+
   transition:
     transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1),
     opacity   200ms ease;
@@ -118,10 +113,9 @@ const NavLabel = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 56px;
+  max-width: 60px;
   position: relative;
   z-index: 1;
-  transition: font-weight 160ms ease;
 `;
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -140,22 +134,28 @@ export function Navbar({ items, activeId, onSelect }: NavbarProps) {
               aria-current={isActive ? "page" : undefined}
               onClick={() => onSelect?.(item.id)}
             >
-              {/* Glass chip springs in when active */}
+              {/* Glass chip: full-height, 2px inset, spring animation */}
               <GlassChip
                 style={
                   isActive
-                    ? { transform: "translate(-50%, -62%) scale(1)", opacity: 1 }
+                    ? { transform: "scale(1)", opacity: 1 }
                     : undefined
                 }
               />
               <IconWrap
-                style={{ color: isActive ? "var(--med-color-accent)" : "var(--med-navbar-inactive)" }}
+                style={{
+                  color: isActive
+                    ? "var(--med-color-accent)"
+                    : "var(--med-navbar-inactive)",
+                }}
               >
                 {item.icon}
               </IconWrap>
               <NavLabel
                 style={{
-                  color: isActive ? "var(--med-color-accent)" : "var(--med-navbar-inactive)",
+                  color: isActive
+                    ? "var(--med-color-accent)"
+                    : "var(--med-navbar-inactive)",
                   fontWeight: isActive ? "600" : "400",
                 }}
               >

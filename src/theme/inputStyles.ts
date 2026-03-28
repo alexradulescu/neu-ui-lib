@@ -64,13 +64,15 @@ export const medInputStyles = {
   },
 };
 
-/** Compact variant — smaller height, same 16px font (no iOS zoom). */
+/** Compact variant — Mantine size="xs" controls height (~28px); we keep font-size 1rem. */
 export const medCompactInputStyles = {
   ...medInputStyles,
   input: {
     ...BASE_INPUT,
-    height: "36px",
-    paddingInline: "14px",
+    // No height override — Mantine size="xs" sets --input-height correctly
+    // Just ensure the font-size stays at 1rem (prevents iOS Safari zoom)
+    fontSize: "1rem",
+    paddingInline: "12px",
   },
 };
 

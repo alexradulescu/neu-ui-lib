@@ -7,7 +7,10 @@ import { medInputStyles, medCompactInputStyles, medInputWrapperOrder } from "@/t
 export interface TextInputProps extends Omit<MantineTextInputProps, "size"> {
   /** Alias for Mantine's `description` prop — renders below the input. */
   hint?: string;
-  /** Compact mode: 36px height instead of 44px; font-size stays at 16px (no iOS zoom). */
+  /**
+   * Compact mode: uses Mantine's "xs" size (~28px height) but keeps
+   * font-size at 1rem (16px) so iOS Safari does not zoom on focus.
+   */
   compact?: boolean;
 }
 
@@ -15,6 +18,9 @@ export function TextInput({ hint, description, compact = false, ...props }: Text
   return (
     <MantineTextInput
       {...props}
+      // Use Mantine's own xs sizing system to get the small height;
+      // medCompactInputStyles then overrides font-size back to 1rem.
+      size={compact ? "xs" : "md"}
       description={hint ?? description}
       inputWrapperOrder={medInputWrapperOrder}
       styles={compact ? medCompactInputStyles : medInputStyles}
