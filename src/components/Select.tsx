@@ -16,7 +16,7 @@ export function Select({ hint, description, ...props }: SelectProps) {
   return (
     <MantineSelect
       {...props}
-      withCheckIcon={false}
+      checkIconPosition="right"
       description={hint ?? description}
       inputWrapperOrder={medInputWrapperOrder}
       styles={{

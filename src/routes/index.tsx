@@ -420,10 +420,10 @@ function ShowcasePage() {
           <SectionLabel>Buttons</SectionLabel>
           <Stack>
 
-            {/* Variant × colour matrix */}
-            <Card compact style={{ overflow: "hidden" }}>
-              <div style={{ overflowX: "auto", margin: "0 -16px", padding: "0 16px 2px" }}>
-                <div style={{ minWidth: 320 }}>
+            {/* Variant × colour matrix — scroll if viewport too narrow */}
+            <Card compact>
+              <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+                <div style={{ minWidth: 340 }}>
                   <Stack>
                     <ColourRow>
                       <ColLabel />

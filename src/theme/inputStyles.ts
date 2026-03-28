@@ -93,16 +93,24 @@ export const medDropdownStyles = {
     fontSize: "1rem",
     color: "var(--med-color-text-primary)",
     padding: "8px 14px",
+    /* keyboard-highlighted item */
     "&[data-combobox-selected]": {
-      background: "rgba(184, 115, 51, 0.14)",
-      color: "#B87333",
-    },
-    "&[data-combobox-active]": {
-      background: "rgba(184, 115, 51, 0.10)",
-      color: "#9A5E25",
-    },
-    "&:hover:not([data-combobox-selected])": {
       background: "var(--med-color-row-hover)",
+    },
+    /* currently selected value — copper tint + text */
+    "&[data-combobox-active]": {
+      background: "rgba(184, 115, 51, 0.13)",
+      color: "#B87333",
+      fontWeight: "500",
+    },
+    "&:hover:not([data-combobox-active])": {
+      background: "var(--med-color-row-hover)",
+    },
+    /* check icon that appears on the right */
+    "& .mantine-Combobox-optionCheckIcon": {
+      color: "#B87333",
+      width: "14px",
+      height: "14px",
     },
   },
   empty: {

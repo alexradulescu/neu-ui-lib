@@ -41,16 +41,6 @@ export function Button({ variant = "primary", color = "copper", children, ...pro
           borderRadius: "999px",
           fontFamily: '"DM Sans", sans-serif',
           fontWeight: "500",
-          overflow: "hidden",
-        },
-        label: {
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          whiteSpace: "nowrap",
-        },
-        inner: {
-          overflow: "hidden",
-          minWidth: 0,
           letterSpacing: "0.01em",
           transition:
             "transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1), " +
@@ -72,6 +62,15 @@ export function Button({ variant = "primary", color = "copper", children, ...pro
               boxShadow: "0 4px 14px rgba(120, 80, 40, 0.32)",
             },
           }),
+        },
+        inner: {
+          overflow: "hidden",
+          minWidth: 0,
+        },
+        label: {
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
         },
       }}
     >
