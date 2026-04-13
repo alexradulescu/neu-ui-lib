@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { ReactElement } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Navigate } from "@tanstack/react-router";
 import { styled } from "@alex.radulescu/styled-static";
 import {
   ActionIcon, Badge, Button, Card, Modal, SegmentedControl,
@@ -24,7 +24,7 @@ import type { TableColumn } from "@/components/Table";
 import type { KVItem } from "@/components/KeyValueList";
 
 export const Route = createFileRoute("/")({
-  component: ShowcasePage,
+  component: () => <Navigate to="/feed" />,
 });
 
 // ─── Layout ───────────────────────────────────────────────────────────────────
