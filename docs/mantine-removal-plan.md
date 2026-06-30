@@ -78,7 +78,11 @@
 ## Current State
 
 - React 19 already in place.
-- Base UI already installed.
+- Base UI already installed, but version in repo may lag latest docs.
+- At review time:
+  - repo package: `@base-ui/react@^1.3.0`
+  - latest npm/docs checked: `@base-ui/react@1.6.0`
+  - latest docs source: `https://base-ui.com/llms.txt`
 - Mantine still powers most demo widgets.
 - Custom NeuUI exists, but narrow:
   - `Navbar`
@@ -161,6 +165,7 @@ Every component currently in `src/components/` moves into `src/ui/components/` â
   - Radio group
   - Slider
   - Number field
+  - OTP field
   - Accordion
   - Avatar
   - Scroll area
@@ -179,6 +184,24 @@ Every component currently in `src/components/` moves into `src/ui/components/` â
   - Toolbar
 - Gap:
   - Date picker/calendar. Base UI has no full date picker.
+
+## Base UI Upgrade Decision
+
+- Upgrade Base UI before component migration.
+- Target latest stable from `base-ui.com/llms.txt` and npm.
+- Current latest verified: `@base-ui/react@1.6.0` on Jun 30, 2026.
+- Reason:
+  - `OTPField` is stable in 1.6.0.
+  - Drawer has mobile improvements, including `Drawer.VirtualKeyboardProvider`.
+  - Drawer swipe gesture performance improved.
+  - Combobox performance improved.
+  - 1.4+ Toast supports updating existing notification by ID, matching planned `toast.update`.
+- Action:
+  - Replace `@base-ui/react@^1.3.0` with latest stable.
+  - Run install with chosen package manager after Bun switch.
+  - Check peer deps from latest package before commit.
+  - Only add `date-fns` / `@date-fns/tz` if latest package manager install requires them or we use a Base UI primitive that needs them.
+  - Re-read exact component docs before implementing each primitive.
 
 ## Date Picker Decision
 
@@ -233,6 +256,12 @@ src/
   - Add `"packageManager": "bun@1.3.8"` to `package.json`.
   - Swap scripts to run through `bun` (`bun run dev`, `bun run build`, `bun run preview`).
   - Confirm `bun run build` (vite build + tsc) passes before touching Mantine.
+- Upgrade Base UI before Mantine migration:
+  - Read `https://base-ui.com/llms.txt`.
+  - Confirm latest stable version.
+  - Upgrade `@base-ui/react`.
+  - Reinstall with Bun.
+  - Run `bun run build`.
 - Add docs.
 - Decide API names (see `neu-ui-api-sketch.md`).
 

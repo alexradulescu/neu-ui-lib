@@ -31,6 +31,20 @@
 - Most components should look finished with default props.
 - Escape hatch still needed through `className`, `style`, and composition.
 
+## Base UI Version
+
+- Build against latest stable Base UI, not current pinned repo version.
+- Latest docs source: `https://base-ui.com/llms.txt`.
+- Latest verified at review time: `@base-ui/react@1.6.0`.
+- Current repo before migration: `@base-ui/react@^1.3.0`.
+- Re-check exact docs before coding each primitive.
+- 1.6.0-relevant API notes:
+  - `OTPField` stable.
+  - `Drawer.VirtualKeyboardProvider` matters for mobile sheets with inputs.
+  - `Drawer` swipe perf improved.
+  - `Combobox` perf improved.
+  - Toast ID updates exist and support planned `toast.update`.
+
 ## Reviewer Lens
 
 - Alex should judge: "Would I enjoy building prototypes with this?"
@@ -313,6 +327,30 @@ export interface TextareaProps
   maxRows?: number;
   fullWidth?: boolean;
 }
+```
+
+## OTPField
+
+Base UI-backed. Useful for auth prototypes.
+
+```tsx
+export interface OTPFieldProps {
+  value?: string;
+  defaultValue?: string;
+  onValueChange?: (value: string) => void;
+  length?: number;
+  label?: React.ReactNode;
+  description?: React.ReactNode;
+  error?: React.ReactNode;
+  disabled?: boolean;
+  size?: NeuSize;
+}
+
+<OTPField
+  label="Verification code"
+  length={6}
+  onValueChange={setCode}
+/>
 ```
 
 ## Select
