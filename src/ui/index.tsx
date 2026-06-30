@@ -346,10 +346,10 @@ export function Select({
         <BaseSelect.Trigger
           className={cx("neu-select-trigger", `neu-size-${size}`, `neu-radius-${radius}`, Boolean(error) && "neu-invalid")}
         >
-          {leftSection && <span className="neu-input-section">{leftSection}</span>}
+          {leftSection && <span className="neu-input-section neu-select-left">{leftSection}</span>}
           <BaseSelect.Value className="neu-select-value" placeholder={placeholder} />
           <BaseSelect.Icon className="neu-select-icon">⌄</BaseSelect.Icon>
-          {rightSection && <span className="neu-input-section">{rightSection}</span>}
+          {rightSection && <span className="neu-input-section neu-select-right">{rightSection}</span>}
         </BaseSelect.Trigger>
         <BaseSelect.Portal>
           <BaseSelect.Positioner sideOffset={8} align="start">
