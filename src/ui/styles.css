@@ -194,16 +194,24 @@ body {
 }
 
 .neu-toolbar-title {
+  min-width: 0;
   margin: 0;
   color: var(--neu-text);
   font: 600 1.8rem/1 var(--neu-font-display);
   letter-spacing: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .neu-toolbar-subtitle {
+  min-width: 0;
   margin: 4px 0 0;
   color: var(--neu-text-muted);
   font: 500 0.86rem/1.35 var(--neu-font-sans);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .neu-toolbar-search,
@@ -609,11 +617,13 @@ body {
 
 .neu-select-icon {
   grid-column: 3;
-  display: grid;
-  place-items: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 24px;
   height: 24px;
   margin-left: 0;
+  transform: translateY(-1px);
   color: var(--neu-text-muted);
   font-size: 1rem;
   line-height: 1;
@@ -1096,10 +1106,11 @@ body {
     position: relative;
     top: auto;
     z-index: 1;
-    grid-template-columns: 36px minmax(0, 1fr) auto;
-    gap: 10px;
-    min-height: 0;
-    padding: max(14px, env(safe-area-inset-top)) 18px 16px;
+    grid-template-columns: minmax(44px, auto) minmax(0, 1fr) minmax(44px, auto);
+    gap: 8px;
+    align-items: center;
+    min-height: 58px;
+    padding: max(10px, env(safe-area-inset-top)) 18px 12px;
     border-bottom: 1px solid var(--neu-divider);
     background:
       radial-gradient(circle at 50% 0, rgba(255, 255, 255, 0.62), transparent 14rem),
@@ -1117,24 +1128,43 @@ body {
   .neu-toolbar-title-wrap {
     grid-column: 2;
     grid-row: 1;
+    min-width: 0;
     text-align: center;
   }
 
   .neu-toolbar-actions {
-    grid-column: 1 / -1;
-    grid-row: 3;
-    justify-content: center;
-    margin-top: 2px;
+    grid-column: 3;
+    grid-row: 1;
+    justify-content: flex-end;
+    min-width: 0;
+    margin-top: 0;
+  }
+
+  .neu-toolbar-actions .neu-btn:not(.neu-icon-btn) {
+    width: 42px;
+    padding: 0;
+  }
+
+  .neu-toolbar-actions .neu-btn:not(.neu-icon-btn) .neu-btn-label {
+    display: none;
   }
 
   .neu-toolbar-title {
-    font-size: 2.25rem;
+    font: 700 1.375rem/1.05 var(--neu-font-sans);
+    letter-spacing: 0;
+  }
+
+  .neu-toolbar-subtitle {
+    margin-top: 3px;
+    font-size: 0.78rem;
+    line-height: 1.15;
   }
 
   .neu-toolbar-search {
     grid-column: 1 / -1;
     grid-row: 2;
     justify-content: stretch;
+    margin-top: 6px;
   }
 
   .neu-shell-content {
@@ -1143,18 +1173,65 @@ body {
 
   .neu-showcase-hero {
     display: block;
-    margin-top: 18px;
+    margin-top: 16px;
     text-align: center;
+  }
+
+  .neu-hero-kicker {
+    font-size: 0.68rem;
   }
 
   .neu-hero-title {
     margin-inline: auto;
-    font-size: 3.2rem;
+    max-width: 330px;
+    font-size: 1.5rem;
+    line-height: 1.12;
   }
 
   .neu-hero-copy {
     margin-inline: auto;
-    font-size: 0.98rem;
+    max-width: 330px;
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+
+  .neu-card-title {
+    font-size: 1.25rem;
+  }
+
+  .neu-card-description {
+    font-size: 0.86rem;
+  }
+
+  .neu-section-title {
+    font-size: 0.68rem;
+  }
+
+  .neu-stat-label {
+    font-size: 0.68rem;
+  }
+
+  .neu-stat-value {
+    font-size: 1.5rem;
+  }
+
+  .neu-data-title,
+  .neu-kv-value,
+  .neu-table td {
+    font-size: 0.86rem;
+  }
+
+  .neu-data-subtitle,
+  .neu-kv-label,
+  .neu-label {
+    font-size: 0.78rem;
+  }
+
+  .neu-data-meta,
+  .neu-data-value,
+  .neu-description,
+  .neu-error {
+    font-size: 0.68rem;
   }
 
   .neu-grid {
