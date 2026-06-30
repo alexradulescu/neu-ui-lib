@@ -138,9 +138,6 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
-# Bun
-bun.lock
-
 # TanStack Router generated route tree
 src/routeTree.gen.ts
 

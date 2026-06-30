@@ -80,10 +80,10 @@
     - `Combobox`: search, autocomplete, larger sets, multiselect-style flows
 - Implementation starts only after review feedback lands.
 
-## Current State
+## Baseline Before Migration
 
 - React 19 already in place.
-- Base UI already installed, but version in repo may lag latest docs.
+- Base UI already installed, but version in repo lagged latest docs.
 - At review time:
   - repo package: `@base-ui/react@^1.3.0`
   - latest npm/docs checked: `@base-ui/react@1.6.0`
@@ -98,6 +98,22 @@
   - `Badge` type only
 - Visual identity strong.
 - Component system not real yet.
+
+## Implementation Status In This Branch
+
+- Mantine packages removed.
+- `package-lock.json` removed.
+- Bun lockfile added.
+- `packageManager` set to `bun@1.3.8`.
+- Base UI upgraded to `@base-ui/react@^1.6.0`.
+- Mantine provider removed from app root.
+- Mantine theme file removed.
+- Demo page rebuilt on NeuUI components.
+- `src/ui` added as new reusable component surface.
+- Native `DateField` used for first-pass date input.
+- `Select` and `Dialog` use Base UI primitives.
+- Desktop shell now uses macOS-style sidebar + toolbar.
+- Mobile shell uses iOS-style bottom nav.
 
 ## Existing Component Migration
 
