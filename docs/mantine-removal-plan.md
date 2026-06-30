@@ -40,6 +40,7 @@
     - dark purple/accent
   - components ask for `color="primary"` or `color="success"`, not `color="copper"`
   - `Alt` colours exist for second accent/secondary states inside rich themes
+  - default to non-Alt colours; use `Alt` only when second accent/contrast state is truly needed
 - Success: new app screen can be built quickly without design thrash.
 - Non-goal: match HeroUI component count.
 - Non-goal: publish polished public package.
@@ -70,9 +71,13 @@
   - alt colours allowed: `primaryAlt`, `neutralAlt`, etc.
   - keep `leftSection` / `rightSection`
   - add grouped section helpers for richer input/select sides
+  - keep helper names `InputGroup` and `SelectGroup`
   - keep `onValueChange`
   - use compound names where relevant: `Card.Header`, `Dialog.Footer`, etc.
   - rename `Navbar` to `BottomNav`
+  - keep `Select` and `Combobox` separate:
+    - `Select`: small fixed sets, roughly 2-5 choices
+    - `Combobox`: search, autocomplete, larger sets, multiselect-style flows
 - Implementation starts only after review feedback lands.
 
 ## Current State
@@ -200,7 +205,7 @@ Every component currently in `src/components/` moves into `src/ui/components/` â
   - Replace `@base-ui/react@^1.3.0` with latest stable.
   - Run install with chosen package manager after Bun switch.
   - Check peer deps from latest package before commit.
-  - Only add `date-fns` / `@date-fns/tz` if latest package manager install requires them or we use a Base UI primitive that needs them.
+  - Add `date-fns` / `@date-fns/tz` if latest package manager install or Base UI peer deps require them.
   - Re-read exact component docs before implementing each primitive.
 
 ## Date Picker Decision
@@ -209,6 +214,7 @@ Every component currently in `src/components/` moves into `src/ui/components/` â
 - Phase 1: use native `input[type="date"]` wrapper.
 - Phase 2: add optional richer date picker using React Aria Date/Calendar or custom small calendar.
 - Reason: one Mantine date picker keeps whole Mantine weight and theme model alive.
+- iOS note: native date inputs have platform quirks. Keep first API narrow and test on iOS before relying on styling details.
 
 ## Target Folder Shape
 
@@ -302,6 +308,11 @@ src/
   - `TopBar`
   - `Toolbar`
   - `Pane`
+- V1 AppShell scope stays narrow:
+  - mobile bottom nav
+  - desktop sidebar
+  - optional toolbar
+  - no inspector/pane magic until a real app needs it
 - Mobile:
   - bottom nav
   - sheets

@@ -12,6 +12,8 @@
 - Text/typography can have broader scale.
 - Component colour props use semantic names.
 - Theme maps semantic colours to actual palettes.
+- Default to non-Alt colours.
+- Use `Alt` colours only for true second accent/contrast needs.
 
 ## Product Intent
 
@@ -44,6 +46,7 @@
   - `Drawer` swipe perf improved.
   - `Combobox` perf improved.
   - Toast ID updates exist and support planned `toast.update`.
+- `date-fns` / `@date-fns/tz` can be installed if latest Base UI peer deps require them.
 
 ## Reviewer Lens
 
@@ -172,6 +175,12 @@ export const mediterraneanColorMap = {
 ```
 
 Use plain semantic names first. Use `Alt` only when design needs extra contrast or second accent.
+
+`primary` vs `brand`:
+
+- `primary`: primary action, active state, selected item.
+- `brand`: brand/decorative accent, logo-ish treatment, theme identity.
+- In many themes these may map to same base palette. That is acceptable.
 
 ## Button
 
@@ -356,6 +365,8 @@ export interface OTPFieldProps {
 ## Select
 
 Base UI-backed.
+Use for small fixed option sets, roughly 2-5 choices.
+Do not overload with search/autocomplete.
 
 ```tsx
 export interface SelectItem {
@@ -380,7 +391,6 @@ export interface SelectProps {
   onValueChange?: (value: string | null) => void;
   data: Array<SelectItem | SelectOptionGroup | string>;
   clearable?: boolean;
-  searchable?: boolean;
   disabled?: boolean;
   size?: NeuSize;
   radius?: NeuRadius;
@@ -395,6 +405,49 @@ export interface SelectProps {
   data={[
     { label: "Italy", items: ["Amalfi Coast", "Tuscany", "Sicily"].map(toItem) },
   ]}
+/>
+```
+
+## Combobox
+
+Base UI-backed.
+Use for searchable lists, autocomplete, larger option sets, async lookup, and future multiselect-style flows.
+
+```tsx
+export interface ComboboxItem {
+  value: string;
+  label: React.ReactNode;
+  disabled?: boolean;
+  description?: React.ReactNode;
+}
+
+export interface ComboboxProps {
+  label?: React.ReactNode;
+  description?: React.ReactNode;
+  error?: React.ReactNode;
+  placeholder?: React.ReactNode;
+  value?: string;
+  defaultValue?: string;
+  onValueChange?: (value: string | null) => void;
+  query?: string;
+  onQueryChange?: (query: string) => void;
+  data: ComboboxItem[];
+  clearable?: boolean;
+  disabled?: boolean;
+  loading?: boolean;
+  emptyMessage?: React.ReactNode;
+  size?: NeuSize;
+  radius?: NeuRadius;
+  fullWidth?: boolean;
+  leftSection?: React.ReactNode;
+  rightSection?: React.ReactNode;
+}
+
+<Combobox
+  label="Property"
+  placeholder="Search properties"
+  data={properties}
+  onValueChange={setPropertyId}
 />
 ```
 
@@ -628,6 +681,8 @@ export interface ToolbarProps {
 ## AppShell
 
 Responsive mobile/desktop shell.
+V1 stays intentionally narrow: mobile bottom nav, desktop sidebar, optional toolbar.
+Inspector panes and advanced split views come later when real app screens need them.
 
 ```tsx
 export interface AppShellProps {
