@@ -475,7 +475,7 @@ export interface MenuProps {
 
 ## Toast
 
-Base UI-backed.
+Base UI-backed (Base UI `toast` primitive manages the queue, viewport, and swipe-to-dismiss; NeuUI supplies styling and the convenience API below).
 
 ```tsx
 export interface ToastOptions {
@@ -489,8 +489,40 @@ export interface ToastOptions {
 export interface ToastProviderProps {
   children: React.ReactNode;
   placement?: "top" | "bottom";
+  maxVisible?: number;
 }
 ```
+
+Mount `ToastProvider` once, at the `AppShell` root (or app root if `AppShell` isn't used). It renders the viewport via portal; nothing else needs wiring.
+
+Imperative trigger, callable from anywhere (event handlers, async callbacks, outside React tree) — no need to thread props down:
+
+```tsx
+export interface NeuToast {
+  (options: ToastOptions): string; // returns toast id
+  success: (options: ToastOptions | string) => string;
+  error: (options: ToastOptions | string) => string;
+  info: (options: ToastOptions | string) => string;
+  warning: (options: ToastOptions | string) => string;
+  dismiss: (id?: string) => void; // omit id to dismiss all
+  update: (id: string, options: Partial<ToastOptions>) => void;
+}
+
+export const toast: NeuToast;
+```
+
+```tsx
+toast.success({ title: "Booking confirmed", description: "Villa Amalfi, Jul 12–19" });
+toast.error("Could not save changes");
+
+const id = toast({ title: "Uploading…", duration: Infinity });
+// later
+toast.update(id, { title: "Upload complete", color: "success", duration: 3000 });
+```
+
+`toast.success/error/info/warning` variants are shorthand that set `color` and accept either a string (used as `title`) or a full `ToastOptions` object. `duration: Infinity` (or omitted with `action` present) keeps a toast open until dismissed or updated — used for in-progress states.
+
+A `useToast()` hook is not needed: `toast()` works outside React (no provider lookup required at call time) as long as `ToastProvider` is mounted somewhere in the tree.
 
 ## BottomNav
 
@@ -601,6 +633,39 @@ export interface StatCardProps {
   color?: NeuColor;
   accent?: boolean;
 }
+```
+
+## Data Display: Which Component To Use
+
+Three components look similar but solve different problems — keep all three, pick by shape of data, not by habit:
+
+- **`KeyValueList`** — a fixed set of label/value pairs describing *one* thing (a detail panel, a summary card). No rows are interactive, no selection, no per-row actions. Example: a property's facts (address, beds, host) on a single booking detail screen.
+- **`DataList`** — a vertical list of *records*, each with the same shape (title/subtitle/meta/badge), often selectable, mobile-first. Use when rows represent entities a user picks from or taps into. Example: a list of bookings or search results on a phone screen.
+- **`Table`** — *tabular* data with more than ~2 columns where users compare values across rows/columns, optionally with custom cell rendering per column. Desktop-leaning. Example: a finance/admin grid with sortable numeric columns.
+
+Rule of thumb: one entity's details → `KeyValueList`. A scrollable list of cards/rows → `DataList`. A grid you'd reach for a spreadsheet to represent → `Table`.
+
+## KeyValueList
+
+```tsx
+export interface KeyValueItem {
+  label: React.ReactNode;
+  value: React.ReactNode;
+}
+
+export interface KeyValueListProps {
+  items: KeyValueItem[];
+  caption?: React.ReactNode;
+  split?: string; // grid-template-columns ratio, e.g. "38% 62%"
+}
+
+<KeyValueList
+  caption="Property"
+  items={[
+    { label: "Address", value: "Via Roma 12, Positano" },
+    { label: "Host", value: "Sofia Esposito" },
+  ]}
+/>
 ```
 
 ## DataList

@@ -90,6 +90,29 @@
 - Visual identity strong.
 - Component system not real yet.
 
+## Existing Component Migration
+
+Every component currently in `src/components/` moves into `src/ui/components/` — none are deleted outright, all get brought up to the API sketch contract (not just relocated as-is).
+
+- `Navbar.tsx` → `ui/components/BottomNav.tsx`
+  - Rename type `NavbarItem` → `NavItem`, `NavbarProps` → `BottomNavProps`.
+  - Add `badge?: React.ReactNode` and `disabled?: boolean` per item (sketch has these, current component doesn't).
+  - Add `maxItems` prop; replace hardcoded `items.slice(0, 6)` with it.
+- `ListBox.tsx` → `ui/components/DataList.tsx`
+  - Drop the Mantine `Badge` import — last remaining Mantine dependency in `src/components/`, must go in Phase 1, not later.
+  - Rename `ListBoxItem` → `DataListItem`; map `name → title`, `subtitle → subtitle`, `meta → meta`, `value → value`, `status/statusVariant → badge` (render a NeuUI `Badge` from the consumer side or via a `badge` render prop).
+  - Add `variant?: "plain" | "grouped" | "inset"` per the sketch; current component only renders one flat style.
+- `KeyValueList.tsx` → `ui/components/KeyValueList.tsx`
+  - Keep as-is functionally (label/value rows, custom `split` ratio) — already matches its intended use case, just needs the move and a pass with the shared `Card`/glass surface tokens instead of its own `css.glass` class.
+- `MedTable.tsx` (`Table.tsx`) → `ui/components/Table.tsx`
+  - Rename `MedTableProps` → `TableProps<Row>`, make `columns`/`data` generic over `Row` instead of `Record<string, unknown>` (sketch already specifies this).
+  - Add `striped?: boolean` and `hover?: boolean` — present in the sketch, missing from the current implementation.
+- `StatCard.tsx` → `ui/components/StatCard.tsx`
+  - Add `color?: NeuColor` prop (sketch has it; current component only supports a boolean `accent` flag with a hardcoded accent color var).
+  - Replace hardcoded trend hex colors (`#4A7828`, `#B82D26`) with theme color tokens once the semantic color system lands, so trend colors follow the active theme instead of being Mediterranean-only.
+- `Badge.tsx` → `ui/components/Badge.tsx`
+  - Currently only exports the `MedBadgeVariant` type, no component. Build the actual `Badge` component per the API sketch (`color`, `variant`, `size`, `leftSection`/`rightSection`) — this unblocks the `ListBox`/`DataList` migration above, since it removes the need for Mantine's `Badge`.
+
 ## Mantine Usage To Remove
 
 - `src/main.tsx`
@@ -204,11 +227,14 @@ src/
 
 ### Phase 0: Lock Direction
 
+- Switch package manager to Bun first, before any component work:
+  - Delete `package-lock.json`.
+  - `bun install` to generate `bun.lock`.
+  - Add `"packageManager": "bun@1.3.8"` to `package.json`.
+  - Swap scripts to run through `bun` (`bun run dev`, `bun run build`, `bun run preview`).
+  - Confirm `bun run build` (vite build + tsc) passes before touching Mantine.
 - Add docs.
-- Decide API names.
-- Decide package manager policy.
-- Suggested policy: Bun-first.
-- Add `packageManager: "bun@1.3.8"` later.
+- Decide API names (see `neu-ui-api-sketch.md`).
 
 ### Phase 1: Remove Easy Mantine Widgets
 
@@ -222,7 +248,7 @@ src/
 - Replace demo imports.
 - Keep visuals same or better.
 - No Base UI needed for `Card`/`Badge`.
-- Use Base UI for `Button` if useful; native button acceptable if API simple.
+- `Button`/`IconButton` are Base UI-backed (wrap Base UI's unstyled button primitive) for consistent focus-visible, disabled, and pressed states across the system. No plain-native-button fallback — keep one implementation.
 
 ### Phase 2: Replace Overlays And Pickers
 
