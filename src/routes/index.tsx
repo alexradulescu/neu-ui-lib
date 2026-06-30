@@ -30,6 +30,7 @@ import {
   IconButton,
   InputGroup,
   KeyValueList,
+  NavigationBar,
   Select,
   SegmentedControl,
   StatCard,
@@ -156,7 +157,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 }
 
 function ShowcasePage() {
-  const [activeNav, setActiveNav] = useState("home");
+  const [activeNav, setActiveNav] = useState("bookings");
   const [selectedBooking, setSelectedBooking] = useState("1");
   const [segment, setSegment] = useState("all");
   const [region, setRegion] = useState<string | null>(null);
@@ -165,8 +166,8 @@ function ShowcasePage() {
 
   const toolbar = (
     <Toolbar
-      title="NeuUI"
-      subtitle="Apple-like PWA prototype kit"
+      title="Bookings"
+      subtitle="Bookings · 12 active"
       leading={<IconButton aria-label="Back" variant="subtle"><IconChevronLeft size={18} /></IconButton>}
       search={
         <TextField
@@ -189,22 +190,54 @@ function ShowcasePage() {
     />
   );
 
+  const navigationBar = (
+    <NavigationBar
+      title="Bookings"
+      subtitle="12 active · Amalfi"
+      leading={<IconButton aria-label="Back" variant="subtle"><IconChevronLeft size={18} /></IconButton>}
+      trailing={
+        <>
+          <IconButton aria-label="Toggle theme" variant="subtle" onClick={toggleTheme}>
+            {isDark ? <IconSun size={17} /> : <IconMoon size={17} />}
+          </IconButton>
+          <IconButton aria-label="New booking" onClick={() => setDialogOpen(true)}>
+            <IconPlus size={17} />
+          </IconButton>
+        </>
+      }
+      search={
+        <TextField
+          aria-label="Search"
+          placeholder="Search bookings"
+          size="sm"
+          leftSection={<IconSearch size={15} />}
+        />
+      }
+    />
+  );
+
   return (
-    <AppShell title="NeuUI" nav={nav} activeId={activeNav} onNavigate={setActiveNav} toolbar={toolbar}>
+    <AppShell
+      title="NeuUI"
+      nav={nav}
+      activeId={activeNav}
+      onNavigate={setActiveNav}
+      toolbar={toolbar}
+      navigationBar={navigationBar}
+    >
       <div className="neu-showcase-hero">
         <div>
-          <div className="neu-hero-kicker">Mantine removed · Base UI underneath</div>
-          <h1 className="neu-hero-title">Fast Apple-like app screens.</h1>
+          <div className="neu-hero-kicker">Today</div>
+          <h1 className="neu-hero-title">Bookings</h1>
           <p className="neu-hero-copy">
-            A responsive iOS PWA and macOS-style desktop kit for quick prototypes: glass cards,
-            semantic colour roles, simple props, and Base UI behavior where it matters.
+            Twelve active stays across four properties. Three arrivals need confirmation before 18:00.
           </p>
         </div>
         <Card variant="elevated" padding="md" className="neu-colors-card">
           <Card.Header>
             <div>
-              <Card.Title>Theme roles</Card.Title>
-              <Card.Description>Semantic colour API, Mediterranean palette.</Card.Description>
+              <Card.Title>System status</Card.Title>
+              <Card.Description>Semantic colours mapped through the active theme.</Card.Description>
             </div>
           </Card.Header>
           <div className="neu-row">

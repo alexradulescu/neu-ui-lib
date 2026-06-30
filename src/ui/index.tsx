@@ -170,8 +170,9 @@ function CardHeader(props: React.HTMLAttributes<HTMLDivElement>) {
   return <div {...props} className={cx("neu-card-header", props.className)} />;
 }
 
-function CardTitle(props: React.HTMLAttributes<HTMLHeadingElement>) {
-  return <h3 {...props} className={cx("neu-card-title", props.className)} />;
+function CardTitle({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
+  if (children == null) return null;
+  return <h3 {...props} className={cx("neu-card-title", props.className)}>{children}</h3>;
 }
 
 function CardDescription(props: React.HTMLAttributes<HTMLParagraphElement>) {
@@ -354,10 +355,10 @@ export function Select({
         <BaseSelect.Portal>
           <BaseSelect.Positioner sideOffset={8} align="start">
             <BaseSelect.Popup className="neu-select-popup">
-              {data.map((entry, index) => {
+              {data.map((entry) => {
                 if (isSelectGroup(entry)) {
                   return (
-                    <BaseSelect.Group key={`group-${index}`}>
+                    <BaseSelect.Group key={`group-${String(entry.label)}`}>
                       <BaseSelect.GroupLabel className="neu-select-group-label">{entry.label}</BaseSelect.GroupLabel>
                       {entry.items.map((option) => (
                         <BaseSelect.Item
@@ -602,8 +603,8 @@ export function KeyValueList({ items, caption, split = "38% 62%" }: KeyValueList
   return (
     <Card padding="sm" className="neu-kv">
       {caption && <div className="neu-caption">{caption}</div>}
-      {items.map((item, index) => (
-        <div key={index} className="neu-kv-row" style={{ gridTemplateColumns: split }}>
+      {items.map((item) => (
+        <div key={String(item.label)} className="neu-kv-row" style={{ gridTemplateColumns: split }}>
           <span className="neu-kv-label">{item.label}</span>
           <span className="neu-kv-value">{item.value}</span>
         </div>
@@ -823,12 +824,37 @@ export function Toolbar({ title, subtitle, leading, actions, search }: ToolbarPr
   );
 }
 
+export interface NavigationBarProps {
+  title?: React.ReactNode;
+  subtitle?: React.ReactNode;
+  leading?: React.ReactNode;
+  trailing?: React.ReactNode;
+  search?: React.ReactNode;
+}
+
+export function NavigationBar({ title, subtitle, leading, trailing, search }: NavigationBarProps) {
+  return (
+    <header className="neu-nav-bar">
+      <div className="neu-nav-main">
+        <div className="neu-nav-side neu-nav-leading">{leading}</div>
+        <div className="neu-nav-title-wrap">
+          {title && <h1 className="neu-nav-title">{title}</h1>}
+          {subtitle && <p className="neu-nav-subtitle">{subtitle}</p>}
+        </div>
+        <div className="neu-nav-side neu-nav-trailing">{trailing}</div>
+      </div>
+      {search && <div className="neu-nav-search">{search}</div>}
+    </header>
+  );
+}
+
 export interface AppShellProps {
   title?: React.ReactNode;
   nav: NavItem[] | SidebarSection[];
   activeId?: string;
   onNavigate?: (id: string) => void;
   toolbar?: React.ReactNode;
+  navigationBar?: React.ReactNode;
   children: React.ReactNode;
 }
 
@@ -841,7 +867,7 @@ function navToItems(nav: NavItem[] | SidebarSection[]): NavItem[] {
   return navToSections(nav).flatMap((section) => section.items);
 }
 
-export function AppShell({ title, nav, activeId, onNavigate, toolbar, children }: AppShellProps) {
+export function AppShell({ title, nav, activeId, onNavigate, toolbar, navigationBar, children }: AppShellProps) {
   return (
     <div className="neu-app-shell">
       <div className="neu-desktop-shell">
@@ -853,7 +879,7 @@ export function AppShell({ title, nav, activeId, onNavigate, toolbar, children }
       </div>
       <div className="neu-mobile-shell">
         <main className="neu-mobile-main">
-          {toolbar ?? <Toolbar title={title} />}
+          {navigationBar ?? <NavigationBar title={title} />}
           <div className="neu-shell-content">{children}</div>
         </main>
         <BottomNav items={navToItems(nav)} activeId={activeId} onSelect={onNavigate} />

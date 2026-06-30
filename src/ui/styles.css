@@ -14,9 +14,9 @@
   --neu-text-muted: #7a6850;
   --neu-text-subtle: #a89880;
   --neu-shimmer: rgba(255, 245, 230, 0.64);
-  --neu-shadow-sm: 0 2px 10px rgba(120, 80, 40, 0.08);
-  --neu-shadow-md: 0 8px 34px rgba(120, 80, 40, 0.12);
-  --neu-shadow-lg: 0 18px 70px rgba(120, 80, 40, 0.18);
+  --neu-shadow-sm: 0 2px 8px rgba(120, 80, 40, 0.06);
+  --neu-shadow-md: 0 6px 24px rgba(120, 80, 40, 0.1);
+  --neu-shadow-lg: 0 16px 56px rgba(120, 80, 40, 0.16);
 
   --neu-primary: #b87333;
   --neu-primary-bg: rgba(184, 115, 51, 0.14);
@@ -197,7 +197,7 @@ body {
   min-width: 0;
   margin: 0;
   color: var(--neu-text);
-  font: 600 1.8rem/1 var(--neu-font-display);
+  font: 700 1.18rem/1.15 var(--neu-font-sans);
   letter-spacing: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -221,6 +221,67 @@ body {
   gap: 8px;
 }
 
+.neu-nav-bar {
+  position: relative;
+  z-index: 10;
+  padding: max(10px, env(safe-area-inset-top)) 18px 12px;
+  border-bottom: 1px solid var(--neu-divider);
+  background:
+    radial-gradient(circle at 50% 0, rgba(255, 255, 255, 0.56), transparent 14rem),
+    color-mix(in srgb, var(--neu-bg) 88%, transparent);
+}
+
+.neu-nav-main {
+  display: grid;
+  grid-template-columns: minmax(44px, 78px) minmax(0, 1fr) minmax(44px, 92px);
+  gap: 8px;
+  align-items: center;
+  min-height: 46px;
+}
+
+.neu-nav-side {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 6px;
+}
+
+.neu-nav-leading {
+  justify-content: flex-start;
+}
+
+.neu-nav-trailing {
+  justify-content: flex-end;
+}
+
+.neu-nav-title-wrap {
+  min-width: 0;
+  text-align: center;
+}
+
+.neu-nav-title {
+  margin: 0;
+  overflow: hidden;
+  color: var(--neu-text);
+  font: 700 1.0625rem/1.12 var(--neu-font-sans);
+  letter-spacing: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.neu-nav-subtitle {
+  margin: 2px 0 0;
+  overflow: hidden;
+  color: var(--neu-text-muted);
+  font: 500 0.75rem/1.15 var(--neu-font-sans);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.neu-nav-search {
+  margin-top: 6px;
+}
+
 .neu-showcase-hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -239,7 +300,7 @@ body {
 .neu-hero-title {
   max-width: 620px;
   margin: 10px 0 10px;
-  font: 600 clamp(2.4rem, 6vw, 5.8rem)/0.9 var(--neu-font-display);
+  font: 700 clamp(1.5rem, 4vw, 2.4rem)/1.05 var(--neu-font-sans);
   letter-spacing: 0;
 }
 
@@ -315,7 +376,7 @@ body {
 
 .neu-card-elevated {
   background: var(--neu-surface-raised);
-  box-shadow: var(--neu-shadow-md), inset 0 1px 0 var(--neu-shimmer);
+  box-shadow: var(--neu-shadow-sm), inset 0 1px 0 var(--neu-shimmer);
 }
 
 .neu-card-inset {
@@ -348,7 +409,7 @@ body {
 
 .neu-card-title {
   margin: 0;
-  font: 600 1.35rem/1.1 var(--neu-font-display);
+  font: 700 1rem/1.18 var(--neu-font-sans);
 }
 
 .neu-card-description {
@@ -375,16 +436,16 @@ body {
   border: 1px solid transparent;
   font: 700 0.9rem/1 var(--neu-font-sans);
   cursor: pointer;
-  transition: transform 160ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 160ms ease, background 160ms ease;
+  transition: transform 140ms cubic-bezier(.2, .8, .2, 1), box-shadow 140ms ease, background 140ms ease, color 140ms ease;
   -webkit-tap-highlight-color: transparent;
 }
 
 .neu-btn:active:not(:disabled) {
-  transform: scale(1.045);
+  transform: scale(1.018);
 }
 
 .neu-select-trigger:active:not(:disabled) {
-  transform: scale(1.01);
+  transform: scale(1.006);
 }
 
 .neu-btn:focus-visible,
@@ -440,7 +501,7 @@ body {
 }
 
 .neu-btn:hover:not(:disabled) {
-  transform: translateY(-1px);
+  transform: translateY(-0.5px);
 }
 
 .neu-btn:disabled,
@@ -738,7 +799,7 @@ body {
   color: var(--neu-text-muted);
   font: 700 0.88rem/1 var(--neu-font-sans);
   cursor: pointer;
-  transition: transform 180ms cubic-bezier(0.34, 1.56, 0.64, 1), background 180ms ease, color 180ms ease, box-shadow 180ms ease;
+  transition: background 150ms ease, color 150ms ease, box-shadow 150ms ease;
 }
 
 .neu-segmented.neu-size-sm .neu-segment { min-height: 28px; padding: 0 12px; }
@@ -749,11 +810,10 @@ body {
   background: var(--neu-primary-solid);
   color: var(--neu-primary-contrast);
   box-shadow: 0 2px 8px color-mix(in srgb, var(--neu-primary) 24%, transparent);
-  transform: scale(1.015);
 }
 
 .neu-segment:active:not(:disabled) {
-  transform: scale(1.045);
+  background: color-mix(in srgb, var(--neu-primary-bg) 72%, transparent);
 }
 
 .neu-dialog-backdrop {
@@ -1050,18 +1110,18 @@ body {
   background: transparent;
   color: var(--neu-text-subtle);
   cursor: pointer;
-  transition: transform 180ms cubic-bezier(0.34, 1.56, 0.64, 1), background 180ms ease, color 180ms ease, box-shadow 180ms ease;
+  transition: transform 150ms cubic-bezier(.2, .8, .2, 1), background 150ms ease, color 150ms ease, box-shadow 150ms ease;
 }
 
 .neu-bottom-nav-item[aria-current="page"] {
   background: var(--neu-primary-bg);
   color: var(--neu-primary);
   box-shadow: inset 0 0 0 1px var(--neu-primary-border);
-  transform: scale(1.04);
+  transform: scale(1.012);
 }
 
 .neu-bottom-nav-item:active:not(:disabled) {
-  transform: scale(1.08);
+  transform: scale(1.025);
 }
 
 .neu-bottom-nav-icon {
