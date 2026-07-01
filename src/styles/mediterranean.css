@@ -59,7 +59,7 @@
 }
 
 /* ── Dark Mediterranean theme ──────────────────────────────────────────── */
-[data-mantine-color-scheme="dark"] {
+[data-theme="dark"] {
   --med-color-bg:             #14100C;
   --med-color-surface:        rgba(30, 23, 14, 0.88);
   --med-color-surface-deep:   #1C1610;
