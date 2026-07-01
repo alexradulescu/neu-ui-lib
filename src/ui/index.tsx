@@ -128,7 +128,7 @@ export function Badge({
 }: BadgeProps) {
   return (
     <span className={cx("neu-badge", `neu-badge-${variant}`, `neu-color-${color}`, `neu-size-${size}`, className)} {...props}>
-      {variant === "dot" && <span className="neu-badge-dot" aria-hidden="true" />}
+      {variant === "dot" && <span className="neu-badge-mark" aria-hidden="true" />}
       {leftSection && <span className="neu-btn-section">{leftSection}</span>}
       {children}
       {rightSection && <span className="neu-btn-section">{rightSection}</span>}
@@ -370,7 +370,9 @@ export function Select({
                           className="neu-select-item"
                         >
                           <BaseSelect.ItemText>{option.label}</BaseSelect.ItemText>
-                          <BaseSelect.ItemIndicator className="neu-select-indicator">✓</BaseSelect.ItemIndicator>
+                          <BaseSelect.ItemIndicator className="neu-select-indicator">
+                            <span className="neu-checkmark" aria-hidden="true" />
+                          </BaseSelect.ItemIndicator>
                         </BaseSelect.Item>
                       ))}
                     </BaseSelect.Group>
@@ -380,7 +382,9 @@ export function Select({
                 return (
                   <BaseSelect.Item key={option.value} value={option.value} disabled={option.disabled} className="neu-select-item">
                     <BaseSelect.ItemText>{option.label}</BaseSelect.ItemText>
-                    <BaseSelect.ItemIndicator className="neu-select-indicator">✓</BaseSelect.ItemIndicator>
+                    <BaseSelect.ItemIndicator className="neu-select-indicator">
+                      <span className="neu-checkmark" aria-hidden="true" />
+                    </BaseSelect.ItemIndicator>
                   </BaseSelect.Item>
                 );
               })}
@@ -536,7 +540,9 @@ function DialogRoot({
               {title && <BaseDialog.Title className="neu-dialog-title">{title}</BaseDialog.Title>}
               {description && <BaseDialog.Description className="neu-dialog-description">{description}</BaseDialog.Description>}
             </div>
-            <BaseDialog.Close className="neu-dialog-close" aria-label="Close">×</BaseDialog.Close>
+            <BaseDialog.Close className="neu-dialog-close" aria-label="Close">
+              <span className="neu-close-glyph" aria-hidden="true" />
+            </BaseDialog.Close>
           </div>
           {children}
         </BaseDialog.Popup>
