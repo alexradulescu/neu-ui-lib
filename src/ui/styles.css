@@ -440,6 +440,17 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+.neu-btn svg,
+.neu-btn-section svg,
+.neu-input-section svg,
+.neu-sidebar-icon svg,
+.neu-stat-icon svg,
+.neu-data-icon svg,
+.neu-bottom-nav-icon svg {
+  display: block;
+  flex: 0 0 auto;
+}
+
 .neu-btn:active:not(:disabled) {
   transform: scale(1.018);
 }
@@ -468,12 +479,29 @@ body {
 }
 
 .neu-icon-btn {
+  display: inline-grid;
+  place-items: center;
   width: 42px;
+  aspect-ratio: 1;
   padding: 0;
+  gap: 0;
+  line-height: 0;
 }
 
 .neu-icon-btn.neu-size-sm { width: 32px; }
 .neu-icon-btn.neu-size-lg { width: 50px; }
+
+.neu-icon-btn .neu-btn-label {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  line-height: 0;
+}
+
+.neu-icon-btn .neu-btn-section {
+  line-height: 0;
+}
 
 .neu-variant-filled {
   background: var(--neu-primary-solid);
@@ -517,6 +545,8 @@ body {
 .neu-input-section {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  line-height: 0;
 }
 
 .neu-section-group {
@@ -666,6 +696,7 @@ body {
   width: 100%;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) 24px auto;
+  align-items: center;
   justify-content: flex-start;
 }
 
@@ -678,16 +709,25 @@ body {
 
 .neu-select-icon {
   grid-column: 3;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
   width: 24px;
   height: 24px;
   margin-left: 0;
-  transform: translateY(-1px);
+  transform: none;
   color: var(--neu-text-muted);
-  font-size: 1rem;
   line-height: 1;
+}
+
+.neu-chevron {
+  display: block;
+  width: 6.5px;
+  height: 6.5px;
+  margin-top: -2px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  transform-origin: 50% 50%;
 }
 
 .neu-select-left {

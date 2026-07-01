@@ -349,7 +349,9 @@ export function Select({
         >
           {leftSection && <span className="neu-input-section neu-select-left">{leftSection}</span>}
           <BaseSelect.Value className="neu-select-value" placeholder={placeholder} />
-          <BaseSelect.Icon className="neu-select-icon">⌄</BaseSelect.Icon>
+          <BaseSelect.Icon className="neu-select-icon" aria-hidden="true">
+            <span className="neu-chevron" />
+          </BaseSelect.Icon>
           {rightSection && <span className="neu-input-section neu-select-right">{rightSection}</span>}
         </BaseSelect.Trigger>
         <BaseSelect.Portal>
